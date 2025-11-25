@@ -1,36 +1,99 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
+# ============================================
+# DEPENDENCIES
+# ============================================
 /node_modules
 /.pnp
 .pnp.js
 .yarn/install-state.gz
 
-# testing
-/coverage
+# ============================================
+# ENVIRONMENT VARIABLES (CRITICAL - NEVER COMMIT)
+# ============================================
+.env
+.env.local
+.env.*.local
+.env.development
+.env.staging
+.env.production
+.env.test
+*.env.backup
+*.env.bak
 
-# next.js
+# Exception: Allow .env.example (template only)
+!.env.example
+!.env.local.example
+!env.example.txt
+
+# ============================================
+# NEXT.JS
+# ============================================
 /.next/
 /out/
+.next/
 
-# production
+# ============================================
+# PRODUCTION BUILD
+# ============================================
 /build
+/dist
 
-# misc
-.DS_Store
-*.pem
+# ============================================
+# TESTING
+# ============================================
+/coverage
+.nyc_output
 
-# debug
+# ============================================
+# LOGS
+# ============================================
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
-# env files (can opt-in for commiting if needed)
-.env*
-
-# vercel
+# ============================================
+# VERCEL
+# ============================================
 .vercel
 
-# typescript
+# ============================================
+# TYPESCRIPT
+# ============================================
 *.tsbuildinfo
 next-env.d.ts
+
+# ============================================
+# OS FILES
+# ============================================
+.DS_Store
+*.pem
+
+# ============================================
+# IDE
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ============================================
+# UPLOADS (if you have file uploads)
+# ============================================
+/public/uploads/*
+!/public/uploads/.gitkeep
+
+# ============================================
+# CERTIFICATES & KEYS (CRITICAL)
+# ============================================
+*.key
+*.cert
+*.crt
+*.p12
+*.pfx
+
+# ============================================
+# CACHE
+# ============================================
+.cache
+.eslintcache
+.stylelintcache
