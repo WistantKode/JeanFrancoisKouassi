@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AdherentsModule } from './adherents/adherents.module';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 
@@ -11,7 +10,6 @@ import { APP_GUARD } from '@nestjs/core';
       ttl: 60000,
       limit: 10,
     }]),
-    AdherentsModule,
   ],
   controllers: [AppController],
   providers: [
