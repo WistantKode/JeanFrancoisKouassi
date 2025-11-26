@@ -18,7 +18,4 @@ Comme je débute sur NestJS, je veux sécuriser mon API contre les attaques clas
 2. Protection globale : Comment configurer `Helmet` (pour les headers HTTP) et `CORS` (pour autoriser uniquement mon Frontend Next.js à parler au Backend).
 3. Anti-Spam : Explique-moi comment mettre en place un `Rate Limiting` (Throttler) pour empêcher qu'un bot ne spamme le formulaire d'adhésion.
 
-PARTIE 3 : ARCHITECTURE PROPRE
-Montre-moi une structure de dossier type pour un module NestJS (ex: module "Adherents") qui sépare bien le Controller (routes), le Service (logique) et le DTO (validation).
-
-Reste didactique, donne des exemples de code concrets et modernes, et signale-moi les pièges à éviter pour un débutant.
+Reste didactique, donne des exemples de code concrets et modernes, et signale-moi les pièges à éviter pour un débutant en backend.
