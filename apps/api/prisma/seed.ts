@@ -49,7 +49,7 @@ async function main() {
   console.log(`   Role: ${admin.role}`);
   console.log(`   ID: ${admin.id}\n`);
 
-  console.log('🎉 Seed terminé avec succès !');
+  console.log('Seed terminé avec succès !');
 }
 
 main()

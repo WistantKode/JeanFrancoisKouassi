@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/require-await */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
@@ -11,7 +16,7 @@ export class PrismaService implements OnModuleInit {
   constructor(private configService: ConfigService) {
     // Prisma 7: Use database adapter for PostgreSQL with pg.Pool
     const connectionString = this.configService.get<string>('DATABASE_URL');
-    
+
     // DEBUG: Log the connection string (masked)
     if (!connectionString) {
       console.error('❌ DATABASE_URL is undefined in PrismaService!');

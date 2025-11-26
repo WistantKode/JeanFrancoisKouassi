@@ -10,9 +10,7 @@ datasource db {
   // url      = env("DATABASE_URL")
 }
 
-// ==============================================
 // ENUMS
-// ==============================================
 
 enum UserRole {
   MEMBER
@@ -45,9 +43,7 @@ enum ActionType {
   POLL_RESPONSE
 }
 
-// ==============================================
 // USER MODEL
-// ==============================================
 
 model User {
   id       String @id @default(uuid())
@@ -97,9 +93,7 @@ model User {
   @@index([status])
 }
 
-// ==============================================
 // ANONYMOUS ACTIONS
-// ==============================================
 
 model AnonymousAction {
   id         String     @id @default(uuid())
@@ -120,9 +114,7 @@ model AnonymousAction {
   @@index([createdAt])
 }
 
-// ==============================================
 // WAITLIST
-// ==============================================
 
 model Waitlist {
   id        String  @id @default(uuid())
@@ -146,9 +138,7 @@ model Waitlist {
   @@index([approved])
 }
 
-// ==============================================
 // MODERATION LOG (Audit Trail)
-// ==============================================
 
 model ModerationLog {
   id String @id @default(uuid())
@@ -167,9 +157,7 @@ model ModerationLog {
   @@index([createdAt])
 }
 
-// ==============================================
 // ARTICLE MODEL
-// ==============================================
 
 model Article {
   id         String  @id @default(uuid())
@@ -193,9 +181,7 @@ model Article {
   @@index([published])
 }
 
-// ==============================================
 // EVENT MODEL
-// ==============================================
 
 model Event {
   id          String    @id @default(uuid())
@@ -218,9 +204,7 @@ model Event {
   @@index([published])
 }
 
-// ==============================================
 // VOTE MODEL
-// ==============================================
 
 model Vote {
   id String @id @default(uuid())
@@ -241,9 +225,7 @@ model Vote {
   @@index([pollId])
 }
 
-// ==============================================
 // DONATION MODEL
-// ==============================================
 
 model Donation {
   id String @id @default(uuid())
