@@ -8,6 +8,11 @@ import { RegisterDto, LoginDto } from './dto';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  /**
+   * Register a new user.
+   * @param dto RegisterDto
+   * @returns Registered user and tokens
+   */
   @Post('register')
   @ApiOperation({ summary: 'Register a new user' })
   @ApiResponse({ status: 201, description: 'User registered successfully' })
@@ -16,6 +21,11 @@ export class AuthController {
     return this.authService.register(dto);
   }
 
+  /**
+   * Login user.
+   * @param dto LoginDto
+   * @returns Authenticated user and tokens
+   */
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Login user' })

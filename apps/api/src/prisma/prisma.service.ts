@@ -31,10 +31,17 @@ export class PrismaService implements OnModuleInit {
     this.client = new PrismaClient({ adapter });
   }
 
+  /**
+   * Connect to the database when the module is initialized.
+   */
   async onModuleInit() {
     await this.client.$connect();
   }
 
+  /**
+   * Enable shutdown hooks to close the database connection gracefully.
+   * @param app NestJS application instance
+   */
   async enableShutdownHooks(app: any) {
     process.on('beforeExit', async () => {
       await app.close();

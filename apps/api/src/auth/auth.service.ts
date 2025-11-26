@@ -15,6 +15,13 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  /**
+   * Register a new user.
+   * Checks for existing email, hashes password, creates user, and returns tokens.
+   * @param dto RegisterDto containing user details
+   * @returns User object (sanitized) and JWT tokens
+   * @throws ConflictException if email already exists
+   */
   async register(dto: RegisterDto) {
     // Check if user already exists
     const existingUser = await this.prisma.client.user.findUnique({
@@ -49,6 +56,13 @@ export class AuthService {
     };
   }
 
+  /**
+   * Authenticate a user.
+   * Verifies email and password, updates last login, and returns tokens.
+   * @param dto LoginDto containing email and password
+   * @returns User object (sanitized) and JWT tokens
+   * @throws UnauthorizedException if credentials are invalid
+   */
   async login(dto: LoginDto) {
     // Find user
     const user = await this.prisma.client.user.findUnique({
@@ -83,6 +97,13 @@ export class AuthService {
     };
   }
 
+  /**
+   * Generate JWT access and refresh tokens.
+   * @param userId User ID
+   * @param email User Email
+   * @param role User Role
+   * @returns Object containing accessToken and refreshToken
+   */
   private async generateTokens(userId: string, email: string, role: string) {
     const payload = { sub: userId, email, role };
 
@@ -101,7 +122,13 @@ export class AuthService {
     };
   }
 
+  /**
+   * Remove sensitive data from user object.
+   * @param user Raw user object
+   * @returns Sanitized user object without passwords or tokens
+   */
   private sanitizeUser(user: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, passwordResetToken, verificationToken, ...sanitized } =
       user;
     return sanitized;

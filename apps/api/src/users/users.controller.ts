@@ -15,6 +15,12 @@ import { UpdateProfileDto } from './dto';
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
+  /**
+   * Get current user profile.
+   * Requires JWT authentication.
+   * @param user Current user (injected by decorator)
+   * @returns User profile
+   */
   @Get('me')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
@@ -25,9 +31,17 @@ export class UsersController {
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async getProfile(@CurrentUser() user: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
     return this.usersService.findById(user.id);
   }
 
+  /**
+   * Update current user profile.
+   * Requires JWT authentication.
+   * @param user Current user
+   * @param updateProfileDto Data to update
+   * @returns Updated profile
+   */
   @Patch('me')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
@@ -38,6 +52,7 @@ export class UsersController {
     @CurrentUser() user: any,
     @Body() updateProfileDto: UpdateProfileDto,
   ) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
     return this.usersService.updateProfile(user.id, updateProfileDto);
   }
 }

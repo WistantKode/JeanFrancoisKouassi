@@ -16,6 +16,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
+  /**
+   * Validate the JWT payload and fetch the user.
+   * Checks if the user exists and is active.
+   * @param payload JWT payload containing sub (userId), email, and role
+   * @returns User object if valid
+   * @throws UnauthorizedException if user not found or inactive
+   */
   async validate(payload: { sub: string; email: string; role: string }) {
     const user = await this.prisma.client.user.findUnique({
       where: { id: payload.sub },
