@@ -5,6 +5,10 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  /**
+   * Health check endpoint.
+   * @returns "Hello World!" string
+   */
   @Get()
   getHello(): string {
     return this.appService.getHello();

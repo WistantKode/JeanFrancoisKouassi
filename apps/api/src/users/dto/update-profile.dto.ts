@@ -1,6 +1,10 @@
 import { IsString, IsOptional, IsEnum } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
+/**
+ * Data Transfer Object for updating user profile.
+ * All fields are optional.
+ */
 export class UpdateProfileDto {
   @ApiProperty({ required: false })
   @IsString()
