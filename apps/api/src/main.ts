@@ -27,10 +27,12 @@ async function bootstrap() {
   // Swagger Documentation
   const config = new DocumentBuilder()
     .setTitle('JFK Campaign API')
-    .setDescription('API pour la plateforme de campagne de Jean-François Kouassi')
+    .setDescription(
+      'API pour la plateforme de campagne de Jean-François Kouassi',
+    )
     .setVersion('1.0')
     .addBearerAuth()
-    .addTag('Authentication', 'Endpoints d\'authentification')
+    .addTag('Authentication', "Endpoints d'authentification")
     .addTag('Users', 'Gestion des utilisateurs')
     .build();
 
