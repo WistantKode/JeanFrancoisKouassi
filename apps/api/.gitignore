@@ -123,3 +123,5 @@ id_rsa.pub
 tmp/
 temp/
 *.tmp
+
+/generated/prisma

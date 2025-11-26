@@ -1,0 +1,268 @@
+// This is your Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ==============================================
+// ENUMS
+// ==============================================
+
+enum UserRole {
+  MEMBER
+  VERIFIED_MEMBER
+  MODERATOR
+  BLOG_ADMIN
+  EVENT_ADMIN
+  SUPER_ADMIN
+}
+
+enum UserStatus {
+  WAITLIST
+  PENDING
+  ACTIVE
+  SUSPENDED
+  BANNED
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+  PREFER_NOT_TO_SAY
+}
+
+enum ActionType {
+  VOTE
+  SIGNATURE
+  ANONYMOUS_DONATION
+  POLL_RESPONSE
+}
+
+// ==============================================
+// USER MODEL
+// ==============================================
+
+model User {
+  id       String @id @default(uuid())
+  email    String @unique
+  password String // Hashed with bcrypt
+
+  // Personal information
+  firstName   String
+  lastName    String
+  phone       String?
+  gender      Gender?
+  dateOfBirth DateTime?
+
+  // Location
+  city    String?
+  region  String?
+  country String  @default("Côte d'Ivoire")
+
+  // Status and role
+  role   UserRole   @default(MEMBER)
+  status UserStatus @default(PENDING)
+
+  // Email verification
+  emailVerified     Boolean   @default(false)
+  emailVerifiedAt   DateTime?
+  verificationToken String?
+
+  // Security
+  passwordResetToken   String?
+  passwordResetExpires DateTime?
+  lastLoginAt          DateTime?
+  lastLoginIp          String?
+
+  // Metadata
+  createdAt DateTime @default(now())
+  updated   DateTime @updatedAt
+
+  // Relations
+  articles       Article[]
+  events         Event[]
+  votes          Vote[]
+  donations      Donation[]
+  moderationLogs ModerationLog[]
+
+  @@index([email])
+  @@index([role])
+  @@index([status])
+}
+
+// ==============================================
+// ANONYMOUS ACTIONS
+// ==============================================
+
+model AnonymousAction {
+  id         String     @id @default(uuid())
+  actionType ActionType
+
+  // Anti-fraud tracking
+  ipAddress   String
+  fingerprint String // Device fingerprint
+  userAgent   String
+
+  // Action data
+  targetId String? // ID of target (article, event, poll, etc.)
+  metadata Json? // Additional data
+
+  createdAt DateTime @default(now())
+
+  @@index([ipAddress, fingerprint, actionType])
+  @@index([createdAt])
+}
+
+// ==============================================
+// WAITLIST
+// ==============================================
+
+model Waitlist {
+  id        String  @id @default(uuid())
+  email     String  @unique
+  firstName String
+  lastName  String
+  phone     String?
+  city      String?
+
+  // Motivation and source
+  motivation     String? @db.Text
+  referralSource String? // Where did they come from? (Facebook, WhatsApp, etc.)
+
+  // Status
+  approved Boolean @default(false)
+  userId   String? @unique // Link to User if converted
+
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([approved])
+}
+
+// ==============================================
+// MODERATION LOG (Audit Trail)
+// ==============================================
+
+model ModerationLog {
+  id String @id @default(uuid())
+
+  adminId String
+  admin   User   @relation(fields: [adminId], references: [id])
+
+  action     String // "BANNED_USER", "APPROVED_MEMBER", etc.
+  targetType String // "USER", "ARTICLE", "COMMENT"
+  targetId   String
+  reason     String? @db.Text
+
+  createdAt DateTime @default(now())
+
+  @@index([adminId])
+  @@index([createdAt])
+}
+
+// ==============================================
+// ARTICLE MODEL
+// ==============================================
+
+model Article {
+  id         String  @id @default(uuid())
+  title      String
+  slug       String  @unique
+  content    String  @db.Text
+  excerpt    String?
+  coverImage String?
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  published   Boolean   @default(false)
+  publishedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+  @@index([authorId])
+  @@index([published])
+}
+
+// ==============================================
+// EVENT MODEL
+// ==============================================
+
+model Event {
+  id          String    @id @default(uuid())
+  title       String
+  description String    @db.Text
+  location    String
+  startDate   DateTime
+  endDate     DateTime?
+  coverImage  String?
+
+  organizerId String
+  organizer   User   @relation(fields: [organizerId], references: [id])
+
+  published Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([startDate])
+  @@index([published])
+}
+
+// ==============================================
+// VOTE MODEL
+// ==============================================
+
+model Vote {
+  id String @id @default(uuid())
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+
+  pollId   String // ID of the poll
+  optionId String // Option chosen
+
+  // Anti-fraud for anonymous votes
+  ipAddress   String?
+  fingerprint String?
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, pollId]) // One user = 1 vote per poll
+  @@index([pollId])
+}
+
+// ==============================================
+// DONATION MODEL
+// ==============================================
+
+model Donation {
+  id String @id @default(uuid())
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+
+  amount   Float
+  currency String @default("XOF")
+
+  // Donor information (if anonymous)
+  donorName  String?
+  donorEmail String?
+
+  paymentMethod String
+  paymentStatus String @default("PENDING")
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([paymentStatus])
+}
