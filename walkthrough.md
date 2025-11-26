@@ -46,6 +46,6 @@ I have successfully initialized and implemented the core structure of the JFK Ca
     - Test rate limiting by sending multiple requests quickly.
 
 ## Next Steps
-- Connect the backend to a real database (PostgreSQL/MongoDB).
+- Connect the backend to a real database (PostgreSQL).
 - Implement email notifications upon adhesion.
 - Add unit and e2e tests for the new module.

@@ -6,7 +6,7 @@ export class UsersService {
   constructor(private prisma: PrismaService) {}
 
   async findById(id: string) {
-    const user = await this.prisma.user.findUnique({
+    const user = await this.prisma.client.user.findUnique({
       where: { id },
     });
 
@@ -18,7 +18,7 @@ export class UsersService {
   }
 
   async updateProfile(id: string, data: any) {
-    const user = await this.prisma.user.update({
+    const user = await this.prisma.client.user.update({
       where: { id },
       data,
     });
