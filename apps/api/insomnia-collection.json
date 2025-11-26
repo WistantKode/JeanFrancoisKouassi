@@ -1,9 +1,32 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2024-11-26T15:00:00.000Z",
+  "__export_date": "2024-11-26T18:00:00.000Z",
   "__export_source": "insomnia.desktop.app:v2023.5.8",
   "resources": [
+    {
+      "_id": "req_root",
+      "parentId": "wrk_main",
+      "modified": 1700000000000,
+      "created": 1700000000000,
+      "url": "{{ _.base_url }}/",
+      "name": "Health Check (Root)",
+      "description": "Vérifier si l'API est en ligne",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1700001000000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
     {
       "_id": "req_register",
       "parentId": "fld_auth",
@@ -15,7 +38,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"Password123!\",\n  \"firstName\": \"Jean\",\n  \"lastName\": \"Dupont\",\n  \"phone\": \"+225 07 12 34 56 78\",\n  \"city\": \"Abidjan\"\n}"
+        "text": "{\n  \"email\": \"test_user@example.com\",\n  \"password\": \"Password123!\",\n  \"firstName\": \"Jean\",\n  \"lastName\": \"Dupont\",\n  \"phone\": \"+225 07 12 34 56 78\",\n  \"city\": \"Abidjan\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -41,12 +64,12 @@
       "modified": 1700000000000,
       "created": 1700000000000,
       "url": "{{ _.base_url }}/auth/login",
-      "name": "Login (Admin)",
-      "description": "Se connecter avec le compte admin",
+      "name": "Login",
+      "description": "Se connecter pour obtenir un token JWT",
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"email\": \"admin@jfk-campaign.ci\",\n  \"password\": \"Admin123!\"\n}"
+        "text": "{\n  \"email\": \"test_user@example.com\",\n  \"password\": \"Password123!\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -103,7 +126,7 @@
       "method": "PATCH",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"firstName\": \"Jean-François\",\n  \"lastName\": \"Kouassi\",\n  \"phone\": \"+225 07 99 88 77 66\",\n  \"city\": \"Yamoussoukro\"\n}"
+        "text": "{\n  \"firstName\": \"Jean-François\",\n  \"lastName\": \"Kouassi Updated\",\n  \"phone\": \"+225 07 99 88 77 66\",\n  \"city\": \"Yamoussoukro\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -132,7 +155,7 @@
       "modified": 1700000000000,
       "created": 1700000000000,
       "name": "🔐 Authentication",
-      "description": "",
+      "description": "Endpoints d'inscription et de connexion",
       "environment": {},
       "environmentPropertyOrder": null,
       "metaSortKey": -1700000000000,
@@ -144,7 +167,7 @@
       "modified": 1700000000000,
       "created": 1700000000000,
       "name": "👤 Users",
-      "description": "",
+      "description": "Gestion des utilisateurs",
       "environment": {},
       "environmentPropertyOrder": null,
       "metaSortKey": -1699999000000,
@@ -168,7 +191,7 @@
       "name": "Base Environment",
       "data": {
         "base_url": "http://localhost:3001",
-        "access_token": ""
+        "access_token": "REPLACE_WITH_YOUR_TOKEN_AFTER_LOGIN"
       },
       "dataPropertyOrder": {
         "&": [
