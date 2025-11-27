@@ -2,6 +2,7 @@ import {
   Injectable,
   ConflictException,
   UnauthorizedException,
+  Logger,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
@@ -13,6 +14,8 @@ import { JwtPayload } from './types/jwt-payload.type';
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
+
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
@@ -32,6 +35,9 @@ export class AuthService {
     });
 
     if (existingUser) {
+      this.logger.warn(
+        `Registration attempt with existing email: ${dto.email}`,
+      );
       throw new ConflictException('Email already in use');
     }
 
@@ -49,6 +55,8 @@ export class AuthService {
         city: dto.city,
       },
     });
+
+    this.logger.log(`New user registered successfully: ${user.id}`);
 
     // Generate tokens
     const tokens = await this.generateTokens(user.id, user.email, user.role);
@@ -73,6 +81,7 @@ export class AuthService {
     });
 
     if (!user) {
+      this.logger.warn(`Login attempt with non-existent email: ${dto.email}`);
       throw new UnauthorizedException('Invalid credentials');
     }
 
@@ -80,6 +89,7 @@ export class AuthService {
     const passwordValid = await bcrypt.compare(dto.password, user.password);
 
     if (!passwordValid) {
+      this.logger.warn(`Failed login attempt for user: ${user.id}`);
       throw new UnauthorizedException('Invalid credentials');
     }
 
@@ -90,6 +100,8 @@ export class AuthService {
         lastLoginAt: new Date(),
       },
     });
+
+    this.logger.log(`User logged in successfully: ${user.id}`);
 
     // Generate tokens
     const tokens = await this.generateTokens(user.id, user.email, user.role);
