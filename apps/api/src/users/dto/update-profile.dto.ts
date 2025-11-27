@@ -1,35 +1,40 @@
-import { IsString, IsOptional, IsEnum } from 'class-validator';
+import { IsString, IsOptional, IsEnum, IsDateString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Gender } from '@prisma/client';
 
 /**
  * Data Transfer Object for updating user profile.
- * All fields are optional.
  */
 export class UpdateProfileDto {
-  @ApiProperty({ required: false })
+  @ApiProperty({ example: 'Jean', required: false })
   @IsString()
   @IsOptional()
   firstName?: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ example: 'Kouassi', required: false })
   @IsString()
   @IsOptional()
   lastName?: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ example: '+225 07 12 34 56 78', required: false })
   @IsString()
   @IsOptional()
   phone?: string;
 
-  @ApiProperty({ required: false, enum: ['MALE', 'FEMALE', 'OTHER', 'PREFER_NOT_TO_SAY'] })
-  @IsEnum(['MALE', 'FEMALE', 'OTHER', 'PREFER_NOT_TO_SAY'])
-  @IsOptional()
-  gender?: string;
-
-  @ApiProperty({ required: false })
+  @ApiProperty({ example: 'Abidjan', required: false })
   @IsString()
   @IsOptional()
   city?: string;
+
+  @ApiProperty({ enum: Gender, required: false })
+  @IsEnum(Gender)
+  @IsOptional()
+  gender?: Gender;
+
+  @ApiProperty({ example: '1990-01-01', required: false })
+  @IsDateString()
+  @IsOptional()
+  dateOfBirth?: Date;
 
   @ApiProperty({ required: false })
   @IsString()

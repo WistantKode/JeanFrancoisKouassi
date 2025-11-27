@@ -31,7 +31,7 @@ export class UsersController {
     description: 'User profile retrieved successfully',
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async getProfile(@CurrentUser() user: any): Promise<PublicUserDto> {
+  async getProfile(@CurrentUser() user: UserEntity): Promise<PublicUserDto> {
     return this.usersService.findById(user.id);
   }
 
@@ -52,7 +52,6 @@ export class UsersController {
     @CurrentUser() user: UserEntity,
     @Body() updateProfileDto: UpdateProfileDto,
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
     return this.usersService.updateProfile(user.id, updateProfileDto);
   }
 }

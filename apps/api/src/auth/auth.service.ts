@@ -131,7 +131,7 @@ export class AuthService {
    * @returns Sanitized user object without passwords or tokens
    */
   private sanitizeUser(user: UserEntity): PublicUserDto {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const {
       password,
       passwordResetToken,
@@ -140,6 +140,7 @@ export class AuthService {
       passwordResetExpires,
       ...sanitized
     } = user;
+    /* eslint-enable @typescript-eslint/no-unused-vars */
     return sanitized;
   }
 }

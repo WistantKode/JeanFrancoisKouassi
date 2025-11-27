@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserEntity, PublicUserDto } from './entities/user.entity';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @Injectable()
 export class UsersService {
@@ -30,7 +31,10 @@ export class UsersService {
    * @param data Update data
    * @returns Updated sanitized user object
    */
-  async updateProfile(id: string, data: any): Promise<PublicUserDto> {
+  async updateProfile(
+    id: string,
+    data: UpdateProfileDto,
+  ): Promise<PublicUserDto> {
     const user = await this.prisma.client.user.update({
       where: { id },
       data,
@@ -45,7 +49,7 @@ export class UsersService {
    * @returns Sanitized user object
    */
   private sanitizeUser(user: UserEntity): PublicUserDto {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     const {
       password,
       passwordResetToken,
@@ -54,6 +58,7 @@ export class UsersService {
       passwordResetExpires,
       ...sanitized
     } = user;
+    /* eslint-enable @typescript-eslint/no-unused-vars */
     return sanitized;
   }
 }

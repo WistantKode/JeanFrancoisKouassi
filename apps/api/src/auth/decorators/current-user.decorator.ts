@@ -1,15 +1,21 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import { JwtPayload } from '../types/jwt-payload.type';
 
 /**
- * Custom decorator to get the current authenticated user from the request.
- * @returns User object attached to the request
+ * Request interface with authenticated user
+ */
+interface RequestWithUser {
+  user: JwtPayload;
+}
+
+/**
+ * Custom decorator to extract the authenticated user from the request.
+ * Returns the JwtPayload user object attached by the JWT strategy.
+ * @returns JwtPayload object with user information
  */
 export const CurrentUser = createParamDecorator(
-  (data: unknown, ctx: ExecutionContext) => {
-    const request = ctx.switchToHttp().getRequest();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  (_data: unknown, ctx: ExecutionContext): JwtPayload => {
+    const request = ctx.switchToHttp().getRequest<RequestWithUser>();
     return request.user;
   },
 );

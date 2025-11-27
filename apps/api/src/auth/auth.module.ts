@@ -9,12 +9,17 @@ import { JwtStrategy } from './strategies/jwt.strategy';
   imports: [
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET') || 'fallback-secret',
-        signOptions: {
-          expiresIn: (configService.get<string>('JWT_EXPIRES_IN') || '7d') as any,
-        },
-      }),
+      // @ts-expect-error - JWT library expects StringValue type from jsonwebtoken,
+      // but plain strings are valid per JWT spec. This is safe at runtime.
+      useFactory: (configService: ConfigService) => {
+        const secret =
+          configService.get<string>('JWT_SECRET') || 'fallback-secret';
+        const expiresIn = configService.get<string>('JWT_EXPIRES_IN') || '7d';
+        return {
+          secret,
+          signOptions: { expiresIn },
+        };
+      },
       inject: [ConfigService],
     }),
     ConfigModule,
