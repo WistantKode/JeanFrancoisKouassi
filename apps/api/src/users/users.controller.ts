@@ -1,3 +1,10 @@
+/**
+ * @file users.controller.ts
+ * @description Contrôleur pour la gestion des profils utilisateur.
+ * Définit les routes protégées pour que les utilisateurs authentifiés puissent
+ * accéder et modifier leurs propres informations.
+ */
+
 import { Controller, Get, Patch, Body, UseGuards } from '@nestjs/common';
 import {
   ApiTags,
@@ -9,49 +16,54 @@ import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/guards';
 import { CurrentUser } from '../auth/decorators';
 import { UpdateProfileDto } from './dto';
-import { PublicUserDto, UserEntity } from './entities/user.entity';
+import { PublicUserDto } from './entities/user.entity';
+import { JwtPayload } from 'src/auth/types';
 
 @ApiTags('Users')
 @Controller('users')
+@UseGuards(JwtAuthGuard) // Applique la garde JWT à toutes les routes de ce contrôleur.
+@ApiBearerAuth() // Indique dans Swagger que ces routes nécessitent un token Bearer.
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
   /**
-   * Get current user profile.
-   * Requires JWT authentication.
-   * @param user Current user (injected by decorator)
-   * @returns User profile
+   * Récupère le profil de l'utilisateur actuellement authentifié.
+   * @route GET /users/me
+   * @param user - Le payload du JWT, injecté par le décorateur personnalisé `@CurrentUser`.
+   *               Contient les informations de base de l'utilisateur (id, email, rôle).
+   * @returns Le profil public de l'utilisateur.
    */
   @Get('me')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get current user profile' })
+  @ApiOperation({ summary: 'Obtenir le profil de l"utilisateur actuel' })
   @ApiResponse({
     status: 200,
-    description: 'User profile retrieved successfully',
+    description: 'Profil utilisateur récupéré avec succès.',
+    type: PublicUserDto, // Indique le type de retour pour Swagger.
   })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async getProfile(@CurrentUser() user: UserEntity): Promise<PublicUserDto> {
-    return this.usersService.findById(user.id);
+  @ApiResponse({ status: 401, description: 'Non autorisé.' })
+  async getProfile(@CurrentUser() user: JwtPayload): Promise<PublicUserDto> {
+    return this.usersService.findById(user.sub); // `sub` contient l'ID de l'utilisateur.
   }
 
   /**
-   * Update current user profile.
-   * Requires JWT authentication.
-   * @param user Current user
-   * @param updateProfileDto Data to update
-   * @returns Updated profile
+   * Met à jour le profil de l'utilisateur actuellement authentifié.
+   * @route PATCH /users/me
+   * @param user - Le payload du JWT de l'utilisateur.
+   * @param updateProfileDto - Les données à mettre à jour, validées par le `ValidationPipe`.
+   * @returns Le profil utilisateur mis à jour.
    */
   @Patch('me')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Update current user profile' })
-  @ApiResponse({ status: 200, description: 'Profile updated successfully' })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiOperation({ summary: 'Mettre à jour le profil de l"utilisateur actuel' })
+  @ApiResponse({
+    status: 200,
+    description: 'Profil mis à jour avec succès.',
+    type: PublicUserDto,
+  })
+  @ApiResponse({ status: 401, description: 'Non autorisé.' })
   async updateProfile(
-    @CurrentUser() user: UserEntity,
+    @CurrentUser() user: JwtPayload,
     @Body() updateProfileDto: UpdateProfileDto,
-  ) {
-    return this.usersService.updateProfile(user.id, updateProfileDto);
+  ): Promise<PublicUserDto> {
+    return this.usersService.updateProfile(user.sub, updateProfileDto);
   }
 }

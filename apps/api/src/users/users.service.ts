@@ -1,17 +1,22 @@
+/**
+ * @file users.service.ts
+ * @description Service contenant la logique métier pour la gestion des utilisateurs.
+ */
+
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserEntity, PublicUserDto } from './entities/user.entity';
-import { UpdateProfileDto } from './dto/update-profile.dto';
+import { UpdateProfileDto } from './dto';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
   /**
-   * Find a user by their ID.
-   * @param id User ID
-   * @returns Sanitized user object
-   * @throws NotFoundException if user not found
+   * Trouve un utilisateur par son ID.
+   * @param id - L'ID de l'utilisateur à trouver.
+   * @returns L'objet utilisateur public (sans les données sensibles).
+   * @throws {NotFoundException} Si aucun utilisateur n'est trouvé avec cet ID.
    */
   async findById(id: string): Promise<PublicUserDto> {
     const user = await this.prisma.user.findUnique({
@@ -19,17 +24,17 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Utilisateur non trouvé');
     }
 
     return this.sanitizeUser(user);
   }
 
   /**
-   * Update a user's profile.
-   * @param id User ID
-   * @param data Update data
-   * @returns Updated sanitized user object
+   * Met à jour le profil d'un utilisateur.
+   * @param id - L'ID de l'utilisateur à mettre à jour.
+   * @param data - Les données à mettre à jour, provenant du `UpdateProfileDto`.
+   * @returns Le profil utilisateur mis à jour et "nettoyé".
    */
   async updateProfile(
     id: string,
@@ -44,12 +49,13 @@ export class UsersService {
   }
 
   /**
-   * Remove sensitive data from user object.
-   * @param user Raw user object
-   * @returns Sanitized user object
+   * "Nettoie" l'objet utilisateur en retirant les champs sensibles.
+   * Cette méthode est partagée par les autres méthodes du service pour garantir
+   * qu'aucune donnée sensible ne soit jamais retournée.
+   * @param user - L'objet utilisateur complet provenant de Prisma.
+   * @returns Un objet utilisateur public.
    */
   private sanitizeUser(user: UserEntity): PublicUserDto {
-    /* eslint-disable @typescript-eslint/no-unused-vars */
     const {
       password,
       passwordResetToken,
@@ -58,7 +64,6 @@ export class UsersService {
       passwordResetExpires,
       ...sanitized
     } = user;
-    /* eslint-enable @typescript-eslint/no-unused-vars */
     return sanitized;
   }
 }

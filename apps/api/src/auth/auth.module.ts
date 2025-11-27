@@ -1,3 +1,10 @@
+/**
+ * @file auth.module.ts
+ * @description Module dédié à l'authentification.
+ * Ce module configure la gestion des JSON Web Tokens (JWT) et regroupe le contrôleur,
+ * le service et les stratégies nécessaires à l'authentification des utilisateurs.
+ */
+
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -7,24 +14,36 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
+    /**
+     * `JwtModule`: Fournit et configure le service `JwtService` pour créer et
+     * valider des tokens.
+     * `registerAsync` est utilisé pour injecter le `ConfigService` et récupérer
+     * le secret JWT et sa durée de validité depuis les variables d'environnement.
+     * C'est une bonne pratique pour éviter de coder en dur des informations sensibles.
+     */
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      // @ts-expect-error - JWT library expects StringValue type from jsonwebtoken,
-      // but plain strings are valid per JWT spec. This is safe at runtime.
-      useFactory: (configService: ConfigService) => {
-        const secret =
-          configService.get<string>('JWT_SECRET') || 'fallback-secret';
-        const expiresIn = configService.get<string>('JWT_EXPIRES_IN') || '7d';
-        return {
-          secret,
-          signOptions: { expiresIn },
-        };
-      },
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.getOrThrow<string>('JWT_SECRET'),
+        signOptions: {
+          expiresIn: configService.getOrThrow<string>('JWT_EXPIRES_IN'),
+        },
+      }),
       inject: [ConfigService],
     }),
-    ConfigModule,
+    ConfigModule, // Importé pour que ConfigService soit disponible dans useFactory.
   ],
+  /**
+   * `controllers`: Le `AuthController` expose les endpoints publics pour
+   * l'inscription (`/register`) et la connexion (`/login`).
+   */
   controllers: [AuthController],
+  /**
+   * `providers`:
+   * - `AuthService`: Contient la logique métier (création d'utilisateur, validation de mot de passe).
+   * - `JwtStrategy`: Définit la logique pour valider les tokens JWT sur les routes protégées.
+   *   Elle est automatiquement utilisée par le module Passport.
+   */
   providers: [AuthService, JwtStrategy],
 })
 export class AuthModule {}

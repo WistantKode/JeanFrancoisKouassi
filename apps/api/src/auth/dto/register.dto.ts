@@ -1,3 +1,11 @@
+/**
+ * @file register.dto.ts
+ * @description Data Transfer Object pour l'inscription d'un utilisateur.
+ * Les DTOs sont des objets qui définissent la forme des données envoyées sur le réseau.
+ * Ils sont utilisés par `class-validator` pour la validation automatique et par
+ * `@nestjs/swagger` pour la documentation de l'API.
+ */
+
 import {
   IsEmail,
   IsNotEmpty,
@@ -8,41 +16,70 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-/**
- * Data Transfer Object for user registration.
- */
 export class RegisterDto {
-  @ApiProperty({ example: 'jean@example.com' })
-  @IsEmail()
-  @IsNotEmpty()
+  /**
+   * L'email de l'utilisateur. Doit être une adresse email valide et unique.
+   * `@ApiProperty` fournit un exemple pour la documentation Swagger.
+   * `@IsEmail` et `@IsNotEmpty` sont des décorateurs de validation.
+   */
+  @ApiProperty({ example: 'jean@example.com', description: "L'email de l'utilisateur" })
+  @IsEmail({}, { message: 'Veuillez fournir une adresse email valide.' })
+  @IsNotEmpty({ message: "L'email ne peut pas être vide." })
   email: string;
 
-  @ApiProperty({ example: 'SecurePassword123!' })
+  /**
+   * Le mot de passe de l'utilisateur.
+   * Une politique de mot de passe robuste est appliquée via les décorateurs.
+   */
+  @ApiProperty({
+    example: 'SecureP@ss123',
+    description: 'Le mot de passe (doit être complexe)',
+  })
   @IsString()
   @IsNotEmpty()
-  @MinLength(8)
+  @MinLength(8, { message: 'Le mot de passe doit faire au moins 8 caractères.' })
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
     message:
-      'Password must contain at least 1 uppercase, 1 lowercase, 1 number and 1 special character',
+      'Le mot de passe doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial.',
   })
   password: string;
 
-  @ApiProperty({ example: 'Jean' })
+  /**
+   * Le prénom de l'utilisateur.
+   */
+  @ApiProperty({ example: 'Jean', description: "Le prénom de l'utilisateur" })
   @IsString()
   @IsNotEmpty()
   firstName: string;
 
-  @ApiProperty({ example: 'Kouassi' })
+  /**
+   * Le nom de famille de l'utilisateur.
+   */
+  @ApiProperty({ example: 'Kouassi', description: 'Le nom de famille de l"utilisateur' })
   @IsString()
   @IsNotEmpty()
   lastName: string;
 
-  @ApiProperty({ example: '+225 07 12 34 56 78', required: false })
+  /**
+   * Le numéro de téléphone (optionnel).
+   */
+  @ApiProperty({
+    example: '+225 0712345678',
+    required: false,
+    description: 'Le numéro de téléphone (optionnel)',
+  })
   @IsString()
   @IsOptional()
   phone?: string;
 
-  @ApiProperty({ example: 'Abidjan', required: false })
+  /**
+   * La ville de résidence (optionnel).
+   */
+  @ApiProperty({
+    example: 'Abidjan',
+    required: false,
+    description: 'La ville de résidence (optionnel)',
+  })
   @IsString()
   @IsOptional()
   city?: string;
