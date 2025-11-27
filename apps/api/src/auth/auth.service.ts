@@ -142,13 +142,13 @@ export class AuthService {
    */
   private sanitizeUser(user: UserEntity): PublicUserDto {
     const {
-      password,
-      passwordResetToken,
-      verificationToken,
-      lastLoginIp,
-      passwordResetExpires,
-      ...sanitized
+      password: _password,
+      passwordResetToken: _passwordResetToken,
+      verificationToken: _verificationToken,
+      lastLoginIp: _lastLoginIp,
+      passwordResetExpires: _passwordResetExpires,
+      ...safeUser
     } = user;
-    return sanitized;
+    return safeUser;
   }
 }
