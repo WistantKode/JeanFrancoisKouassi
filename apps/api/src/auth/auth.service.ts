@@ -27,7 +27,7 @@ export class AuthService {
    */
   async register(dto: RegisterDto) {
     // Check if user already exists
-    const existingUser = await this.prisma.client.user.findUnique({
+    const existingUser = await this.prisma.user.findUnique({
       where: { email: dto.email },
     });
 
@@ -39,7 +39,7 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(dto.password, 10);
 
     // Create user
-    const user = await this.prisma.client.user.create({
+    const user = await this.prisma.user.create({
       data: {
         email: dto.email,
         password: hashedPassword,
@@ -68,7 +68,7 @@ export class AuthService {
    */
   async login(dto: LoginDto) {
     // Find user
-    const user = await this.prisma.client.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { email: dto.email },
     });
 
@@ -84,7 +84,7 @@ export class AuthService {
     }
 
     // Update last login
-    await this.prisma.client.user.update({
+    await this.prisma.user.update({
       where: { id: user.id },
       data: {
         lastLoginAt: new Date(),
