@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { UserEntity, PublicUserDto } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
@@ -11,7 +12,7 @@ export class UsersService {
    * @returns Sanitized user object
    * @throws NotFoundException if user not found
    */
-  async findById(id: string) {
+  async findById(id: string): Promise<PublicUserDto> {
     const user = await this.prisma.client.user.findUnique({
       where: { id },
     });
@@ -29,7 +30,7 @@ export class UsersService {
    * @param data Update data
    * @returns Updated sanitized user object
    */
-  async updateProfile(id: string, data: any) {
+  async updateProfile(id: string, data: any): Promise<PublicUserDto> {
     const user = await this.prisma.client.user.update({
       where: { id },
       data,
@@ -43,10 +44,16 @@ export class UsersService {
    * @param user Raw user object
    * @returns Sanitized user object
    */
-  private sanitizeUser(user: any) {
+  private sanitizeUser(user: UserEntity): PublicUserDto {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, passwordResetToken, verificationToken, ...sanitized } =
-      user;
+    const {
+      password,
+      passwordResetToken,
+      verificationToken,
+      lastLoginIp,
+      passwordResetExpires,
+      ...sanitized
+    } = user;
     return sanitized;
   }
 }

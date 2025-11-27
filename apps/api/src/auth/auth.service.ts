@@ -7,6 +7,9 @@ import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
 import { RegisterDto, LoginDto } from './dto';
 import * as bcrypt from 'bcrypt';
+import { UserEntity, PublicUserDto } from '../users/entities/user.entity';
+import { UserRole } from '@prisma/client';
+import { JwtPayload } from './types/jwt-payload.type';
 
 @Injectable()
 export class AuthService {
@@ -104,8 +107,8 @@ export class AuthService {
    * @param role User Role
    * @returns Object containing accessToken and refreshToken
    */
-  private async generateTokens(userId: string, email: string, role: string) {
-    const payload = { sub: userId, email, role };
+  private async generateTokens(userId: string, email: string, role: UserRole) {
+    const payload: JwtPayload = { sub: userId, email, role };
 
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(payload, {
@@ -127,10 +130,16 @@ export class AuthService {
    * @param user Raw user object
    * @returns Sanitized user object without passwords or tokens
    */
-  private sanitizeUser(user: any) {
+  private sanitizeUser(user: UserEntity): PublicUserDto {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, passwordResetToken, verificationToken, ...sanitized } =
-      user;
+    const {
+      password,
+      passwordResetToken,
+      verificationToken,
+      lastLoginIp,
+      passwordResetExpires,
+      ...sanitized
+    } = user;
     return sanitized;
   }
 }

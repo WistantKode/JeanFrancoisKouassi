@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PrismaService } from '../../prisma/prisma.service';
+import { JwtPayload } from '../types/jwt-payload.type';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -17,13 +18,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   /**
-   * Validate the JWT payload and fetch the user.
-   * Checks if the user exists and is active.
-   * @param payload JWT payload containing sub (userId), email, and role
-   * @returns User object if valid
-   * @throws UnauthorizedException if user not found or inactive
+   * Validates the JWT payload and returns the user object.
+   * @param payload The decoded JWT payload
+   * @returns The user object attached to the request
    */
-  async validate(payload: { sub: string; email: string; role: string }) {
+  async validate(payload: JwtPayload) {
     const user = await this.prisma.client.user.findUnique({
       where: { id: payload.sub },
     });

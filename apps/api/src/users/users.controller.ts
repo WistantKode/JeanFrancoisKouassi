@@ -9,6 +9,7 @@ import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/guards';
 import { CurrentUser } from '../auth/decorators';
 import { UpdateProfileDto } from './dto';
+import { PublicUserDto, UserEntity } from './entities/user.entity';
 
 @ApiTags('Users')
 @Controller('users')
@@ -30,8 +31,7 @@ export class UsersController {
     description: 'User profile retrieved successfully',
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async getProfile(@CurrentUser() user: any) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
+  async getProfile(@CurrentUser() user: any): Promise<PublicUserDto> {
     return this.usersService.findById(user.id);
   }
 
@@ -49,7 +49,7 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'Profile updated successfully' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async updateProfile(
-    @CurrentUser() user: any,
+    @CurrentUser() user: UserEntity,
     @Body() updateProfileDto: UpdateProfileDto,
   ) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
