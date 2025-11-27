@@ -17,7 +17,7 @@ import { JwtAuthGuard } from '../auth/guards';
 import { CurrentUser } from '../auth/decorators';
 import { UpdateProfileDto } from './dto';
 import { PublicUserDto } from './entities/user.entity';
-import { JwtPayload } from 'src/auth/types';
+import type { JwtPayload } from '../auth/types/jwt-payload.type';
 
 @ApiTags('Users')
 @Controller('users')

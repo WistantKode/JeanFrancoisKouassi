@@ -38,13 +38,19 @@ export class AuthService {
    * @returns Un objet contenant l'utilisateur "nettoyé" et les tokens.
    * @throws {ConflictException} Si l'email est déjà utilisé.
    */
-  async register(dto: RegisterDto): Promise<{ user: PublicUserDto; accessToken: string; refreshToken: string }> {
+  async register(dto: RegisterDto): Promise<{
+    user: PublicUserDto;
+    accessToken: string;
+    refreshToken: string;
+  }> {
     const existingUser = await this.prisma.user.findUnique({
       where: { email: dto.email },
     });
 
     if (existingUser) {
-      this.logger.warn(`Tentative d'inscription avec un email existant: ${dto.email}`);
+      this.logger.warn(
+        `Tentative d'inscription avec un email existant: ${dto.email}`,
+      );
       throw new ConflictException('Cet email est déjà utilisé');
     }
 
@@ -73,13 +79,19 @@ export class AuthService {
    * @returns Un objet contenant l'utilisateur "nettoyé" et les tokens.
    * @throws {UnauthorizedException} Si les identifiants sont invalides.
    */
-  async login(dto: LoginDto): Promise<{ user: PublicUserDto; accessToken: string; refreshToken: string }> {
+  async login(dto: LoginDto): Promise<{
+    user: PublicUserDto;
+    accessToken: string;
+    refreshToken: string;
+  }> {
     const user = await this.prisma.user.findUnique({
       where: { email: dto.email },
     });
 
     if (!user) {
-      this.logger.warn(`Tentative de connexion avec un email inexistant: ${dto.email}`);
+      this.logger.warn(
+        `Tentative de connexion avec un email inexistant: ${dto.email}`,
+      );
       throw new UnauthorizedException('Identifiants invalides');
     }
 

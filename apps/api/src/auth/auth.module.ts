@@ -23,13 +23,14 @@ import { JwtStrategy } from './strategies/jwt.strategy';
      */
     JwtModule.registerAsync({
       imports: [ConfigModule],
+      inject: [ConfigService],
+      // @ts-expect-error - expiresIn string works but type expects StringValue
       useFactory: (configService: ConfigService) => ({
-        secret: configService.getOrThrow<string>('JWT_SECRET'),
+        secret: configService.get<string>('JWT_SECRET'),
         signOptions: {
-          expiresIn: configService.getOrThrow<string>('JWT_EXPIRES_IN'),
+          expiresIn: configService.get<string>('JWT_EXPIRES_IN', '7d'),
         },
       }),
-      inject: [ConfigService],
     }),
     ConfigModule, // Importé pour que ConfigService soit disponible dans useFactory.
   ],

@@ -9,7 +9,7 @@ import { Permission } from '../enums/permission.enum';
  * MEMBER → VERIFIED_MEMBER → MODERATOR/EVENT_ADMIN/BLOG_ADMIN → SUPER_ADMIN
  */
 export const DEFAULT_ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
-  // ========== MEMBER (Sympathisant de base) ==========
+  // MEMBER (Sympathisant de base
   [UserRole.MEMBER]: [
     // Lecture publique
     Permission.BLOG_READ_PUBLISHED,
@@ -24,7 +24,7 @@ export const DEFAULT_ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     Permission.WAITLIST_SUBMIT,
   ],
 
-  // ========== VERIFIED_MEMBER (Militant Vérifié) ==========
+  //  VERIFIED_MEMBER (Militant Vérifié)
   [UserRole.VERIFIED_MEMBER]: [
     // Hérite de MEMBER
     Permission.BLOG_READ_PUBLISHED,
@@ -40,7 +40,7 @@ export const DEFAULT_ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     Permission.COMMENT_CREATE,
   ],
 
-  // ========== MODERATOR (Coordinateur) ==========
+  //  MODERATOR (Coordinateur)
   [UserRole.MODERATOR]: [
     // Hérite de VERIFIED_MEMBER
     Permission.BLOG_READ_PUBLISHED,
@@ -76,7 +76,7 @@ export const DEFAULT_ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     Permission.DONATION_VIEW_ALL,
   ],
 
-  // ========== EVENT_ADMIN (Chef Terrain) ==========
+  //  EVENT_ADMIN (Chef Terrain)
   [UserRole.EVENT_ADMIN]: [
     // Base VERIFIED_MEMBER
     Permission.BLOG_READ_PUBLISHED,
@@ -101,7 +101,7 @@ export const DEFAULT_ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     Permission.DONATION_VIEW_ALL,
   ],
 
-  // ========== BLOG_ADMIN (Chef Communication) ==========
+  // BLOG_ADMIN (Chef Communication)
   [UserRole.BLOG_ADMIN]: [
     // Base VERIFIED_MEMBER
     Permission.BLOG_READ_PUBLISHED,
@@ -124,7 +124,7 @@ export const DEFAULT_ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     Permission.ANALYTICS_VIEW_BLOG,
   ],
 
-  // ========== SUPER_ADMIN (Direction Campagne) ==========
+  //  SUPER_ADMIN
   [UserRole.SUPER_ADMIN]: [
     // TOUS les permissions
     ...Object.values(Permission),

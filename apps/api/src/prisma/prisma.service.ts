@@ -5,7 +5,12 @@
  * à la base de données.
  */
 
-import { INestApplication, Injectable, OnModuleInit, Logger } from '@nestjs/common';
+import {
+  INestApplication,
+  Injectable,
+  OnModuleInit,
+  Logger,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
