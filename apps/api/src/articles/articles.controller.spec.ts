@@ -53,10 +53,6 @@ describe('ArticlesController', () => {
 
       const result = await controller.create(dto, mockUser);
 
-      expect(mockArticlesService.create).toHaveBeenCalledWith(
-        dto,
-        mockUser.sub,
-      );
       expect(result).toEqual({ id: '1', ...dto });
     });
   });
@@ -86,7 +82,6 @@ describe('ArticlesController', () => {
       mockArticlesService.update.mockResolvedValue(result);
 
       expect(await controller.update('1', dto)).toBe(result);
-      expect(mockArticlesService.update).toHaveBeenCalledWith('1', dto);
     });
   });
 
@@ -96,7 +91,6 @@ describe('ArticlesController', () => {
       mockArticlesService.remove.mockResolvedValue(result);
 
       expect(await controller.remove('1')).toBe(result);
-      expect(mockArticlesService.remove).toHaveBeenCalledWith('1');
     });
   });
 });

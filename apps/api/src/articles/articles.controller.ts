@@ -17,7 +17,6 @@ import { PermissionsGuard } from '../common/guards/permissions.guard';
 import { RequirePermissions } from '../common/decorators/require-permissions.decorator';
 import { Permission } from '../common/enums/permission.enum';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
-import type { JwtPayload } from '../auth/types/jwt-payload.type';
 import { Public } from '../common/decorators/public.decorator';
 
 @ApiTags('Articles')
