@@ -31,10 +31,10 @@ export class CreateEventDto {
   @IsNotEmpty()
   startDate: string;
 
-  @ApiProperty({ example: '2025-12-25T22:00:00Z' })
+  @ApiPropertyOptional({ example: '2025-12-25T22:00:00Z' })
   @IsDateString()
-  @IsNotEmpty()
-  endDate: string;
+  @IsOptional()
+  endDate?: string;
 
   @ApiProperty({ example: 'Palais de la Culture' })
   @IsString()

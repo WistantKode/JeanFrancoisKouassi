@@ -16,6 +16,9 @@ import { APP_GUARD } from '@nestjs/core';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { ArticlesModule } from './articles/articles.module';
+import { ModerationModule } from './moderation/moderation.module';
+import { EventsModule } from './events/events.module';
 
 @Module({
   /**
@@ -70,6 +73,12 @@ import { UsersModule } from './users/users.module';
      * `UsersModule`: Gère les fonctionnalités liées aux utilisateurs (profil, etc.).
      */
     UsersModule,
+
+    ArticlesModule,
+
+    ModerationModule,
+
+    EventsModule,
   ],
 
   /**

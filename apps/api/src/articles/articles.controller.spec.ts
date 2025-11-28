@@ -8,7 +8,6 @@ import { JwtPayload } from '../auth/types/jwt-payload.type';
 
 describe('ArticlesController', () => {
   let controller: ArticlesController;
-  let service: ArticlesService;
 
   const mockArticlesService = {
     create: jest.fn(),
@@ -36,7 +35,6 @@ describe('ArticlesController', () => {
     }).compile();
 
     controller = module.get<ArticlesController>(ArticlesController);
-    service = module.get<ArticlesService>(ArticlesService);
   });
 
   it('should be defined', () => {
@@ -55,7 +53,10 @@ describe('ArticlesController', () => {
 
       const result = await controller.create(dto, mockUser);
 
-      expect(service.create).toHaveBeenCalledWith(dto, mockUser.sub);
+      expect(mockArticlesService.create).toHaveBeenCalledWith(
+        dto,
+        mockUser.sub,
+      );
       expect(result).toEqual({ id: '1', ...dto });
     });
   });
@@ -85,7 +86,7 @@ describe('ArticlesController', () => {
       mockArticlesService.update.mockResolvedValue(result);
 
       expect(await controller.update('1', dto)).toBe(result);
-      expect(service.update).toHaveBeenCalledWith('1', dto);
+      expect(mockArticlesService.update).toHaveBeenCalledWith('1', dto);
     });
   });
 
@@ -95,7 +96,7 @@ describe('ArticlesController', () => {
       mockArticlesService.remove.mockResolvedValue(result);
 
       expect(await controller.remove('1')).toBe(result);
-      expect(service.remove).toHaveBeenCalledWith('1');
+      expect(mockArticlesService.remove).toHaveBeenCalledWith('1');
     });
   });
 });

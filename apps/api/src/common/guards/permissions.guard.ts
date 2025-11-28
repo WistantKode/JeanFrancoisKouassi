@@ -17,10 +17,10 @@ interface RequestWithUser extends Request {
 
 /**
  * Guard qui vérifie si l'utilisateur a les permissions requises
- * 
+ *
  * Phase 1: Vérifie seulement les permissions du rôle (synchrone)
  * Phase 3: Vérifiera aussi les permissions personnalisées en DB (async)
- * 
+ *
  * Logique:
  * 1. Si route marquée @Public() → autorisé
  * 2. Si pas de permissions requises → juste auth nécessaire

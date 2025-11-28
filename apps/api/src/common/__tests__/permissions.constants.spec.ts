@@ -1,7 +1,6 @@
 import { UserRole } from '@prisma/client';
 import { Permission } from '../enums/permission.enum';
 import {
-  DEFAULT_ROLE_PERMISSIONS,
   hasPermission,
   getRolePermissions,
 } from '../constants/permissions.constants';

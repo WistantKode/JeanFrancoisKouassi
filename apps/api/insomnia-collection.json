@@ -1,208 +1,430 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2024-11-26T18:00:00.000Z",
+  "__export_date": "2025-11-27T17:00:00.000Z",
   "__export_source": "insomnia.desktop.app:v2023.5.8",
   "resources": [
     {
-      "_id": "req_root",
-      "parentId": "wrk_main",
-      "modified": 1700000000000,
-      "created": 1700000000000,
-      "url": "{{ _.base_url }}/",
-      "name": "Health Check (Root)",
-      "description": "Vérifier si l'API est en ligne",
-      "method": "GET",
-      "body": {},
-      "parameters": [],
-      "headers": [],
-      "authentication": {},
-      "metaSortKey": -1700001000000,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_register",
-      "parentId": "fld_auth",
-      "modified": 1700000000000,
-      "created": 1700000000000,
-      "url": "{{ _.base_url }}/auth/register",
-      "name": "Register User",
-      "description": "Créer un nouveau utilisateur",
-      "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"email\": \"test_user@example.com\",\n  \"password\": \"Password123!\",\n  \"firstName\": \"Jean\",\n  \"lastName\": \"Dupont\",\n  \"phone\": \"+225 07 12 34 56 78\",\n  \"city\": \"Abidjan\"\n}"
-      },
-      "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1700000000000,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_login",
-      "parentId": "fld_auth",
-      "modified": 1700000000000,
-      "created": 1700000000000,
-      "url": "{{ _.base_url }}/auth/login",
-      "name": "Login",
-      "description": "Se connecter pour obtenir un token JWT",
-      "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"email\": \"test_user@example.com\",\n  \"password\": \"Password123!\"\n}"
-      },
-      "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1699999000000,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_get_profile",
-      "parentId": "fld_users",
-      "modified": 1700000000000,
-      "created": 1700000000000,
-      "url": "{{ _.base_url }}/users/me",
-      "name": "Get My Profile",
-      "description": "Récupérer le profil de l'utilisateur connecté",
-      "method": "GET",
-      "body": {},
-      "parameters": [],
-      "headers": [],
-      "authentication": {
-        "type": "bearer",
-        "token": "{{ _.access_token }}"
-      },
-      "metaSortKey": -1699998000000,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_update_profile",
-      "parentId": "fld_users",
-      "modified": 1700000000000,
-      "created": 1700000000000,
-      "url": "{{ _.base_url }}/users/me",
-      "name": "Update My Profile",
-      "description": "Mettre à jour le profil de l'utilisateur connecté",
-      "method": "PATCH",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"firstName\": \"Jean-François\",\n  \"lastName\": \"Kouassi Updated\",\n  \"phone\": \"+225 07 99 88 77 66\",\n  \"city\": \"Yamoussoukro\"\n}"
-      },
-      "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "authentication": {
-        "type": "bearer",
-        "token": "{{ _.access_token }}"
-      },
-      "metaSortKey": -1699997000000,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "fld_auth",
-      "parentId": "wrk_main",
-      "modified": 1700000000000,
-      "created": 1700000000000,
-      "name": "Authentication",
-      "description": "Endpoints d'inscription et de connexion",
-      "environment": {},
-      "environmentPropertyOrder": null,
-      "metaSortKey": -1700000000000,
-      "_type": "request_group"
-    },
-    {
-      "_id": "fld_users",
-      "parentId": "wrk_main",
-      "modified": 1700000000000,
-      "created": 1700000000000,
-      "name": "Users",
-      "description": "Gestion des utilisateurs",
-      "environment": {},
-      "environmentPropertyOrder": null,
-      "metaSortKey": -1699999000000,
-      "_type": "request_group"
-    },
-    {
-      "_id": "wrk_main",
-      "parentId": null,
-      "modified": 1700000000000,
-      "created": 1700000000000,
-      "name": "JFK Campaign API",
-      "description": "API pour la plateforme de campagne JFK",
-      "scope": "collection",
-      "_type": "workspace"
+      "_id": "wrk_jfk_complete",
+      "_type": "workspace",
+      "name": "🚀 JFK Backend - Ultimate Suite",
+      "description": "Suite de tests complète pour l'API JFK (Auth, RBAC, Sécurité, Users)",
+      "scope": "collection"
     },
     {
       "_id": "env_base",
-      "parentId": "wrk_main",
-      "modified": 1700000000000,
-      "created": 1700000000000,
+      "_type": "environment",
+      "parentId": "wrk_jfk_complete",
       "name": "Base Environment",
       "data": {
         "base_url": "http://localhost:3001",
-        "access_token": "REPLACE_WITH_YOUR_TOKEN_AFTER_LOGIN"
+        "access_token": "",
+        "refresh_token": "",
+        "user_id": "",
+        "test_users": {
+          "member": {
+            "email": "member@jfk.ci",
+            "password": "Member123!",
+            "token": ""
+          },
+          "verified_member": {
+            "email": "verified@jfk.ci",
+            "password": "Verified123!",
+            "token": ""
+          },
+          "moderator": {
+            "email": "moderator@jfk.ci",
+            "password": "Mod123!",
+            "token": ""
+          },
+          "blog_admin": {
+            "email": "blog@jfk.ci",
+            "password": "Blog123!",
+            "token": ""
+          },
+          "event_admin": {
+            "email": "event@jfk.ci",
+            "password": "Event123!",
+            "token": ""
+          },
+          "super_admin": {
+            "email": "admin@jfk.ci",
+            "password": "Admin123!",
+            "token": ""
+          }
+        }
+      }
+    },
+    {
+      "_id": "env_prod",
+      "_type": "environment",
+      "parentId": "env_base",
+      "name": "Production 🚀",
+      "data": {
+        "base_url": "https://api.jfk.ci"
+      }
+    },
+    {
+      "_id": "env_staging",
+      "_type": "environment",
+      "parentId": "env_base",
+      "name": "Staging 🚧",
+      "data": {
+        "base_url": "https://staging-api.jfk.ci"
+      }
+    },
+    {
+      "_id": "folder_setup",
+      "_type": "request_group",
+      "name": "00. 🛠️ Setup & Utils",
+      "description": "Outils de base et vérifications",
+      "parentId": "wrk_jfk_complete"
+    },
+    {
+      "_id": "req_health",
+      "_type": "request",
+      "parentId": "folder_setup",
+      "name": "Health Check",
+      "method": "GET",
+      "url": "{{ _.base_url }}",
+      "tests": "expect(response.status).to.equal(200);",
+      "description": "Vérifie si l'API est en ligne"
+    },
+    {
+      "_id": "req_swagger",
+      "_type": "request",
+      "parentId": "folder_setup",
+      "name": "Swagger Docs",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api-docs",
+      "tests": "expect(response.status).to.equal(200);",
+      "description": "Documentation API"
+    },
+    {
+      "_id": "folder_auth",
+      "_type": "request_group",
+      "name": "01. 🔐 Authentication",
+      "description": "Inscription, Connexion, Refresh",
+      "parentId": "wrk_jfk_complete"
+    },
+    {
+      "_id": "req_register",
+      "_type": "request",
+      "parentId": "folder_auth",
+      "name": "Register - New Member",
+      "method": "POST",
+      "url": "{{ _.base_url }}/auth/register",
+      "headers": [{"name": "Content-Type", "value": "application/json"}],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"newuser@jfk.ci\",\n  \"password\": \"NewUser123!\",\n  \"firstName\": \"New\",\n  \"lastName\": \"User\"\n}"
       },
-      "dataPropertyOrder": {
-        "&": [
-          "base_url",
-          "access_token"
-        ]
+      "tests": "expect(response.status).to.equal(201);\nexpect(response.body).to.have.property('accessToken');\ninsomnia.environment.set('access_token', response.body.accessToken);",
+      "description": "Création de compte"
+    },
+    {
+      "_id": "req_login",
+      "_type": "request",
+      "parentId": "folder_auth",
+      "name": "Login - Valid Credentials",
+      "method": "POST",
+      "url": "{{ _.base_url }}/auth/login",
+      "headers": [{"name": "Content-Type", "value": "application/json"}],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"newuser@jfk.ci\",\n  \"password\": \"NewUser123!\"\n}"
       },
-      "color": null,
-      "isPrivate": false,
-      "metaSortKey": 1700000000000,
-      "_type": "environment"
+      "tests": "expect(response.status).to.equal(200);\ninsomnia.environment.set('access_token', response.body.accessToken);",
+      "description": "Connexion standard"
+    },
+    {
+      "_id": "folder_users",
+      "_type": "request_group",
+      "name": "02. 👤 User Management",
+      "description": "Profils et gestion utilisateurs",
+      "parentId": "wrk_jfk_complete"
+    },
+    {
+      "_id": "req_profile",
+      "_type": "request",
+      "parentId": "folder_users",
+      "name": "Get My Profile",
+      "method": "GET",
+      "url": "{{ _.base_url }}/users/me",
+      "headers": [{"name": "Authorization", "value": "Bearer {{ _.access_token }}"}],
+      "tests": "expect(response.status).to.equal(200);",
+      "description": "Profil utilisateur connecté"
+    },
+    {
+      "_id": "req_update_profile",
+      "_type": "request",
+      "parentId": "folder_users",
+      "name": "Update Profile",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/users/me",
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"firstName\": \"Updated\",\n  \"lastName\": \"Name\"\n}"
+      },
+      "tests": "expect(response.status).to.equal(200);",
+      "description": "Mise à jour profil"
+    },
+    {
+      "_id": "folder_security",
+      "_type": "request_group",
+      "name": "03. 🛡️ Security Suite",
+      "description": "Tests de vulnérabilités (XSS, SQLi, JWT)",
+      "parentId": "wrk_jfk_complete"
+    },
+    {
+      "_id": "req_xss_email",
+      "_type": "request",
+      "parentId": "folder_security",
+      "name": "XSS - Script in Email",
+      "method": "POST",
+      "url": "{{ _.base_url }}/auth/register",
+      "headers": [{"name": "Content-Type", "value": "application/json"}],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"<script>alert(1)</script>@test.com\",\n  \"password\": \"Test123!\"\n}"
+      },
+      "tests": "expect(response.status).to.equal(400);",
+      "description": "Test XSS basique"
+    },
+    {
+      "_id": "req_sqli_login",
+      "_type": "request",
+      "parentId": "folder_security",
+      "name": "SQL Injection - Login Bypass",
+      "method": "POST",
+      "url": "{{ _.base_url }}/auth/login",
+      "headers": [{"name": "Content-Type", "value": "application/json"}],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"admin' OR '1'='1\",\n  \"password\": \"anything\"\n}"
+      },
+      "tests": "expect(response.status).to.equal(401);",
+      "description": "Test SQL Injection"
+    },
+    {
+      "_id": "req_jwt_none",
+      "_type": "request",
+      "parentId": "folder_security",
+      "name": "JWT - None Algorithm",
+      "method": "GET",
+      "url": "{{ _.base_url }}/users/me",
+      "headers": [{"name": "Authorization", "value": "Bearer eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiIxMjM0NTY3ODkwIiwicm9sZSI6IlNVUEVSX0FETUlOIn0."}],
+      "tests": "expect(response.status).to.equal(401);",
+      "description": "Test JWT None Alg"
+    },
+    {
+      "_id": "folder_rbac",
+      "_type": "request_group",
+      "name": "04. 🔐 RBAC & Roles",
+      "description": "Tests des permissions par rôle",
+      "parentId": "wrk_jfk_complete"
+    },
+    {
+      "_id": "req_rbac_setup",
+      "_type": "request",
+      "parentId": "folder_rbac",
+      "name": "ℹ️ RBAC Setup Info",
+      "method": "GET",
+      "url": "{{ _.base_url }}",
+      "tests": "console.log('Ensure test users exist in DB for RBAC tests');",
+      "description": "Instructions pour les tests RBAC"
+    },
+    {
+      "_id": "req_rbac_member_fail",
+      "_type": "request",
+      "parentId": "folder_rbac",
+      "name": "MEMBER - Access Admin (Fail)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/admin/users",
+      "headers": [{"name": "Authorization", "value": "Bearer {{ _.test_users.member.token }}"}],
+      "tests": "expect(response.status).to.equal(403);",
+      "description": "Vérifie que MEMBER ne peut pas accéder à l'admin"
+    },
+    {
+      "_id": "req_rbac_blog_ok",
+      "_type": "request",
+      "parentId": "folder_rbac",
+      "name": "BLOG_ADMIN - Create Article (Future)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/articles",
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.test_users.blog_admin.token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"title\": \"Test\",\n  \"content\": \"Content\"\n}"
+      },
+      "tests": "expect([201, 404]).to.include(response.status);",
+      "description": "Test création article (endpoint futur)"
+    },
+    {
+      "_id": "folder_future",
+      "_type": "request_group",
+      "name": "05. 🔮 Future Modules",
+      "description": "Placeholders pour Articles, Events, Moderation",
+      "parentId": "wrk_jfk_complete"
+    },
+    {
+      "_id": "req_articles_list",
+      "_type": "request",
+      "parentId": "folder_future",
+      "name": "Articles - List All",
+      "method": "GET",
+      "url": "{{ _.base_url }}/articles",
+      "description": "Liste des articles"
+    },
+    {
+      "_id": "folder_events",
+      "_type": "request_group",
+      "name": "05. 📅 Events Module",
+      "description": "Tests CRUD Events avec RBAC",
+      "parentId": "wrk_jfk_complete"
+    },
+    {
+      "_id": "req_events_create_admin",
+      "_type": "request",
+      "parentId": "folder_events",
+      "name": "✅ Create Event (EVENT_ADMIN)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/events",
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.test_users.event_admin.token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"title\": \"Grand Meeting Abidjan\",\n  \"slug\": \"grand-meeting-abidjan-{{ $timestamp }}\",\n  \"description\": \"Rassemblement populaire pour présenter le programme de campagne\",\n  \"startDate\": \"2025-12-25T18:00:00Z\",\n  \"endDate\": \"2025-12-25T22:00:00Z\",\n  \"location\": \"Palais de la Culture, Abidjan\",\n  \"coverImage\": \"https://example.com/meeting.jpg\",\n  \"published\": false\n}"
+      },
+      "tests": "expect(response.status).to.eq(201);\nexpect(response.body).to.have.property('id');\nexpect(response.body.title).to.eq('Grand Meeting Abidjan');",
+      "description": "EVENT_ADMIN crée un événement"
+    },
+    {
+      "_id": "req_events_list_public",
+      "_type": "request",
+      "parentId": "folder_events",
+      "name": "🌍 List All Events (Public)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/events",
+      "tests": "expect(response.status).to.eq(200);\nexpect(response.body).to.be.an('array');",
+      "description": "Public peut lister les événements publiés"
+    },
+    {
+      "_id": "req_events_get_one",
+      "_type": "request",
+      "parentId": "folder_events",
+      "name": "🌍 Get Single Event (Public)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/events/EVENT_ID_HERE",
+      "tests": "expect([200, 404]).to.include(response.status);",
+      "description": "Obtenir un événement par ID (remplacer EVENT_ID_HERE)"
+    },
+    {
+      "_id": "req_events_update_admin",
+      "_type": "request",
+      "parentId": "folder_events",
+      "name": "✅ Update Event (EVENT_ADMIN)",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/events/EVENT_ID_HERE",
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.test_users.event_admin.token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"title\": \"Grand Meeting Abidjan - UPDATED\",\n  \"published\": true\n}"
+      },
+      "tests": "expect([200, 404]).to.include(response.status);",
+      "description": "Modifier un événement (remplacer EVENT_ID_HERE)"
+    },
+    {
+      "_id": "req_events_delete_admin",
+      "_type": "request",
+      "parentId": "folder_events",
+      "name": "✅ Delete Event (EVENT_ADMIN)",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/events/EVENT_ID_HERE",
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.test_users.event_admin.token }}"}
+      ],
+      "tests": "expect([200, 404]).to.include(response.status);",
+      "description": "Supprimer un événement (remplacer EVENT_ID_HERE)"
+    },
+    {
+      "_id": "req_events_create_member_fail",
+      "_type": "request",
+      "parentId": "folder_events",
+      "name": "🔴 Create Event (MEMBER) - Should FAIL 403",
+      "method": "POST",
+      "url": "{{ _.base_url }}/events",
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.test_users.member.token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"title\": \"Hacked Event\",\n  \"slug\": \"hacked-{{ $timestamp }}\",\n  \"description\": \"This should fail\",\n  \"startDate\": \"2025-12-25T18:00:00Z\",\n  \"location\": \"Nowhere\"\n}"
+      },
+      "tests": "expect(response.status).to.eq(403);",
+      "description": "MEMBER ne peut pas créer d'événement (Permission manquante)"
+    },
+    {
+      "_id": "folder_articles",
+      "_type": "request_group",
+      "name": "06. 📝 Articles Module",
+      "description": "Tests CRUD Articles avec RBAC",
+      "parentId": "wrk_jfk_complete"
+    },
+    {
+      "_id": "req_articles_list",
+      "_type": "request",
+      "parentId": "folder_articles",
+      "name": "🌍 List All Articles (Public)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/articles",
+      "description": "Liste des articles publiés"
+    },
+    {
+      "_id": "folder_moderation",
+      "_type": "request_group",
+      "name": "07. 🛡️ Moderation Module",
+      "description": "Tests Modération (Ban, Logs)",
+      "parentId": "wrk_jfk_complete"
+    },
+    {
+      "_id": "req_moderation_logs",
+      "_type": "request",
+      "parentId": "folder_moderation",
+      "name": "✅ View Logs (MODERATOR)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/moderation/logs",
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.test_users.moderator.token }}"}
+      ],
+      "tests": "expect(response.status).to.eq(200);",
+      "description": "Voir les logs de modération"
+    },
+    {
+      "_id": "req_moderation_logs_member_fail",
+      "_type": "request",
+      "parentId": "folder_moderation",
+      "name": "🔴 View Logs (MEMBER) - Should FAIL 403",
+      "method": "GET",
+      "url": "{{ _.base_url }}/moderation/logs",
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.test_users.member.token }}"}
+      ],
+      "tests": "expect(response.status).to.eq(403);",
+      "description": "MEMBER ne peut pas voir les logs"
     }
   ]
 }

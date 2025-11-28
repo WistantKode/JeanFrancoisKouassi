@@ -42,17 +42,6 @@ export const DEFAULT_ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
 
   //  MODERATOR (Coordinateur)
   [UserRole.MODERATOR]: [
-    // Hérite de VERIFIED_MEMBER
-    Permission.BLOG_READ_PUBLISHED,
-    Permission.EVENT_READ_PUBLISHED,
-    Permission.USER_READ_OWN,
-    Permission.USER_UPDATE_OWN,
-    Permission.VOTE_ANONYMOUS,
-    Permission.VOTE_AUTHENTICATED,
-    Permission.DONATION_SUBMIT,
-    Permission.COMMENT_CREATE,
-
-    // Modération utilisateurs
     Permission.USER_LIST_ALL,
     Permission.USER_SUSPEND,
     Permission.USER_BAN,
@@ -128,6 +117,7 @@ export const DEFAULT_ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
   [UserRole.SUPER_ADMIN]: [
     // TOUS les permissions
     ...Object.values(Permission),
+    Permission.USER_UPDATE_ROLE,
   ],
 };
 

@@ -29,6 +29,8 @@ export enum Permission {
   //  USERS
   USER_READ_OWN = 'user:read:own',
   USER_UPDATE_OWN = 'user:update:own',
+  USER_READ_ALL = 'user:read:all',
+  USER_UPDATE_ROLE = 'user:update:role',
   USER_LIST_ALL = 'user:list:all',
   USER_SUSPEND = 'user:suspend',
   USER_BAN = 'user:ban',

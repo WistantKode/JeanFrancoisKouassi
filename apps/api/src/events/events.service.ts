@@ -11,7 +11,9 @@ export class EventsService {
     return this.prisma.event.create({
       data: {
         ...createEventDto,
-        organizerId,
+        organizer: {
+          connect: { id: organizerId },
+        },
       },
       include: {
         organizer: {

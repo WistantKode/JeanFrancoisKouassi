@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create-event.dto';
@@ -44,7 +45,7 @@ export class EventsController {
 
   @Get(':id')
   @Public()
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.eventsService.findOne(id);
   }
 
@@ -52,7 +53,10 @@ export class EventsController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, PermissionsGuard)
   @RequirePermissions(Permission.EVENT_UPDATE_ANY)
-  update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto) {
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateEventDto: UpdateEventDto,
+  ) {
     return this.eventsService.update(id, updateEventDto);
   }
 
@@ -60,7 +64,7 @@ export class EventsController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, PermissionsGuard)
   @RequirePermissions(Permission.EVENT_DELETE)
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.eventsService.remove(id);
   }
 }

@@ -186,6 +186,7 @@ model Article {
 model Event {
   id          String    @id @default(uuid())
   title       String
+  slug        String    @unique
   description String    @db.Text
   location    String
   startDate   DateTime

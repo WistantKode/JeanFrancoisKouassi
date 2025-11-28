@@ -170,6 +170,7 @@ describe('PermissionsGuard', () => {
  */
 function createMockContext(
   user: { sub: string; email: string; role: UserRole } | null,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   requiredPermissions: Permission[],
 ): ExecutionContext {
   const mockRequest = {
