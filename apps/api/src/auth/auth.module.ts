@@ -11,6 +11,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { MailModule } from '../mail/mail.module'; // Importation du MailModule
 
 @Module({
   imports: [
@@ -24,15 +25,15 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      // @ts-expect-error - expiresIn string works but type expects StringValue
       useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET'),
+        secret: configService.getOrThrow<string>('JWT_SECRET'),
         signOptions: {
-          expiresIn: configService.get<string>('JWT_EXPIRES_IN', '7d'),
+          expiresIn: configService.getOrThrow<string>('JWT_EXPIRES_IN'),
         },
       }),
     }),
-    ConfigModule, // Importé pour que ConfigService soit disponible dans useFactory.
+    ConfigModule,
+    MailModule, // Ajout du MailModule aux imports
   ],
   /**
    * `controllers`: Le `AuthController` expose les endpoints publics pour

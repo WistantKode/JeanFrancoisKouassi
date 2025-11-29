@@ -67,9 +67,10 @@ model User {
   status UserStatus @default(PENDING)
 
   // Email verification
-  emailVerified     Boolean   @default(false)
-  emailVerifiedAt   DateTime?
-  verificationToken String?
+  emailVerified          Boolean   @default(false)
+  emailVerifiedAt        DateTime?
+  verificationToken      String?   @unique
+  verificationTokenExpires DateTime?
 
   // Security
   passwordResetToken   String?
@@ -186,7 +187,6 @@ model Article {
 model Event {
   id          String    @id @default(uuid())
   title       String
-  slug        String    @unique
   description String    @db.Text
   location    String
   startDate   DateTime

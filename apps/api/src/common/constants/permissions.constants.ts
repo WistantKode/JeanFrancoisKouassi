@@ -5,7 +5,7 @@ import { Permission } from '../enums/permission.enum';
  * Matrice des permissions par défaut pour chaque rôle
  * Ces permissions peuvent être étendues en Phase 3 via UserPermissions table
  *
- * Hiérarchie:
+ * Hiérarchie :
  * MEMBER → VERIFIED_MEMBER → MODERATOR/EVENT_ADMIN/BLOG_ADMIN → SUPER_ADMIN
  */
 export const DEFAULT_ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
@@ -115,9 +115,8 @@ export const DEFAULT_ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
 
   //  SUPER_ADMIN
   [UserRole.SUPER_ADMIN]: [
-    // TOUS les permissions
+    // TOUTES les permissions
     ...Object.values(Permission),
-    Permission.USER_UPDATE_ROLE,
   ],
 };
 

@@ -6,7 +6,15 @@
  * pour tout ce qui concerne l'authentification.
  */
 
-import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpCode,
+  HttpStatus,
+  Get,
+  Query,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { RegisterDto, LoginDto } from './dto';
@@ -31,14 +39,37 @@ export class AuthController {
    * @param dto - Le Data Transfer Object (DTO) contenant les informations d'inscription.
    *              Le `@Body()` décorateur, couplé au `ValidationPipe` global, assure que
    *              les données sont valides avant même que cette méthode ne soit exécutée.
-   * @returns Un objet contenant l'utilisateur créé (sans le mot de passe) et les tokens JWT.
+   * @returns Un message indiquant que le processus d'inscription a commencé.
    */
   @Post('register')
   @ApiOperation({ summary: 'Inscrire un nouvel utilisateur' })
-  @ApiResponse({ status: 201, description: 'Utilisateur inscrit avec succès.' })
-  @ApiResponse({ status: 409, description: 'Cet email est déjà utilisé.' })
+  @ApiResponse({
+    status: 201,
+    description:
+      'Processus d"inscription commencé. Un email de vérification a été envoyé.',
+  })
   async register(@Body() dto: RegisterDto) {
     return this.authService.register(dto);
+  }
+
+  /**
+   * Endpoint pour vérifier l'email d'un utilisateur.
+   * @route GET /auth/verify-email
+   * @param token - Le token reçu dans le lien de l'email.
+   * @returns L'utilisateur et les tokens JWT une fois l'email vérifié.
+   */
+  @Get('verify-email')
+  @ApiOperation({ summary: 'Vérifier l"adresse email d"un utilisateur' })
+  @ApiResponse({
+    status: 200,
+    description: 'Email vérifié avec succès. L"utilisateur est maintenant connecté.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Le lien de vérification est invalide ou a expiré.',
+  })
+  async verifyEmail(@Query('token') token: string) {
+    return this.authService.verifyEmail(token);
   }
 
   /**
@@ -51,7 +82,10 @@ export class AuthController {
   @HttpCode(HttpStatus.OK) // Par défaut, POST renvoie 201, ici on veut 200 OK.
   @ApiOperation({ summary: 'Connecter un utilisateur' })
   @ApiResponse({ status: 200, description: 'Connexion réussie.' })
-  @ApiResponse({ status: 401, description: 'Identifiants invalides.' })
+  @ApiResponse({
+    status: 401,
+    description: 'Identifiants invalides ou compte non activé.',
+  })
   async login(@Body() dto: LoginDto) {
     return this.authService.login(dto);
   }
