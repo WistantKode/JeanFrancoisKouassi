@@ -33,9 +33,9 @@ export class UsersService {
 
   /**
    * Met à jour le profil d'un utilisateur.
-   * @param id - L'ID de l'utilisateur à mettre à jour.
-   * @param data - Les données à mettre à jour, provenant du `UpdateProfileDto`.
    * @returns Le profil utilisateur mis à jour et "nettoyé".
+   * @param userId
+   * @param updateProfileDto
    */
   async updateProfile(userId: string, updateProfileDto: UpdateProfileDto) {
     const user = await this.prisma.user.update({
