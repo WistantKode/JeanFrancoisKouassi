@@ -18,6 +18,7 @@ import { RequirePermissions } from '../common/decorators/require-permissions.dec
 import { Permission } from '../common/enums/permission.enum';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { Public } from '../common/decorators/public.decorator';
+import type { JwtPayload } from 'src/auth/types/jwt-payload.type';
 
 @ApiTags('Articles')
 @Controller('articles')

@@ -5,7 +5,7 @@
 
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { UserEntity, PublicUserDto } from './entities/user.entity';
+import { PublicUserDto, toPublicUserDto } from './entities/user.entity';
 import { UpdateProfileDto } from './dto';
 import { UserRole } from '@prisma/client';
 
@@ -28,7 +28,7 @@ export class UsersService {
       throw new NotFoundException('Utilisateur non trouvé');
     }
 
-    return this.sanitizeUser(user);
+    return toPublicUserDto(user);
   }
 
   /**
@@ -38,29 +38,11 @@ export class UsersService {
    * @returns Le profil utilisateur mis à jour et "nettoyé".
    */
   async updateProfile(userId: string, updateProfileDto: UpdateProfileDto) {
-    return this.prisma.user.update({
+    const user = await this.prisma.user.update({
       where: { id: userId },
       data: updateProfileDto,
-      select: {
-        id: true,
-        email: true,
-        firstName: true,
-        lastName: true,
-        role: true,
-        createdAt: true,
-        phone: true,
-        gender: true,
-        dateOfBirth: true,
-        city: true,
-        region: true,
-        country: true,
-        status: true,
-        emailVerified: true,
-        emailVerifiedAt: true,
-        updated: true,
-        lastLoginAt: true,
-      },
     });
+    return toPublicUserDto(user);
   }
 
   async findAll(page: number, limit: number, search?: string) {
@@ -81,20 +63,12 @@ export class UsersService {
         skip,
         take: limit,
         orderBy: { createdAt: 'desc' },
-        select: {
-          id: true,
-          email: true,
-          firstName: true,
-          lastName: true,
-          role: true,
-          createdAt: true,
-        },
       }),
       this.prisma.user.count({ where }),
     ]);
 
     return {
-      data: users,
+      data: users.map(toPublicUserDto),
       meta: {
         total,
         page,
@@ -105,38 +79,10 @@ export class UsersService {
   }
 
   async updateRole(id: string, role: UserRole) {
-    return this.prisma.user.update({
+    const user = await this.prisma.user.update({
       where: { id },
       data: { role },
-      select: {
-        id: true,
-        email: true,
-        role: true,
-      },
     });
-  }
-
-  /**
-   * "Nettoie" l'objet utilisateur en retirant les champs sensibles.
-   * Cette méthode est partagée par les autres méthodes du service pour garantir
-   * qu'aucune donnée sensible ne soit jamais retournée.
-   * @param user - L'objet utilisateur complet provenant de Prisma.
-   * @returns Un objet utilisateur public.
-   */
-  private sanitizeUser(user: UserEntity): PublicUserDto {
-    const {
-      password,
-      passwordResetToken,
-      verificationToken,
-      lastLoginIp,
-      passwordResetExpires,
-      ...result
-    } = user;
-    void password;
-    void passwordResetToken;
-    void verificationToken;
-    void lastLoginIp;
-    void passwordResetExpires;
-    return result;
+    return toPublicUserDto(user);
   }
 }

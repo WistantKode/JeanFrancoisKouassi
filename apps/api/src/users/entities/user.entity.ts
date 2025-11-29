@@ -102,3 +102,21 @@ export class PublicUserDto extends OmitType(UserEntity, [
   'passwordResetExpires',
   'lastLoginIp',
 ] as const) {}
+
+/**
+ * Fonction utilitaire centralisée pour "nettoyer" un objet utilisateur.
+ * Prend une entité utilisateur complète et retourne un DTO public.
+ * @param user - L'objet utilisateur complet.
+ * @returns Un objet `PublicUserDto` sans les champs sensibles.
+ */
+export function toPublicUserDto(user: UserEntity): PublicUserDto {
+  const {
+    password,
+    verificationToken,
+    passwordResetToken,
+    passwordResetExpires,
+    lastLoginIp,
+    ...publicUser
+  } = user;
+  return publicUser;
+}

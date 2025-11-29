@@ -15,7 +15,7 @@ import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
 import { RegisterDto, LoginDto } from './dto';
 import * as bcrypt from 'bcrypt';
-import { UserEntity, PublicUserDto } from '../users/entities/user.entity';
+import { PublicUserDto, toPublicUserDto } from '../users/entities/user.entity';
 import { UserRole } from '@prisma/client';
 import { JwtPayload } from './types/jwt-payload.type';
 
@@ -38,19 +38,13 @@ export class AuthService {
    * @returns Un objet contenant l'utilisateur "nettoyé" et les tokens.
    * @throws {ConflictException} Si l'email est déjà utilisé.
    */
-  async register(dto: RegisterDto): Promise<{
-    user: PublicUserDto;
-    accessToken: string;
-    refreshToken: string;
-  }> {
+  async register(dto: RegisterDto): Promise<{ user: PublicUserDto; accessToken: string; refreshToken: string }> {
     const existingUser = await this.prisma.user.findUnique({
       where: { email: dto.email },
     });
 
     if (existingUser) {
-      this.logger.warn(
-        `Tentative d'inscription avec un email existant: ${dto.email}`,
-      );
+      this.logger.warn(`Tentative d'inscription avec un email existant: ${dto.email}`);
       throw new ConflictException('Cet email est déjà utilisé');
     }
 
@@ -64,7 +58,7 @@ export class AuthService {
     const tokens = await this.generateTokens(user.id, user.email, user.role);
 
     return {
-      user: this.sanitizeUser(user),
+      user: toPublicUserDto(user),
       ...tokens,
     };
   }
@@ -79,19 +73,13 @@ export class AuthService {
    * @returns Un objet contenant l'utilisateur "nettoyé" et les tokens.
    * @throws {UnauthorizedException} Si les identifiants sont invalides.
    */
-  async login(dto: LoginDto): Promise<{
-    user: PublicUserDto;
-    accessToken: string;
-    refreshToken: string;
-  }> {
+  async login(dto: LoginDto): Promise<{ user: PublicUserDto; accessToken: string; refreshToken: string }> {
     const user = await this.prisma.user.findUnique({
       where: { email: dto.email },
     });
 
     if (!user) {
-      this.logger.warn(
-        `Tentative de connexion avec un email inexistant: ${dto.email}`,
-      );
+      this.logger.warn(`Tentative de connexion avec un email inexistant: ${dto.email}`);
       throw new UnauthorizedException('Identifiants invalides');
     }
 
@@ -111,7 +99,7 @@ export class AuthService {
     const tokens = await this.generateTokens(user.id, user.email, user.role);
 
     return {
-      user: this.sanitizeUser(user),
+      user: toPublicUserDto(user),
       ...tokens,
     };
   }
@@ -132,28 +120,5 @@ export class AuthService {
     ]);
 
     return { accessToken, refreshToken };
-  }
-
-  /**
-   * "Nettoie" l'objet utilisateur en retirant les champs sensibles.
-   * Utilise le `PublicUserDto` pour garantir un typage correct et éviter les fuites de données.
-   * @param user - L'objet utilisateur complet provenant de Prisma.
-   * @returns Un objet utilisateur public, sans les champs confidentiels.
-   */
-  private sanitizeUser(user: UserEntity): PublicUserDto {
-    const {
-      password,
-      passwordResetToken,
-      verificationToken,
-      lastLoginIp,
-      passwordResetExpires,
-      ...result
-    } = user;
-    void password;
-    void passwordResetToken;
-    void verificationToken;
-    void lastLoginIp;
-    void passwordResetExpires;
-    return result;
   }
 }
