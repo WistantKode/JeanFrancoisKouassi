@@ -1,12 +1,16 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { User } from '@prisma/client';
 
 @Injectable()
 export class MailService {
   private readonly logger = new Logger(MailService.name);
 
-  constructor(private readonly mailerService: MailerService) {}
+  constructor(
+    private readonly mailerService: MailerService,
+    private readonly configService: ConfigService,
+  ) {}
 
   /**
    * Envoie un email de vérification à un nouvel utilisateur.
@@ -14,8 +18,8 @@ export class MailService {
    * @param token Le token de vérification à inclure dans le lien.
    */
   async sendVerificationEmail(user: User, token: string) {
-    // TODO: Remplacer par l'URL du frontend
-    const verificationUrl = `http://localhost:3000/auth/verify?token=${token}`;
+    const frontUrl = this.configService.getOrThrow<string>('FRONT_URL');
+    const verificationUrl = `${frontUrl.replace(/\/$/, '')}/auth/verify?token=${token}`;
 
     try {
       await this.mailerService.sendMail({

@@ -27,8 +27,11 @@ import { MailModule } from '../mail/mail.module'; // Importation du MailModule
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         secret: configService.getOrThrow<string>('JWT_SECRET'),
+        // Utilise la durée d'expiration de l'access token pour la signature par défaut
         signOptions: {
-          expiresIn: configService.getOrThrow<string>('JWT_EXPIRES_IN'),
+          expiresIn: configService.getOrThrow<string>(
+            'JWT_ACCESS_TOKEN_EXPIRES_IN',
+          ),
         },
       }),
     }),

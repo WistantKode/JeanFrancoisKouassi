@@ -32,6 +32,9 @@ import { MailModule } from './mail/mail.module';
         JWT_ACCESS_TOKEN_EXPIRES_IN: Joi.string().required(),
         JWT_REFRESH_TOKEN_EXPIRES_IN: Joi.string().required(),
 
+        // Frontend URL pour les liens envoyés par email
+        FRONT_URL: Joi.string().uri().required(),
+
         // Variables pour l'envoi d'emails
         MAIL_HOST: Joi.string().required(),
         MAIL_PORT: Joi.number().required(),

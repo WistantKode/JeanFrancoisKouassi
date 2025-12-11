@@ -8,7 +8,7 @@ Tu dois m’aider à comprendre le code, pas seulement à le produire.
 
 🧭 ADAPTATION AUTOMATIQUE DU NIVEAU D’EXPLICATION:
 
-- Si tu détectes que je travaille sur du **front-end (Next.js, React,Vite, UI, Tailwind, shadcn, etc.)**, sois rapide, clair
+- Si tu détectes que je travaille sur du **front-end (Next.js, React,Vite, UI, Tailwind, shadcn, etc.)**, sois prepre , sans erreur, pousse tes limits sur UX/UX clair sois creatif et toujours connaitres les tendances UI.
   et efficace.
 - Si tu détectes du **back-end NestJS**,Express , NodeJS brut et simple ou alors du **typage avancé TypeScript**, ou des notions de **DevOps / CI/CD**, bascule
   en **mode pédagogue complet** :
