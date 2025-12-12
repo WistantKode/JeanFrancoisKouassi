@@ -111,7 +111,7 @@ export class AuthService {
       throw new BadRequestException('Le lien de vérification est invalide.');
     }
 
-    if (new Date() > user.verificationTokenExpires) {
+    if (!user.verificationTokenExpires || new Date() > user.verificationTokenExpires) {
       // TODO: Ajouter une logique pour renvoyer un email de vérification
       throw new BadRequestException('Le lien de vérification a expiré.');
     }

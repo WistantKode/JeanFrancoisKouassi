@@ -70,6 +70,7 @@ export class UserEntity implements PrismaUser {
   emailVerifiedAt: Date | null;
 
   verificationToken: string | null;
+  verificationTokenExpires: Date | null;
   passwordResetToken: string | null;
   passwordResetExpires: Date | null;
 
