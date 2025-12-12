@@ -6,10 +6,20 @@
  * pour tout ce qui concerne l'authentification.
  */
 
-import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpCode,
+  HttpStatus,
+  Get,
+  Query,
+  Req,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import type { Request } from 'express';
 import { AuthService } from './auth.service';
-import { RegisterDto, LoginDto } from './dto';
+import { RegisterDto, LoginDto, RefreshDto } from './dto';
 
 /**
  * Le décorateur `@ApiTags` regroupe les endpoints de ce contrôleur sous
@@ -31,14 +41,37 @@ export class AuthController {
    * @param dto - Le Data Transfer Object (DTO) contenant les informations d'inscription.
    *              Le `@Body()` décorateur, couplé au `ValidationPipe` global, assure que
    *              les données sont valides avant même que cette méthode ne soit exécutée.
-   * @returns Un objet contenant l'utilisateur créé (sans le mot de passe) et les tokens JWT.
+   * @returns Un message indiquant que le processus d'inscription a commencé.
    */
   @Post('register')
   @ApiOperation({ summary: 'Inscrire un nouvel utilisateur' })
-  @ApiResponse({ status: 201, description: 'Utilisateur inscrit avec succès.' })
-  @ApiResponse({ status: 409, description: 'Cet email est déjà utilisé.' })
+  @ApiResponse({
+    status: 201,
+    description:
+      'Processus d"inscription commencé. Un email de vérification a été envoyé.',
+  })
   async register(@Body() dto: RegisterDto) {
     return this.authService.register(dto);
+  }
+
+  /**
+   * Endpoint pour vérifier l'email d'un utilisateur.
+   * @route GET /auth/verify-email
+   * @param token - Le token reçu dans le lien de l'email.
+   * @returns L'utilisateur et les tokens JWT une fois l'email vérifié.
+   */
+  @Get('verify-email')
+  @ApiOperation({ summary: 'Vérifier l"adresse email d"un utilisateur' })
+  @ApiResponse({
+    status: 200,
+    description: 'Email vérifié avec succès. L"utilisateur est maintenant connecté.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Le lien de vérification est invalide ou a expiré.',
+  })
+  async verifyEmail(@Query('token') token: string) {
+    return this.authService.verifyEmail(token);
   }
 
   /**
@@ -51,8 +84,46 @@ export class AuthController {
   @HttpCode(HttpStatus.OK) // Par défaut, POST renvoie 201, ici on veut 200 OK.
   @ApiOperation({ summary: 'Connecter un utilisateur' })
   @ApiResponse({ status: 200, description: 'Connexion réussie.' })
-  @ApiResponse({ status: 401, description: 'Identifiants invalides.' })
-  async login(@Body() dto: LoginDto) {
-    return this.authService.login(dto);
+  @ApiResponse({
+    status: 401,
+    description: 'Identifiants invalides ou compte non activé.',
+  })
+  async login(@Body() dto: LoginDto, @Req() req: Request) {
+    const ipAddress =
+      (req.headers['x-forwarded-for'] as string)?.split(',')[0] ||
+      req.socket.remoteAddress ||
+      undefined;
+    const userAgent = req.headers['user-agent'] || undefined;
+
+    return this.authService.loginWithMetadata(dto, ipAddress, userAgent);
+  }
+
+  /**
+   * Endpoint pour rafraîchir les tokens d'accès.
+   * Implémente la rotation : l'ancien refresh token est révoqué et un nouveau est généré.
+   * @route POST /auth/refresh
+   * @param dto - Le DTO contenant le refresh token.
+   * @param req - La requête HTTP pour extraire l'IP et le user agent.
+   * @returns Nouveaux tokens d'accès et de rafraîchissement.
+   */
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Rafraîchir les tokens d\'accès' })
+  @ApiResponse({
+    status: 200,
+    description: 'Tokens rafraîchis avec succès. L\'ancien refresh token est révoqué.',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Refresh token invalide, expiré ou révoqué.',
+  })
+  async refresh(@Body() dto: RefreshDto, @Req() req: Request) {
+    const ipAddress =
+      (req.headers['x-forwarded-for'] as string)?.split(',')[0] ||
+      req.socket.remoteAddress ||
+      undefined;
+    const userAgent = req.headers['user-agent'] || undefined;
+
+    return this.authService.refresh(dto.refreshToken, ipAddress, userAgent);
   }
 }

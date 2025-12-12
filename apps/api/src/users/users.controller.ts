@@ -15,9 +15,15 @@ import {
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/guards';
 import { CurrentUser } from '../auth/decorators';
-import { UpdateProfileDto } from './dto';
+import { UpdateProfileDto, ChangeRoleDto, PaginationQueryDto } from './dto';
 import { PublicUserDto } from './entities/user.entity';
-import { JwtPayload } from 'src/auth/types';
+import type { JwtPayload } from '../auth/types/jwt-payload.type';
+import { FeatureFlag } from '../common/decorators/feature-flag.decorator';
+import { FeatureFlagGuard } from '../common/guards/feature-flag.guard';
+import { PermissionsGuard } from '../common/guards/permissions.guard';
+import { RequirePermissions } from '../common/decorators/require-permissions.decorator';
+import { Permission } from '../common/enums/permission.enum';
+import { Param, Query } from '@nestjs/common';
 
 @ApiTags('Users')
 @Controller('users')
@@ -65,5 +71,38 @@ export class UsersController {
     @Body() updateProfileDto: UpdateProfileDto,
   ): Promise<PublicUserDto> {
     return this.usersService.updateProfile(user.sub, updateProfileDto);
+  }
+
+  /**
+   * Liste tous les utilisateurs (Admin seulement).
+   * Protégé par Feature Flag et Permission.
+   */
+  @Get()
+  @FeatureFlag('ENABLE_USER_ADMIN_ENDPOINTS')
+  @UseGuards(FeatureFlagGuard, PermissionsGuard)
+  @RequirePermissions(Permission.USER_READ_ALL)
+  @ApiOperation({ summary: 'Lister tous les utilisateurs (Admin)' })
+  async findAll(@Query() query: PaginationQueryDto) {
+    return this.usersService.findAll(
+      query.page ?? 1,
+      query.limit ?? 10,
+      query.search,
+    );
+  }
+
+  /**
+   * Changer le rôle d'un utilisateur (Super Admin seulement).
+   * Protégé par Feature Flag et Permission.
+   */
+  @Patch(':id/role')
+  @FeatureFlag('ENABLE_USER_ADMIN_ENDPOINTS')
+  @UseGuards(FeatureFlagGuard, PermissionsGuard)
+  @RequirePermissions(Permission.USER_UPDATE_ROLE)
+  @ApiOperation({ summary: 'Changer le rôle d"un utilisateur (Super Admin)' })
+  async changeRole(
+    @Param('id') id: string,
+    @Body() changeRoleDto: ChangeRoleDto,
+  ) {
+    return this.usersService.updateRole(id, changeRoleDto.role);
   }
 }
