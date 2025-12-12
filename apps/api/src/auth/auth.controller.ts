@@ -14,10 +14,12 @@ import {
   HttpStatus,
   Get,
   Query,
+  Req,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Request } from 'express';
 import { AuthService } from './auth.service';
-import { RegisterDto, LoginDto } from './dto';
+import { RegisterDto, LoginDto, RefreshDto } from './dto';
 
 /**
  * Le décorateur `@ApiTags` regroupe les endpoints de ce contrôleur sous
@@ -86,7 +88,42 @@ export class AuthController {
     status: 401,
     description: 'Identifiants invalides ou compte non activé.',
   })
-  async login(@Body() dto: LoginDto) {
-    return this.authService.login(dto);
+  async login(@Body() dto: LoginDto, @Req() req: Request) {
+    const ipAddress =
+      (req.headers['x-forwarded-for'] as string)?.split(',')[0] ||
+      req.socket.remoteAddress ||
+      undefined;
+    const userAgent = req.headers['user-agent'] || undefined;
+
+    return this.authService.loginWithMetadata(dto, ipAddress, userAgent);
+  }
+
+  /**
+   * Endpoint pour rafraîchir les tokens d'accès.
+   * Implémente la rotation : l'ancien refresh token est révoqué et un nouveau est généré.
+   * @route POST /auth/refresh
+   * @param dto - Le DTO contenant le refresh token.
+   * @param req - La requête HTTP pour extraire l'IP et le user agent.
+   * @returns Nouveaux tokens d'accès et de rafraîchissement.
+   */
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Rafraîchir les tokens d\'accès' })
+  @ApiResponse({
+    status: 200,
+    description: 'Tokens rafraîchis avec succès. L\'ancien refresh token est révoqué.',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Refresh token invalide, expiré ou révoqué.',
+  })
+  async refresh(@Body() dto: RefreshDto, @Req() req: Request) {
+    const ipAddress =
+      (req.headers['x-forwarded-for'] as string)?.split(',')[0] ||
+      req.socket.remoteAddress ||
+      undefined;
+    const userAgent = req.headers['user-agent'] || undefined;
+
+    return this.authService.refresh(dto.refreshToken, ipAddress, userAgent);
   }
 }
