@@ -1,0 +1,577 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-01-12T00:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.8",
+  "resources": [
+    {
+      "_id": "wrk_jfk_backend",
+      "_type": "workspace",
+      "name": "🚀 JFK Backend - Tests Complets",
+      "description": "Collection complète de tests pour l'API JFK (Auth, Users, Articles, etc.)",
+      "scope": "collection"
+    },
+    {
+      "_id": "env_base",
+      "_type": "environment",
+      "parentId": "wrk_jfk_backend",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3001",
+        "access_token_member": "",
+        "refresh_token_member": "",
+        "access_token_moderator": "",
+        "refresh_token_moderator": "",
+        "access_token_blog_admin": "",
+        "refresh_token_blog_admin": "",
+        "access_token_event_admin": "",
+        "refresh_token_event_admin": "",
+        "access_token_super_admin": "",
+        "refresh_token_super_admin": "",
+        "user_id_member": "",
+        "user_id_moderator": "",
+        "user_id_super_admin": "",
+        "article_id": "",
+        "verification_token": ""
+      }
+    },
+    {
+      "_id": "fld_auth",
+      "_type": "request_group",
+      "parentId": "wrk_jfk_backend",
+      "name": "🔐 Authentication",
+      "description": "Tests d'authentification (register, login, refresh, verify)"
+    },
+    {
+      "_id": "req_register_member",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "1. Register - Member",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/register",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"member@jfk.ci\",\n  \"password\": \"Member123!@#\",\n  \"firstName\": \"Jean\",\n  \"lastName\": \"Dupont\",\n  \"phone\": \"+225 0712345678\",\n  \"city\": \"Abidjan\"\n}"
+      },
+      "description": "Inscription d'un utilisateur normal (MEMBER)"
+    },
+    {
+      "_id": "req_register_moderator",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "2. Register - Moderator",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/register",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"moderator@jfk.ci\",\n  \"password\": \"Moderator123!@#\",\n  \"firstName\": \"Marie\",\n  \"lastName\": \"Martin\",\n  \"phone\": \"+225 0712345679\",\n  \"city\": \"Yamoussoukro\"\n}"
+      },
+      "description": "Inscription d'un modérateur (sera changé en MODERATOR après)"
+    },
+    {
+      "_id": "req_register_blog_admin",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "3. Register - Blog Admin",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/register",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"blogadmin@jfk.ci\",\n  \"password\": \"BlogAdmin123!@#\",\n  \"firstName\": \"Pierre\",\n  \"lastName\": \"Bernard\",\n  \"phone\": \"+225 0712345680\",\n  \"city\": \"Bouaké\"\n}"
+      },
+      "description": "Inscription d'un admin blog"
+    },
+    {
+      "_id": "req_register_super_admin",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "4. Register - Super Admin",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/register",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"superadmin@jfk.ci\",\n  \"password\": \"SuperAdmin123!@#\",\n  \"firstName\": \"Admin\",\n  \"lastName\": \"Super\",\n  \"phone\": \"+225 0712345681\",\n  \"city\": \"Abidjan\"\n}"
+      },
+      "description": "Inscription d'un super admin"
+    },
+    {
+      "_id": "req_verify_email",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "5. Verify Email",
+      "method": "GET",
+      "url": "{{ base_url }}/auth/verify-email?token={{ verification_token }}",
+      "description": "Vérification de l'email avec le token reçu par email. Sauvegarde automatiquement les tokens dans l'environnement."
+    },
+    {
+      "_id": "req_login_member",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "6. Login - Member",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/login",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"member@jfk.ci\",\n  \"password\": \"Member123!@#\"\n}"
+      },
+      "description": "Connexion d'un membre normal. Sauvegarde les tokens dans l'environnement."
+    },
+    {
+      "_id": "req_login_moderator",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "7. Login - Moderator",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/login",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"moderator@jfk.ci\",\n  \"password\": \"Moderator123!@#\"\n}"
+      },
+      "description": "Connexion d'un modérateur"
+    },
+    {
+      "_id": "req_login_blog_admin",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "8. Login - Blog Admin",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/login",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"blogadmin@jfk.ci\",\n  \"password\": \"BlogAdmin123!@#\"\n}"
+      },
+      "description": "Connexion d'un admin blog"
+    },
+    {
+      "_id": "req_login_super_admin",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "9. Login - Super Admin",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/login",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"superadmin@jfk.ci\",\n  \"password\": \"SuperAdmin123!@#\"\n}"
+      },
+      "description": "Connexion d'un super admin"
+    },
+    {
+      "_id": "req_refresh_token_member",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "10. Refresh Token - Member",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/refresh",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"refreshToken\": \"{{ refresh_token_member }}\"\n}"
+      },
+      "description": "Rafraîchissement des tokens (rotation). L'ancien refresh token est révoqué."
+    },
+    {
+      "_id": "req_refresh_token_super_admin",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "11. Refresh Token - Super Admin",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/refresh",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"refreshToken\": \"{{ refresh_token_super_admin }}\"\n}"
+      },
+      "description": "Rafraîchissement des tokens pour super admin"
+    },
+    {
+      "_id": "req_login_invalid",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "12. Login - Invalid Credentials",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/login",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"wrong@jfk.ci\",\n  \"password\": \"WrongPass123!\"\n}"
+      },
+      "description": "Test de connexion avec de mauvais identifiants (doit retourner 401)"
+    },
+    {
+      "_id": "fld_users",
+      "_type": "request_group",
+      "parentId": "wrk_jfk_backend",
+      "name": "👥 Users",
+      "description": "Tests de gestion des utilisateurs"
+    },
+    {
+      "_id": "req_get_profile",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "1. Get My Profile",
+      "method": "GET",
+      "url": "{{ base_url }}/users/me",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ access_token_member }}"
+        }
+      ],
+      "description": "Récupérer le profil de l'utilisateur connecté (Member)"
+    },
+    {
+      "_id": "req_get_profile_admin",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "2. Get My Profile - Super Admin",
+      "method": "GET",
+      "url": "{{ base_url }}/users/me",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ access_token_super_admin }}"
+        }
+      ],
+      "description": "Récupérer le profil du super admin"
+    },
+    {
+      "_id": "req_update_profile",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "3. Update My Profile",
+      "method": "PATCH",
+      "url": "{{ base_url }}/users/me",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ access_token_member }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"firstName\": \"Jean Updated\",\n  \"lastName\": \"Dupont Updated\",\n  \"phone\": \"+225 0712345679\",\n  \"city\": \"Yamoussoukro\"\n}"
+      },
+      "description": "Mise à jour du profil utilisateur"
+    },
+    {
+      "_id": "req_list_users",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "4. List All Users (Admin)",
+      "method": "GET",
+      "url": "{{ base_url }}/users?page=1&limit=10",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ access_token_super_admin }}"
+        }
+      ],
+      "description": "Lister tous les utilisateurs (nécessite permission USER_READ_ALL et feature flag ENABLE_USER_ADMIN_ENDPOINTS)"
+    },
+    {
+      "_id": "req_list_users_search",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "5. List Users - Search",
+      "method": "GET",
+      "url": "{{ base_url }}/users?page=1&limit=10&search=member",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ access_token_super_admin }}"
+        }
+      ],
+      "description": "Recherche d'utilisateurs par email/nom"
+    },
+    {
+      "_id": "req_change_role",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "6. Change User Role (Super Admin)",
+      "method": "PATCH",
+      "url": "{{ base_url }}/users/{{ user_id_member }}/role",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ access_token_super_admin }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"role\": \"MODERATOR\"\n}"
+      },
+      "description": "Changer le rôle d'un utilisateur (nécessite permission USER_UPDATE_ROLE et feature flag)"
+    },
+    {
+      "_id": "req_change_role_to_super_admin",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "7. Change Role to SUPER_ADMIN",
+      "method": "PATCH",
+      "url": "{{ base_url }}/users/{{ user_id_moderator }}/role",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ access_token_super_admin }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"role\": \"SUPER_ADMIN\"\n}"
+      },
+      "description": "Promouvoir un utilisateur en super admin"
+    },
+    {
+      "_id": "req_get_profile_unauthorized",
+      "_type": "request",
+      "parentId": "fld_users",
+      "name": "8. Get Profile - Unauthorized",
+      "method": "GET",
+      "url": "{{ base_url }}/users/me",
+      "description": "Test sans token (doit retourner 401)"
+    },
+    {
+      "_id": "fld_articles",
+      "_type": "request_group",
+      "parentId": "wrk_jfk_backend",
+      "name": "📝 Articles",
+      "description": "Tests de gestion des articles"
+    },
+    {
+      "_id": "req_create_article",
+      "_type": "request",
+      "parentId": "fld_articles",
+      "name": "1. Create Article",
+      "method": "POST",
+      "url": "{{ base_url }}/articles",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ access_token_blog_admin }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"title\": \"Mon Premier Article\",\n  \"slug\": \"mon-premier-article\",\n  \"content\": \"Ceci est le contenu de mon premier article. Il contient beaucoup de texte pour tester.\",\n  \"excerpt\": \"Un résumé court de l'article\",\n  \"published\": true\n}"
+      },
+      "description": "Créer un article (nécessite permission BLOG_CREATE)"
+    },
+    {
+      "_id": "req_list_articles",
+      "_type": "request",
+      "parentId": "fld_articles",
+      "name": "2. List All Articles (Public)",
+      "method": "GET",
+      "url": "{{ base_url }}/articles",
+      "description": "Lister tous les articles (route publique)"
+    },
+    {
+      "_id": "req_get_article",
+      "_type": "request",
+      "parentId": "fld_articles",
+      "name": "3. Get Article by ID",
+      "method": "GET",
+      "url": "{{ base_url }}/articles/{{ article_id }}",
+      "description": "Récupérer un article par son ID (route publique)"
+    },
+    {
+      "_id": "req_update_article",
+      "_type": "request",
+      "parentId": "fld_articles",
+      "name": "4. Update Article",
+      "method": "PATCH",
+      "url": "{{ base_url }}/articles/{{ article_id }}",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ access_token_blog_admin }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"title\": \"Article Mis à Jour\",\n  \"content\": \"Contenu mis à jour\"\n}"
+      },
+      "description": "Mettre à jour un article (nécessite permission BLOG_UPDATE_ANY)"
+    },
+    {
+      "_id": "req_delete_article",
+      "_type": "request",
+      "parentId": "fld_articles",
+      "name": "5. Delete Article",
+      "method": "DELETE",
+      "url": "{{ base_url }}/articles/{{ article_id }}",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ access_token_blog_admin }}"
+        }
+      ],
+      "description": "Supprimer un article (nécessite permission BLOG_DELETE)"
+    },
+    {
+      "_id": "req_create_article_unauthorized",
+      "_type": "request",
+      "parentId": "fld_articles",
+      "name": "6. Create Article - Unauthorized (Member)",
+      "method": "POST",
+      "url": "{{ base_url }}/articles",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ access_token_member }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"title\": \"Test\",\n  \"slug\": \"test\",\n  \"content\": \"Test\"\n}"
+      },
+      "description": "Tentative de création d'article sans permission (doit retourner 403)"
+    },
+    {
+      "_id": "fld_security",
+      "_type": "request_group",
+      "parentId": "wrk_jfk_backend",
+      "name": "🔒 Security Tests",
+      "description": "Tests de sécurité et validation"
+    },
+    {
+      "_id": "req_register_weak_password",
+      "_type": "request",
+      "parentId": "fld_security",
+      "name": "1. Register - Weak Password",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/register",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"weak@jfk.ci\",\n  \"password\": \"123456\",\n  \"firstName\": \"Test\",\n  \"lastName\": \"User\"\n}"
+      },
+      "description": "Test avec mot de passe faible (doit être rejeté)"
+    },
+    {
+      "_id": "req_register_invalid_email",
+      "_type": "request",
+      "parentId": "fld_security",
+      "name": "2. Register - Invalid Email",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/register",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"invalid-email\",\n  \"password\": \"ValidPass123!@#\",\n  \"firstName\": \"Test\",\n  \"lastName\": \"User\"\n}"
+      },
+      "description": "Test avec email invalide (doit être rejeté)"
+    },
+    {
+      "_id": "req_refresh_invalid_token",
+      "_type": "request",
+      "parentId": "fld_security",
+      "name": "3. Refresh - Invalid Token",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/refresh",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"refreshToken\": \"invalid-token-12345\"\n}"
+      },
+      "description": "Test avec refresh token invalide (doit retourner 401)"
+    },
+    {
+      "_id": "req_refresh_revoked_token",
+      "_type": "request",
+      "parentId": "fld_security",
+      "name": "4. Refresh - Revoked Token",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/refresh",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"refreshToken\": \"{{ refresh_token_member }}\"\n}"
+      },
+      "description": "Test avec un refresh token déjà utilisé/révoqué (doit retourner 401). Utiliser le token après un refresh."
+    },
+    {
+      "_id": "req_access_protected_no_token",
+      "_type": "request",
+      "parentId": "fld_security",
+      "name": "5. Access Protected Route - No Token",
+      "method": "GET",
+      "url": "{{ base_url }}/users/me",
+      "description": "Accès à une route protégée sans token (doit retourner 401)"
+    },
+    {
+      "_id": "req_access_protected_invalid_token",
+      "_type": "request",
+      "parentId": "fld_security",
+      "name": "6. Access Protected Route - Invalid Token",
+      "method": "GET",
+      "url": "{{ base_url }}/users/me",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer invalid-token-12345"
+        }
+      ],
+      "description": "Accès avec token invalide (doit retourner 401)"
+    },
+    {
+      "_id": "req_change_role_unauthorized",
+      "_type": "request",
+      "parentId": "fld_security",
+      "name": "7. Change Role - Unauthorized (Member)",
+      "method": "PATCH",
+      "url": "{{ base_url }}/users/{{ user_id_member }}/role",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ access_token_member }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"role\": \"SUPER_ADMIN\"\n}"
+      },
+      "description": "Tentative de changement de rôle sans permission (doit retourner 403)"
+    },
+    {
+      "_id": "fld_workflow",
+      "_type": "request_group",
+      "parentId": "wrk_jfk_backend",
+      "name": "🔄 Workflow Complet",
+      "description": "Scénarios de workflow complets"
+    },
+    {
+      "_id": "req_workflow_register_verify_login",
+      "_type": "request",
+      "parentId": "fld_workflow",
+      "name": "1. Workflow: Register → Verify → Login",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/register",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"workflow@jfk.ci\",\n  \"password\": \"Workflow123!@#\",\n  \"firstName\": \"Workflow\",\n  \"lastName\": \"Test\",\n  \"city\": \"Abidjan\"\n}"
+      },
+      "description": "Étape 1: Inscription. Ensuite: vérifier email, puis login."
+    },
+    {
+      "_id": "req_workflow_login_refresh_access",
+      "_type": "request",
+      "parentId": "fld_workflow",
+      "name": "2. Workflow: Login → Refresh → Access Protected",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/login",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"member@jfk.ci\",\n  \"password\": \"Member123!@#\"\n}"
+      },
+      "description": "Étape 1: Login. Ensuite: refresh token, puis accéder à /users/me"
+    },
+    {
+      "_id": "req_workflow_create_article_flow",
+      "_type": "request",
+      "parentId": "fld_workflow",
+      "name": "3. Workflow: Login Admin → Create Article → List → Update → Delete",
+      "method": "POST",
+      "url": "{{ base_url }}/auth/login",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"blogadmin@jfk.ci\",\n  \"password\": \"BlogAdmin123!@#\"\n}"
+      },
+      "description": "Workflow complet de gestion d'articles"
+    }
+  ]
+}
+

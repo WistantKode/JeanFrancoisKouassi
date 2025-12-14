@@ -123,3 +123,7 @@ id_rsa.pub
 tmp/
 temp/
 *.tmp
+
+/generated/prisma
+INSOMNIA_GUIDE.md
+server.log
