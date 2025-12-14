@@ -5,7 +5,12 @@
  * à la base de données.
  */
 
-import { INestApplication, Injectable, OnModuleInit, Logger } from '@nestjs/common';
+import {
+  INestApplication,
+  Injectable,
+  OnModuleInit,
+  Logger,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
@@ -59,8 +64,8 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
    * @param app - L'instance de l'application NestJS.
    */
   enableShutdownHooks(app: INestApplication): void {
-    process.on('beforeExit', async () => {
-      await app.close();
+    process.on('beforeExit', () => {
+      void app.close();
     });
   }
 }

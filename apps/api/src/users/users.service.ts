@@ -5,8 +5,9 @@
 
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { UserEntity, PublicUserDto } from './entities/user.entity';
+import { PublicUserDto, toPublicUserDto } from './entities/user.entity';
 import { UpdateProfileDto } from './dto';
+import { UserRole } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
@@ -27,43 +28,61 @@ export class UsersService {
       throw new NotFoundException('Utilisateur non trouvé');
     }
 
-    return this.sanitizeUser(user);
+    return toPublicUserDto(user);
   }
 
   /**
    * Met à jour le profil d'un utilisateur.
-   * @param id - L'ID de l'utilisateur à mettre à jour.
-   * @param data - Les données à mettre à jour, provenant du `UpdateProfileDto`.
    * @returns Le profil utilisateur mis à jour et "nettoyé".
+   * @param userId
+   * @param updateProfileDto
    */
-  async updateProfile(
-    id: string,
-    data: UpdateProfileDto,
-  ): Promise<PublicUserDto> {
+  async updateProfile(userId: string, updateProfileDto: UpdateProfileDto) {
     const user = await this.prisma.user.update({
-      where: { id },
-      data,
+      where: { id: userId },
+      data: updateProfileDto,
     });
-
-    return this.sanitizeUser(user);
+    return toPublicUserDto(user);
   }
 
-  /**
-   * "Nettoie" l'objet utilisateur en retirant les champs sensibles.
-   * Cette méthode est partagée par les autres méthodes du service pour garantir
-   * qu'aucune donnée sensible ne soit jamais retournée.
-   * @param user - L'objet utilisateur complet provenant de Prisma.
-   * @returns Un objet utilisateur public.
-   */
-  private sanitizeUser(user: UserEntity): PublicUserDto {
-    const {
-      password,
-      passwordResetToken,
-      verificationToken,
-      lastLoginIp,
-      passwordResetExpires,
-      ...sanitized
-    } = user;
-    return sanitized;
+  async findAll(page: number, limit: number, search?: string) {
+    const skip = (page - 1) * limit;
+    const where = search
+      ? {
+          OR: [
+            { email: { contains: search, mode: 'insensitive' as const } },
+            { firstName: { contains: search, mode: 'insensitive' as const } },
+            { lastName: { contains: search, mode: 'insensitive' as const } },
+          ],
+        }
+      : {};
+
+    const [users, total] = await Promise.all([
+      this.prisma.user.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+      }),
+      this.prisma.user.count({ where }),
+    ]);
+
+    return {
+      data: users.map(toPublicUserDto),
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  }
+
+  async updateRole(id: string, role: UserRole) {
+    const user = await this.prisma.user.update({
+      where: { id },
+      data: { role },
+    });
+    return toPublicUserDto(user);
   }
 }

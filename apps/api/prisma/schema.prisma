@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // url      = env("DATABASE_URL")
+  // url est maintenant dans prisma.config.ts (Prisma 7+)
 }
 
 // ENUMS
@@ -67,9 +67,10 @@ model User {
   status UserStatus @default(PENDING)
 
   // Email verification
-  emailVerified     Boolean   @default(false)
-  emailVerifiedAt   DateTime?
-  verificationToken String?
+  emailVerified          Boolean   @default(false)
+  emailVerifiedAt        DateTime?
+  verificationToken      String?   @unique
+  verificationTokenExpires DateTime?
 
   // Security
   passwordResetToken   String?
@@ -87,6 +88,7 @@ model User {
   votes          Vote[]
   donations      Donation[]
   moderationLogs ModerationLog[]
+  refreshTokens  RefreshToken[]
 
   @@index([email])
   @@index([role])
@@ -247,4 +249,23 @@ model Donation {
 
   @@index([userId])
   @@index([paymentStatus])
+}
+
+// REFRESH TOKEN MODEL
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique // Hashé avec SHA-256
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  revoked   Boolean  @default(false)
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@index([token])
+  @@index([revoked, expiresAt])
 }

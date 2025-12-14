@@ -22,7 +22,10 @@ export class RegisterDto {
    * `@ApiProperty` fournit un exemple pour la documentation Swagger.
    * `@IsEmail` et `@IsNotEmpty` sont des décorateurs de validation.
    */
-  @ApiProperty({ example: 'jean@example.com', description: "L'email de l'utilisateur" })
+  @ApiProperty({
+    example: 'jean@example.com',
+    description: "L'email de l'utilisateur",
+  })
   @IsEmail({}, { message: 'Veuillez fournir une adresse email valide.' })
   @IsNotEmpty({ message: "L'email ne peut pas être vide." })
   email: string;
@@ -37,7 +40,9 @@ export class RegisterDto {
   })
   @IsString()
   @IsNotEmpty()
-  @MinLength(8, { message: 'Le mot de passe doit faire au moins 8 caractères.' })
+  @MinLength(8, {
+    message: 'Le mot de passe doit faire au moins 8 caractères.',
+  })
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
     message:
       'Le mot de passe doit contenir une majuscule, une minuscule, un chiffre et un caractère spécial.',
@@ -55,7 +60,10 @@ export class RegisterDto {
   /**
    * Le nom de famille de l'utilisateur.
    */
-  @ApiProperty({ example: 'Kouassi', description: 'Le nom de famille de l"utilisateur' })
+  @ApiProperty({
+    example: 'Kouassi',
+    description: 'Le nom de famille de l"utilisateur',
+  })
   @IsString()
   @IsNotEmpty()
   lastName: string;

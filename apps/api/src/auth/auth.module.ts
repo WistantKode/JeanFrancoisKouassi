@@ -11,6 +11,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { MailModule } from '../mail/mail.module'; // Importation du MailModule
 
 @Module({
   imports: [
@@ -23,15 +24,19 @@ import { JwtStrategy } from './strategies/jwt.strategy';
      */
     JwtModule.registerAsync({
       imports: [ConfigModule],
+      inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         secret: configService.getOrThrow<string>('JWT_SECRET'),
+        // Utilise la durée d'expiration de l'access token pour la signature par défaut
         signOptions: {
-          expiresIn: configService.getOrThrow<string>('JWT_EXPIRES_IN'),
+          expiresIn: configService.getOrThrow<string>(
+            'JWT_ACCESS_TOKEN_EXPIRES_IN',
+          ),
         },
       }),
-      inject: [ConfigService],
     }),
-    ConfigModule, // Importé pour que ConfigService soit disponible dans useFactory.
+    ConfigModule,
+    MailModule, // Ajout du MailModule aux imports
   ],
   /**
    * `controllers`: Le `AuthController` expose les endpoints publics pour
