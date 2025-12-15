@@ -426,4 +426,29 @@ export class AuthService {
         throw new Error(`Unknown time unit: ${unit}`);
     }
   }
+  /**
+   * Déconnecte un utilisateur en révoquant son refresh token.
+   * @param userId L'ID de l'utilisateur
+   * @param refreshToken Le refresh token à révoquer
+   */
+  async logout(userId: string, refreshToken: string): Promise<void> {
+    const hashedToken = crypto
+      .createHash('sha256')
+      .update(refreshToken)
+      .digest('hex');
+      
+     // On ne vérifie pas l'utilisateur pour éviter de leaker de l'info, 
+     // si le token existe on le révoque
+    await this.prisma.refreshToken.updateMany({
+      where: {
+        token: hashedToken,
+        userId: userId, // Sécurité supplémentaire : le token doit appartenir au user
+      },
+      data: {
+        revoked: true,
+      },
+    });
+    
+    this.logger.log(`Utilisateur ${userId} déconnecté (token révoqué)`);
+  }
 }

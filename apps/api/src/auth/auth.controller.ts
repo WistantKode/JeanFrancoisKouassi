@@ -15,10 +15,13 @@ import {
   Get,
   Query,
   Req,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import type { Request } from 'express';
 import { AuthService } from './auth.service';
+import { UsersService } from '../users/users.service';
 import { RegisterDto, LoginDto, RefreshDto } from './dto';
 
 /**
@@ -33,7 +36,24 @@ export class AuthController {
    * Le `AuthService` est injecté via l'injection de dépendances de NestJS.
    * C'est une bonne pratique pour séparer la couche "route" de la couche "métier".
    */
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private usersService: UsersService,
+  ) {}
+
+  /**
+    * Récupère le profil de l'utilisateur connecté.
+    * @route GET /auth/me
+    * @returns L'objet utilisateur public.
+    */
+   @Get('me')
+   @UseGuards(JwtAuthGuard)
+   @ApiBearerAuth()
+   @ApiOperation({ summary: 'Récupérer le profil utilisateur connecté' })
+   @ApiResponse({ status: 200, description: 'Profil récupéré avec succès.' })
+   async getProfile(@Req() req: Request & { user: any }) {
+     return this.usersService.findById(req.user.sub);
+   }
 
   /**
    * Endpoint pour l'inscription d'un nouvel utilisateur.
@@ -125,5 +145,22 @@ export class AuthController {
     const userAgent = req.headers['user-agent'] || undefined;
 
     return this.authService.refresh(dto.refreshToken, ipAddress, userAgent);
+  }
+  /**
+   * Endpoint pour se déconnecter.
+   * Révoque le refresh token fourni.
+   * @route POST /auth/logout
+   * @param dto - Le refresh token à révoquer
+   * @param req - La requête (pour récupérer l'ID user si connecté, sinon on se base sur le token)
+   */
+  @Post('logout')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Déconnecter un utilisateur' })
+  @ApiResponse({ status: 200, description: 'Déconnexion réussie.' })
+  async logout(@Body() dto: RefreshDto, @Req() req: Request & { user: any }) {
+    // req.user est peuplé par JwtAuthGuard (JwtStrategy)
+    return this.authService.logout(req.user.sub, dto.refreshToken);
   }
 }
