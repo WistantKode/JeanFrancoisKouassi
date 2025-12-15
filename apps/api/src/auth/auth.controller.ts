@@ -17,12 +17,25 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import type { Request } from 'express';
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
-import { RegisterDto, LoginDto, RefreshDto } from './dto';
+import {
+  RegisterDto,
+  LoginDto,
+  RefreshDto,
+  ForgotPasswordDto,
+  ResetPasswordDto,
+  ResendVerificationDto,
+} from './dto';
 
 /**
  * Le décorateur `@ApiTags` regroupe les endpoints de ce contrôleur sous
@@ -42,18 +55,18 @@ export class AuthController {
   ) {}
 
   /**
-    * Récupère le profil de l'utilisateur connecté.
-    * @route GET /auth/me
-    * @returns L'objet utilisateur public.
-    */
-   @Get('me')
-   @UseGuards(JwtAuthGuard)
-   @ApiBearerAuth()
-   @ApiOperation({ summary: 'Récupérer le profil utilisateur connecté' })
-   @ApiResponse({ status: 200, description: 'Profil récupéré avec succès.' })
-   async getProfile(@Req() req: Request & { user: any }) {
-     return this.usersService.findById(req.user.sub);
-   }
+   * Récupère le profil de l'utilisateur connecté.
+   * @route GET /auth/me
+   * @returns L'objet utilisateur public.
+   */
+  @Get('me')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Récupérer le profil utilisateur connecté' })
+  @ApiResponse({ status: 200, description: 'Profil récupéré avec succès.' })
+  async getProfile(@Req() req: Request & { user: any }) {
+    return this.usersService.findById(req.user.sub);
+  }
 
   /**
    * Endpoint pour l'inscription d'un nouvel utilisateur.
@@ -84,7 +97,8 @@ export class AuthController {
   @ApiOperation({ summary: 'Vérifier l"adresse email d"un utilisateur' })
   @ApiResponse({
     status: 200,
-    description: 'Email vérifié avec succès. L"utilisateur est maintenant connecté.',
+    description:
+      'Email vérifié avec succès. L"utilisateur est maintenant connecté.',
   })
   @ApiResponse({
     status: 400,
@@ -128,10 +142,11 @@ export class AuthController {
    */
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Rafraîchir les tokens d\'accès' })
+  @ApiOperation({ summary: "Rafraîchir les tokens d'accès" })
   @ApiResponse({
     status: 200,
-    description: 'Tokens rafraîchis avec succès. L\'ancien refresh token est révoqué.',
+    description:
+      "Tokens rafraîchis avec succès. L'ancien refresh token est révoqué.",
   })
   @ApiResponse({
     status: 401,
@@ -162,5 +177,63 @@ export class AuthController {
   async logout(@Body() dto: RefreshDto, @Req() req: Request & { user: any }) {
     // req.user est peuplé par JwtAuthGuard (JwtStrategy)
     return this.authService.logout(req.user.sub, dto.refreshToken);
+  }
+
+  /**
+   * Endpoint pour initier la réinitialisation de mot de passe.
+   * @route POST /auth/forgot-password
+   */
+  @Post('forgot-password')
+  @Throttle({ default: { limit: 3, ttl: 60000 } })
+  @ApiOperation({ summary: 'Demander la réinitialisation du mot de passe' })
+  @ApiResponse({
+    status: 200,
+    description: "Si l'email existe, un lien de réinitialisation a été envoyé.",
+  })
+  async forgotPassword(@Body() dto: ForgotPasswordDto) {
+    await this.authService.forgotPassword(dto.email);
+    return {
+      message:
+        'Si un compte avec cet email existe, un lien de réinitialisation a été envoyé.',
+    };
+  }
+
+  /**
+   * Endpoint pour définir un nouveau mot de passe.
+   * @route POST /auth/reset-password
+   */
+  @Post('reset-password')
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
+  @ApiOperation({ summary: 'Réinitialiser le mot de passe' })
+  @ApiResponse({
+    status: 200,
+    description: 'Mot de passe réinitialisé avec succès.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Token invalide ou expiré.',
+  })
+  async resetPassword(@Body() dto: ResetPasswordDto) {
+    await this.authService.resetPassword(dto);
+    return { message: 'Votre mot de passe a été réinitialisé avec succès.' };
+  }
+  /**
+   * Endpoint pour renvoyer l'email de vérification.
+   * @route POST /auth/resend-verification
+   */
+  @Post('resend-verification')
+  @Throttle({ default: { limit: 3, ttl: 60000 } })
+  @ApiOperation({ summary: "Renvoyer l'email de vérification" })
+  @ApiResponse({
+    status: 200,
+    description:
+      "Si le compte existe et n'est pas vérifié, un email a été envoyé.",
+  })
+  async resendVerification(@Body() dto: ResendVerificationDto) {
+    await this.authService.resendVerification(dto.email);
+    return {
+      message:
+        "Si un compte avec cet email existe et n'est pas vérifié, un nouvel email de vérification a été envoyé.",
+    };
   }
 }
