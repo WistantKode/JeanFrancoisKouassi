@@ -67,7 +67,9 @@ describe('UsersService', () => {
       const result = await service.findById('1');
       const expectedPublicUser = toPublicUserDto(userEntity);
 
-      expect(mockPrismaService.user.findUnique).toHaveBeenCalledWith({ where: { id: '1' } });
+      expect(mockPrismaService.user.findUnique).toHaveBeenCalledWith({
+        where: { id: '1' },
+      });
       expect(result).toEqual(expectedPublicUser);
       expect(result).not.toHaveProperty('password');
     });
@@ -75,7 +77,9 @@ describe('UsersService', () => {
     it('should throw NotFoundException if user is not found', async () => {
       mockPrismaService.user.findUnique.mockResolvedValue(null);
 
-      await expect(service.findById('non-existent-id')).rejects.toThrow(NotFoundException);
+      await expect(service.findById('non-existent-id')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -115,7 +119,7 @@ describe('UsersService', () => {
       mockPrismaService.user.update.mockResolvedValue(updatedUser);
 
       const result = await service.updateRole('1', 'ADMIN');
-      
+
       expect(result).not.toHaveProperty('password');
       expect(result.role).toBe('ADMIN');
     });
