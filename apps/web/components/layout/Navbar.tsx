@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type FC } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
@@ -8,40 +8,55 @@ import { Button } from '@/components/ui/button';
 import { ThemeSwitcher, LanguageSwitcher } from '@/components/shared';
 import { cn } from '@/lib/utils';
 
-const NAV_LINKS = [
+interface NavLink {
+  href: string;
+  label: string;
+}
+
+const NAV_LINKS: readonly NavLink[] = [
   { href: '#vision', label: 'Vision' },
   { href: '#programme', label: 'Programme' },
   { href: '#rejoindre', label: 'Rejoindre' },
   { href: '#dons', label: 'Dons' },
-];
+] as const;
 
-export function Navbar() {
+/**
+ * Navbar that shrinks in WIDTH (left-right) when scrolling down.
+ * Full width at top, becomes centered pill when scrolled.
+ */
+export const Navbar: FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    const handleScroll = (): void => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 p-4">
+    <motion.header
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      className="fixed top-0 left-0 right-0 z-50 py-3 px-4"
+    >
       <motion.nav
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
+        animate={{
+          maxWidth: isScrolled ? '720px' : '100%',
+          margin: '0 auto',
+        }}
+        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         className={cn(
-          'mx-auto max-w-5xl rounded-2xl border transition-all duration-300',
-          isScrolled
-            ? 'bg-background/80 backdrop-blur-xl border-border/50 shadow-lg py-2 px-4'
-            : 'bg-background/60 backdrop-blur-md border-border/30 py-3 px-6'
+          'rounded-2xl border transition-all duration-400',
+          'bg-background/80 backdrop-blur-xl border-border/50',
+          isScrolled ? 'shadow-lg shadow-black/5' : ''
         )}
       >
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between px-4 py-2">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-1.5">
-            <span className="text-xl font-bold">
+          <Link href="/" className="flex items-center">
+            <span className="text-lg font-bold">
               <span className="text-primary">JFK</span>
               <span className="text-secondary">2025</span>
             </span>
@@ -50,9 +65,13 @@ export function Navbar() {
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-6">
             {NAV_LINKS.map((link) => (
-              <NavLink key={link.href} href={link.href}>
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
                 {link.label}
-              </NavLink>
+              </Link>
             ))}
           </nav>
 
@@ -84,43 +103,31 @@ export function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden pt-4 pb-2"
+            className="md:hidden px-4 pb-3"
           >
-            <nav className="flex flex-col gap-2">
+            <nav className="flex flex-col gap-1">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                  className="px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}
                 </Link>
               ))}
-              <div className="flex gap-2 pt-2 border-t border-border/50 mt-2">
-                <Button variant="outline" size="sm" className="flex-1">
-                  Connexion
-                </Button>
-                <Button size="sm" className="flex-1 bg-primary">
-                  Rejoindre
-                </Button>
-              </div>
             </nav>
+            <div className="flex gap-2 pt-2 mt-2 border-t border-border/50">
+              <Button variant="outline" size="sm" className="flex-1">
+                Connexion
+              </Button>
+              <Button size="sm" className="flex-1 bg-primary">
+                Rejoindre
+              </Button>
+            </div>
           </motion.div>
         )}
       </motion.nav>
-    </header>
+    </motion.header>
   );
-}
-
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <Link
-      href={href}
-      className="text-sm text-muted-foreground hover:text-foreground transition-colors relative group"
-    >
-      {children}
-      <span className="absolute -bottom-0.5 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-    </Link>
-  );
-}
+};
