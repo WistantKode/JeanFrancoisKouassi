@@ -94,24 +94,17 @@ id_rsa
 id_rsa.pub
 *.asc
 
-# ============================================
-# TEMPORARY FILES
-# ============================================
 tmp/
 temp/
 *.tmp
 *.temp
 .cache/
 
-# ============================================
 # TYPESCRIPT
-# ============================================
 *.tsbuildinfo
 next-env.d.ts
 
-# ============================================
 # MISC
-# ============================================
 .eslintcache
 .stylelintcache
 # IGNORED DOCUMENTATION (MD FILES)
@@ -121,3 +114,7 @@ next-env.d.ts
 !CONTRIBUTING.md
 !LICENSE.md
 !LICENSE
+!FRONT.md
+!BACK.md
+!BRANCH.md
+!ASSIST.md

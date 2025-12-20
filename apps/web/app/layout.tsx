@@ -1,30 +1,46 @@
-import type { Metadata } from "next";
-import { Poppins, Roboto } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Inter, Outfit, Space_Grotesk } from 'next/font/google';
+import './globals.css';
+import { Navbar } from '@/components/layout/Navbar';
+import { Footer } from '@/components/layout/Footer';
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-poppins",
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
 });
 
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  variable: "--font-roboto",
+const outfit = Outfit({
+  subsets: ['latin'],
+  variable: '--font-outfit',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-space-grotesk',
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  ),
   title: {
     default: "Jean-François Kouassi (JFK) - Une Côte d'Ivoire unie et innovante",
-    template: "%s | JFK Campagne",
+    template: '%s | JFK Campagne',
   },
-  description: "Plateforme officielle de campagne de Jean-François Kouassi. Ensemble pour la santé, l'innovation et l'unité nationale.",
-  keywords: ["JFK", "Jean-François Kouassi", "Côte d'Ivoire", "Politique", "Santé", "Innovation", "Unité"],
-  authors: [{ name: "JFK Campaign Team" }],
-  creator: "JFK Campaign Team",
-  publisher: "JFK Campaign",
+  description:
+    "Plateforme officielle de campagne de Jean-François Kouassi. Ensemble pour la santé, l'innovation et l'unité nationale.",
+  keywords: [
+    'JFK',
+    'Jean-François Kouassi',
+    "Côte d'Ivoire",
+    'Politique',
+    'Santé',
+    'Innovation',
+    'Unité',
+  ],
+  authors: [{ name: 'JFK Campaign Team' }],
+  creator: 'JFK Campaign Team',
+  publisher: 'JFK Campaign',
   robots: {
     index: true,
     follow: true,
@@ -37,26 +53,28 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    type: "website",
-    locale: "fr_CI",
-    url: "/",
-    siteName: "JFK Campagne",
+    type: 'website',
+    locale: 'fr_CI',
+    url: '/',
+    siteName: 'JFK Campagne',
     title: "Jean-François Kouassi (JFK) - Une Côte d'Ivoire unie et innovante",
-    description: "Rejoignez le mouvement pour une Côte d'Ivoire unie et innovante avec Jean-François Kouassi.",
+    description:
+      "Rejoignez le mouvement pour une Côte d'Ivoire unie et innovante avec Jean-François Kouassi.",
     images: [
       {
-        url: "/og-image.jpg",
+        url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: "Jean-François Kouassi",
+        alt: 'Jean-François Kouassi',
       },
     ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: 'summary_large_image',
     title: "Jean-François Kouassi (JFK) - Une Côte d'Ivoire unie et innovante",
-    description: "Rejoignez le mouvement pour une Côte d'Ivoire unie et innovante.",
-    images: ["/og-image.jpg"],
+    description:
+      "Rejoignez le mouvement pour une Côte d'Ivoire unie et innovante.",
+    images: ['/og-image.jpg'],
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION,
@@ -69,9 +87,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
-      <body className={`${poppins.variable} ${roboto.variable} font-sans`}>
-        {children}
+    <html lang="fr" className="dark">
+      <body
+        className={`${inter.variable} ${outfit.variable} ${spaceGrotesk.variable} font-sans antialiased`}
+      >
+        <Navbar />
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );
