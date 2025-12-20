@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ThemeSwitcher } from '@/components/shared/ThemeSwitcher';
+import { ThemeSwitcher, LanguageSwitcher } from '@/components/shared';
 import { cn } from '@/lib/utils';
 
 const NAV_LINKS = [
@@ -58,6 +58,7 @@ export function Navbar() {
 
           {/* Actions */}
           <div className="hidden md:flex items-center gap-2">
+            <LanguageSwitcher />
             <ThemeSwitcher />
             <Button variant="ghost" size="sm">
               Connexion
