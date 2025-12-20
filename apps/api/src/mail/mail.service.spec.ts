@@ -44,20 +44,20 @@ describe('MailService', () => {
     });
 
     it('should log an error if sending mail fails', async () => {
-        const user = { id: '1', email: 'test@example.com', firstName: 'Test' };
-        const token = 'verificationToken';
-        const error = new Error('Mail server is down');
-        mockMailerService.sendMail.mockRejectedValue(error);
-        
-        // On espionne le logger pour vérifier qu'il est appelé
-        const loggerErrorSpy = jest.spyOn(service['logger'], 'error');
-  
-        await service.sendVerificationEmail(user as any, token);
-  
-        expect(loggerErrorSpy).toHaveBeenCalledWith(
-          `Échec de l'envoi de l'email de vérification à ${user.email}`,
-          error,
-        );
-      });
+      const user = { id: '1', email: 'test@example.com', firstName: 'Test' };
+      const token = 'verificationToken';
+      const error = new Error('Mail server is down');
+      mockMailerService.sendMail.mockRejectedValue(error);
+
+      // On espionne le logger pour vérifier qu'il est appelé
+      const loggerErrorSpy = jest.spyOn(service['logger'], 'error');
+
+      await service.sendVerificationEmail(user as any, token);
+
+      expect(loggerErrorSpy).toHaveBeenCalledWith(
+        `Échec de l'envoi de l'email de vérification à ${user.email}`,
+        error,
+      );
+    });
   });
 });

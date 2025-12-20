@@ -17,6 +17,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { MailModule } from './mail/mail.module';
+import { LoggerModule } from 'nestjs-pino';
 
 @Module({
   imports: [
@@ -57,6 +58,22 @@ import { MailModule } from './mail/mail.module';
     AuthModule,
     UsersModule,
     MailModule,
+    LoggerModule.forRoot({
+      pinoHttp: {
+        customProps: (req, res) => ({
+          context: 'HTTP',
+        }),
+        transport:
+          process.env.NODE_ENV !== 'production'
+            ? {
+                target: 'pino-pretty',
+                options: {
+                  singleLine: true,
+                },
+              }
+            : undefined,
+      },
+    }),
   ],
   controllers: [AppController],
   providers: [

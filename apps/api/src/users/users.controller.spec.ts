@@ -11,9 +11,18 @@ describe('UsersController', () => {
   let service: UsersService; // Declare service to spy on it
 
   // Mock data (assuming these are defined elsewhere or need to be mocked)
-  const mockUser = { sub: 'user-id', email: 'test@example.com', role: UserRole.USER };
-  const mockPublicUser = { id: 'user-id', email: 'test@example.com', role: UserRole.USER, firstName: 'Test', lastName: 'User' };
-
+  const mockUser = {
+    sub: 'user-id',
+    email: 'test@example.com',
+    role: UserRole.USER,
+  };
+  const mockPublicUser = {
+    id: 'user-id',
+    email: 'test@example.com',
+    role: UserRole.USER,
+    firstName: 'Test',
+    lastName: 'User',
+  };
 
   const mockUsersService = {
     findAll: jest.fn(),

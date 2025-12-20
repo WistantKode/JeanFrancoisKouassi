@@ -5,7 +5,9 @@ import { INestApplication } from '@nestjs/common';
 
 // Mock pour ConfigService
 const mockConfigService = {
-  getOrThrow: jest.fn().mockReturnValue('postgresql://user:password@localhost:5432/testdb'),
+  getOrThrow: jest
+    .fn()
+    .mockReturnValue('postgresql://user:password@localhost:5432/testdb'),
 };
 
 describe('PrismaService', () => {
@@ -41,6 +43,9 @@ describe('PrismaService', () => {
     // On espionne process.on pour voir s'il est appelé avec les bons arguments
     const processOnSpy = jest.spyOn(process, 'on');
     service.enableShutdownHooks(mockApp);
-    expect(processOnSpy).toHaveBeenCalledWith('beforeExit', expect.any(Function));
+    expect(processOnSpy).toHaveBeenCalledWith(
+      'beforeExit',
+      expect.any(Function),
+    );
   });
 });

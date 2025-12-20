@@ -94,43 +94,27 @@ id_rsa
 id_rsa.pub
 *.asc
 
-# ============================================
-# TEMPORARY FILES
-# ============================================
 tmp/
 temp/
 *.tmp
 *.temp
 .cache/
 
-# ============================================
 # TYPESCRIPT
-# ============================================
 *.tsbuildinfo
 next-env.d.ts
 
-# ============================================
 # MISC
-# ============================================
 .eslintcache
 .stylelintcache
-ASSIST.md
-FRONT.md
-BACK.md
-PLAN.md
-AI.md
-SECURITY_AUDIT.md
-PRODUCTION.md
-INSOMNIA_GUIDE.md
-server.log
-AUDIT_REPORT.md
-RBAC_AND_SECURITY_IMPLEMENTATION.md
-UX.md
-walkthrough.md
 # IGNORED DOCUMENTATION (MD FILES)
 *.md
 !README.md
 !CODE_OF_CONDUCT.md
 !CONTRIBUTING.md
 !LICENSE.md
-
+!LICENSE
+!FRONT.md
+!BACK.md
+!BRANCH.md
+!ASSIST.md

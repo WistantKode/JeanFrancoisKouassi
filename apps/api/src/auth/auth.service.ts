@@ -15,7 +15,14 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
-import { RegisterDto, LoginDto } from './dto';
+import {
+  RegisterDto,
+  LoginDto,
+  RefreshDto,
+  ForgotPasswordDto,
+  ResetPasswordDto,
+  ResendVerificationDto,
+} from './dto';
 import * as bcrypt from 'bcrypt';
 import { PublicUserDto, toPublicUserDto } from '../users/entities/user.entity';
 import { UserRole } from '@prisma/client';
@@ -38,9 +45,7 @@ export class AuthService {
   /**
    * Inscrit un nouvel utilisateur et envoie un email de vérification.
    */
-  async register(
-    dto: RegisterDto,
-  ): Promise<{ message: string }> {
+  async register(dto: RegisterDto): Promise<{ message: string }> {
     const existingUser = await this.prisma.user.findUnique({
       where: { email: dto.email },
     });
@@ -76,7 +81,9 @@ export class AuthService {
       },
     });
 
-    this.logger.log(`Nouvel utilisateur créé (en attente de vérification): ${user.id}`);
+    this.logger.log(
+      `Nouvel utilisateur créé (en attente de vérification): ${user.id}`,
+    );
 
     try {
       await this.mailService.sendVerificationEmail(user, verificationToken);
@@ -98,9 +105,11 @@ export class AuthService {
    * @param token Le token de vérification reçu par email.
    * @returns L'utilisateur et les tokens JWT.
    */
-  async verifyEmail(
-    token: string,
-  ): Promise<{ user: PublicUserDto; accessToken: string; refreshToken: string }> {
+  async verifyEmail(token: string): Promise<{
+    user: PublicUserDto;
+    accessToken: string;
+    refreshToken: string;
+  }> {
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
 
     const user = await this.prisma.user.findUnique({
@@ -111,7 +120,10 @@ export class AuthService {
       throw new BadRequestException('Le lien de vérification est invalide.');
     }
 
-    if (!user.verificationTokenExpires || new Date() > user.verificationTokenExpires) {
+    if (
+      !user.verificationTokenExpires ||
+      new Date() > user.verificationTokenExpires
+    ) {
       // TODO: Ajouter une logique pour renvoyer un email de vérification
       throw new BadRequestException('Le lien de vérification a expiré.');
     }
@@ -144,9 +156,11 @@ export class AuthService {
   /**
    * Authentifie un utilisateur.
    */
-  async login(
-    dto: LoginDto,
-  ): Promise<{ user: PublicUserDto; accessToken: string; refreshToken: string }> {
+  async login(dto: LoginDto): Promise<{
+    user: PublicUserDto;
+    accessToken: string;
+    refreshToken: string;
+  }> {
     const user = await this.prisma.user.findUnique({
       where: { email: dto.email },
     });
@@ -156,9 +170,13 @@ export class AuthService {
     }
 
     if (user.status !== 'ACTIVE') {
-      this.logger.warn(`Tentative de connexion d'un utilisateur non actif: ${user.id} (Statut: ${user.status})`);
+      this.logger.warn(
+        `Tentative de connexion d'un utilisateur non actif: ${user.id} (Statut: ${user.status})`,
+      );
       if (user.status === 'PENDING') {
-        throw new UnauthorizedException('Veuillez vérifier votre email avant de vous connecter.');
+        throw new UnauthorizedException(
+          'Veuillez vérifier votre email avant de vous connecter.',
+        );
       }
       throw new UnauthorizedException('Votre compte n"est pas actif.');
     }
@@ -194,7 +212,11 @@ export class AuthService {
     dto: LoginDto,
     ipAddress?: string,
     userAgent?: string,
-  ): Promise<{ user: PublicUserDto; accessToken: string; refreshToken: string }> {
+  ): Promise<{
+    user: PublicUserDto;
+    accessToken: string;
+    refreshToken: string;
+  }> {
     const user = await this.prisma.user.findUnique({
       where: { email: dto.email },
     });
@@ -204,9 +226,13 @@ export class AuthService {
     }
 
     if (user.status !== 'ACTIVE') {
-      this.logger.warn(`Tentative de connexion d'un utilisateur non actif: ${user.id} (Statut: ${user.status})`);
+      this.logger.warn(
+        `Tentative de connexion d'un utilisateur non actif: ${user.id} (Statut: ${user.status})`,
+      );
       if (user.status === 'PENDING') {
-        throw new UnauthorizedException('Veuillez vérifier votre email avant de vous connecter.');
+        throw new UnauthorizedException(
+          'Veuillez vérifier votre email avant de vous connecter.',
+        );
       }
       throw new UnauthorizedException('Votre compte n"est pas actif.');
     }
@@ -223,7 +249,13 @@ export class AuthService {
     });
 
     this.logger.log(`Utilisateur connecté: ${user.id}`);
-    const tokens = await this.generateTokens(user.id, user.email, user.role, ipAddress, userAgent);
+    const tokens = await this.generateTokens(
+      user.id,
+      user.email,
+      user.role,
+      ipAddress,
+      userAgent,
+    );
 
     return {
       user: toPublicUserDto(user),
@@ -330,7 +362,9 @@ export class AuthService {
         revoked: true,
       },
     });
-    this.logger.log(`Tous les refresh tokens révoqués pour l'utilisateur: ${userId}`);
+    this.logger.log(
+      `Tous les refresh tokens révoqués pour l'utilisateur: ${userId}`,
+    );
   }
 
   /**
@@ -424,6 +458,145 @@ export class AuthService {
         return value * 86400;
       default:
         throw new Error(`Unknown time unit: ${unit}`);
+    }
+  }
+  /**
+   * Déconnecte un utilisateur en révoquant son refresh token.
+   * @param userId L'ID de l'utilisateur
+   * @param refreshToken Le refresh token à révoquer
+   */
+  async logout(userId: string, refreshToken: string): Promise<void> {
+    const hashedToken = crypto
+      .createHash('sha256')
+      .update(refreshToken)
+      .digest('hex');
+
+    // On ne vérifie pas l'utilisateur pour éviter de leaker de l'info,
+    // si le token existe on le révoque
+    await this.prisma.refreshToken.updateMany({
+      where: {
+        token: hashedToken,
+        userId: userId, // Sécurité supplémentaire : le token doit appartenir au user
+      },
+      data: {
+        revoked: true,
+      },
+    });
+
+    this.logger.log(`Utilisateur ${userId} déconnecté (token révoqué)`);
+  }
+
+  /**
+   * Initie la procédure de réinitialisation de mot de passe via email.
+   * @param email L'email de l'utilisateur.
+   */
+  async forgotPassword(email: string): Promise<void> {
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      // On ne révèle pas si l'utilisateur existe ou non
+      return;
+    }
+
+    // Génération du token de reset
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const passwordResetToken = crypto
+      .createHash('sha256')
+      .update(resetToken)
+      .digest('hex');
+
+    const passwordResetExpires = new Date(Date.now() + 10 * 60 * 1000); // Valide 10 minutes
+
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: {
+        passwordResetToken,
+        passwordResetExpires,
+      },
+    });
+
+    await this.mailService.sendPasswordResetEmail(user, resetToken);
+  }
+
+  /**
+   * Réinitialise le mot de passe avec un token valide.
+   * @param dto Contient le token et le nouveau mot de passe.
+   */
+  async resetPassword(dto: ResetPasswordDto): Promise<void> {
+    const hashedToken = crypto
+      .createHash('sha256')
+      .update(dto.token)
+      .digest('hex');
+
+    const user = await this.prisma.user.findFirst({
+      where: {
+        passwordResetToken: hashedToken,
+        passwordResetExpires: { gt: new Date() },
+      },
+    });
+
+    if (!user) {
+      throw new BadRequestException('Token invalide ou expiré');
+    }
+
+    const hashedPassword = await bcrypt.hash(dto.newPassword, 10);
+
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: {
+        password: hashedPassword,
+        passwordResetToken: null,
+        passwordResetExpires: null,
+      },
+    });
+  }
+
+  /**
+   * Renvoie un email de vérification si le compte n'est pas encore activé.
+   * @param email L'adresse email.
+   */
+  async resendVerification(email: string): Promise<void> {
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      // On ne révèle pas si l'utilisateur existe
+      return;
+    }
+
+    if (user.emailVerified) {
+      // Déjà vérifié, on ne fait rien (ou on pourrait envoyer un mail disant "déjà vérifié")
+      return;
+    }
+
+    const verificationToken = crypto.randomBytes(32).toString('hex');
+    const hashedToken = crypto
+      .createHash('sha256')
+      .update(verificationToken)
+      .digest('hex');
+
+    const tokenExpiry = new Date();
+    tokenExpiry.setHours(tokenExpiry.getHours() + 1);
+
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: {
+        verificationToken: hashedToken,
+        verificationTokenExpires: tokenExpiry,
+      },
+    });
+
+    try {
+      await this.mailService.sendVerificationEmail(user, verificationToken);
+      this.logger.log(`Email de vérification renvoyé à ${user.id}`);
+    } catch (error) {
+      this.logger.error(
+        `Échec du renvoi de l'email de vérification à ${user.id}`,
+        error,
+      );
     }
   }
 }

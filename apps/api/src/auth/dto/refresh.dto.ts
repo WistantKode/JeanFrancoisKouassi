@@ -18,4 +18,3 @@ export class RefreshDto {
   @IsNotEmpty({ message: 'Le refresh token est requis.' })
   refreshToken: string;
 }
-

@@ -2,6 +2,145 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background: #F9FAFB;
+@layer base {
+  /* ========================================
+   * CÔTE D'IVOIRE COLOR SYSTEM
+   * Green: #009E60 (Emerald/Forest)
+   * Orange: #F77F00 (Warm/Energetic)
+   * White: Clean backgrounds
+   * ======================================== */
+  
+  :root {
+    /* Light Mode - Clean & Professional */
+    --background: 0 0% 99%;
+    --foreground: 150 10% 15%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 150 10% 15%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 150 10% 15%;
+    
+    /* Primary: Côte d'Ivoire Green */
+    --primary: 153 100% 31%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Secondary: Côte d'Ivoire Orange */
+    --secondary: 30 100% 48%;
+    --secondary-foreground: 0 0% 100%;
+    
+    --muted: 150 5% 96%;
+    --muted-foreground: 150 5% 45%;
+    
+    --accent: 150 10% 94%;
+    --accent-foreground: 150 10% 15%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 150 5% 90%;
+    --input: 150 5% 90%;
+    --ring: 153 100% 31%;
+    
+    --radius: 0.625rem;
+  }
+
+  .dark {
+    /* Dark Mode - Elegant & Modern */
+    --background: 150 10% 7%;
+    --foreground: 0 0% 95%;
+    
+    --card: 150 10% 10%;
+    --card-foreground: 0 0% 95%;
+    
+    --popover: 150 10% 10%;
+    --popover-foreground: 0 0% 95%;
+    
+    /* Primary: Côte d'Ivoire Green (slightly brighter for dark) */
+    --primary: 153 85% 40%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Secondary: Côte d'Ivoire Orange */
+    --secondary: 30 100% 50%;
+    --secondary-foreground: 0 0% 100%;
+    
+    --muted: 150 8% 15%;
+    --muted-foreground: 150 5% 60%;
+    
+    --accent: 150 8% 18%;
+    --accent-foreground: 0 0% 95%;
+    
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 150 8% 18%;
+    --input: 150 8% 18%;
+    --ring: 153 85% 40%;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    /* Smooth theme transition */
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary/30 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/50;
+  }
+}
+
+@layer components {
+  /* Container */
+  .section-container {
+    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Gradient Text - CI Colors */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
+  }
+
+  /* Glass Card */
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-sm border border-border/50 rounded-xl;
+  }
+}
+
+@layer utilities {
+  /* Animation delays */
+  .animation-delay-100 { animation-delay: 100ms; }
+  .animation-delay-200 { animation-delay: 200ms; }
+  .animation-delay-300 { animation-delay: 300ms; }
+  .animation-delay-500 { animation-delay: 500ms; }
+
+  /* Text balance */
+  .text-balance { text-wrap: balance; }
+
+  /* Hide scrollbar */
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }

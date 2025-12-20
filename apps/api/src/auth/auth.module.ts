@@ -11,7 +11,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './strategies/jwt.strategy';
-import { MailModule } from '../mail/mail.module'; // Importation du MailModule
+import { MailModule } from '../mail/mail.module';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [
@@ -36,7 +37,8 @@ import { MailModule } from '../mail/mail.module'; // Importation du MailModule
       }),
     }),
     ConfigModule,
-    MailModule, // Ajout du MailModule aux imports
+    MailModule,
+    UsersModule,
   ],
   /**
    * `controllers`: Le `AuthController` expose les endpoints publics pour
