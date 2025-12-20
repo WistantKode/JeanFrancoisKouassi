@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { ThemeSwitcher } from '@/components/shared/ThemeSwitcher';
 import { cn } from '@/lib/utils';
 
-const navLinks = [
+const NAV_LINKS = [
   { href: '#vision', label: 'Vision' },
   { href: '#programme', label: 'Programme' },
   { href: '#rejoindre', label: 'Rejoindre' },
@@ -19,110 +20,106 @@ export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        isScrolled
-          ? 'bg-dark/80 backdrop-blur-xl border-b border-white/5'
-          : 'bg-transparent'
-      )}
-    >
-      <nav className="section-container flex items-center justify-between h-20">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="text-2xl font-bold"
+    <header className="fixed top-0 left-0 right-0 z-50 p-4">
+      <motion.nav
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
+        className={cn(
+          'mx-auto max-w-5xl rounded-2xl border transition-all duration-300',
+          isScrolled
+            ? 'bg-background/80 backdrop-blur-xl border-border/50 shadow-lg py-2 px-4'
+            : 'bg-background/60 backdrop-blur-md border-border/30 py-3 px-6'
+        )}
+      >
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-1.5">
+            <span className="text-xl font-bold">
+              <span className="text-primary">JFK</span>
+              <span className="text-secondary">2025</span>
+            </span>
+          </Link>
+
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-6">
+            {NAV_LINKS.map((link) => (
+              <NavLink key={link.href} href={link.href}>
+                {link.label}
+              </NavLink>
+            ))}
+          </nav>
+
+          {/* Actions */}
+          <div className="hidden md:flex items-center gap-2">
+            <ThemeSwitcher />
+            <Button variant="ghost" size="sm">
+              Connexion
+            </Button>
+            <Button size="sm" className="bg-primary hover:bg-primary/90">
+              Rejoindre
+            </Button>
+          </div>
+
+          {/* Mobile Toggle */}
+          <button
+            className="md:hidden p-2 text-foreground"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Menu"
           >
-            <span className="text-primary">JFK</span>
-            <span className="text-white/80">2025</span>
-          </motion.div>
-        </Link>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="relative text-white/70 hover:text-white transition-colors duration-200 group"
-            >
-              {link.label}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-            </Link>
-          ))}
+            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
 
-        {/* CTA Buttons */}
-        <div className="hidden md:flex items-center gap-4">
-          <Button variant="ghost" size="sm">
-            Connexion
-          </Button>
-          <Button size="sm" className="bg-primary hover:bg-primary/90 shadow-glow-sm">
-            Rejoindre
-          </Button>
-        </div>
-
-        {/* Mobile Menu Toggle */}
-        <button
-          className="md:hidden text-white p-2"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </nav>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
+        {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden bg-dark/95 backdrop-blur-xl border-b border-white/5"
+            className="md:hidden pt-4 pb-2"
           >
-            <div className="section-container py-6 flex flex-col gap-4">
-              {navLinks.map((link, index) => (
-                <motion.div
+            <nav className="flex flex-col gap-2">
+              {NAV_LINKS.map((link) => (
+                <Link
                   key={link.href}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
+                  href={link.href}
+                  className="px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <Link
-                    href={link.href}
-                    className="block text-lg text-white/70 hover:text-white py-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                </motion.div>
+                  {link.label}
+                </Link>
               ))}
-              <div className="flex flex-col gap-3 pt-4 border-t border-white/10">
-                <Button variant="outline" className="w-full">
+              <div className="flex gap-2 pt-2 border-t border-border/50 mt-2">
+                <Button variant="outline" size="sm" className="flex-1">
                   Connexion
                 </Button>
-                <Button className="w-full bg-primary">
+                <Button size="sm" className="flex-1 bg-primary">
                   Rejoindre
                 </Button>
               </div>
-            </div>
+            </nav>
           </motion.div>
         )}
-      </AnimatePresence>
-    </motion.header>
+      </motion.nav>
+    </header>
+  );
+}
+
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="text-sm text-muted-foreground hover:text-foreground transition-colors relative group"
+    >
+      {children}
+      <span className="absolute -bottom-0.5 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+    </Link>
   );
 }
