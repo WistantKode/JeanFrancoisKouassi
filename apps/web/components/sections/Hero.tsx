@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
-import { UserAvatar } from '@/components/shared/UserAvatar';
+import { UserAvatar, HeroPhoto } from '@/components/shared';
 
 // Mock supporters data
 const SUPPORTERS = [
@@ -129,23 +129,13 @@ export function Hero() {
 
         {/* Politician Photos Section */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
           className="mt-16 flex justify-center gap-4 md:gap-6"
         >
-          {/* Photo Placeholder 1 */}
-          <div className="relative w-40 h-52 md:w-52 md:h-72 rounded-2xl bg-muted border border-border overflow-hidden">
-            <div className="absolute inset-0 flex items-center justify-center text-muted-foreground text-sm">
-              Photo JFK
-            </div>
-          </div>
-          {/* Photo Placeholder 2 */}
-          <div className="relative w-40 h-52 md:w-52 md:h-72 rounded-2xl bg-muted border border-border overflow-hidden">
-            <div className="absolute inset-0 flex items-center justify-center text-muted-foreground text-sm">
-              Photo Meeting
-            </div>
-          </div>
+          <HeroPhoto alt="Jean-François Kouassi" priority />
+          <HeroPhoto alt="Meeting populaire" className="hidden sm:block" />
         </motion.div>
       </div>
     </section>
