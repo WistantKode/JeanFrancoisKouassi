@@ -14,7 +14,7 @@ export const Hero: FC = () => {
   const { title, subtitle, stats, cta } = LANDING_CONTENT.hero;
 
   return (
-    <section className="relative min-h-[92vh] flex flex-col justify-center pt-32 pb-20 overflow-hidden bg-background">
+    <section className="relative min-h-[92vh] flex flex-col justify-center pt-32 pb-20 overflow-hidden">
       {/* Premium Background Background */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
          {/* Noise Filter Background - like app-hero.tsx */}

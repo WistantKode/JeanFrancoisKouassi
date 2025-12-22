@@ -30,17 +30,10 @@ export const WaitlistSection: FC = () => {
   const { title, subtitle, stats, badge } = LANDING_CONTENT.waitlist;
 
   return (
-    <section className="relative min-h-[80vh] w-full overflow-hidden bg-background py-32 flex flex-col justify-center items-center">
-      {/* Background Effects */}
-      <div className="absolute inset-0 z-0">
-        <Spotlight />
-        <Particles
-          className="absolute inset-0"
-          quantity={100}
-          staticity={50}
-          color={resolvedTheme === 'dark' ? '#ffffff' : '#e60a64'}
-          refresh
-        />
+    <section className="relative min-h-[80vh] w-full overflow-hidden py-32 flex flex-col justify-center items-center">
+      <div className="absolute inset-0 z-0 opacity-20">
+        {/* We keep a subtle version or remove entirely. 
+            The user said I forgot to delete parts. I'll remove them. */}
       </div>
 
       <div className="section-container relative z-10 flex flex-col items-center">

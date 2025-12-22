@@ -12,19 +12,23 @@ interface PageBackgroundProps {
 export const PageBackground: FC<PageBackgroundProps> = ({ children }) => {
   const { resolvedTheme } = useTheme();
 
+  // Premium colors for spotlights based on theme
+  const primaryGlow = resolvedTheme === 'dark' 
+    ? 'hsla(156, 100%, 50%, 0.15)'   // Green
+    : 'hsla(156, 100%, 50%, 0.1)';
+  const secondaryGlow = resolvedTheme === 'dark' 
+    ? 'hsla(31, 100%, 50%, 0.15)'    // Orange
+    : 'hsla(31, 100%, 50%, 0.05)';
+
   return (
     <div className="relative min-h-screen w-full">
       {/* Global Background Effects */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        {/* Spotlight effect follows scroll somewhat or is static? 
-            Original Waitlist had one. Let's place a few for dynamic feel. */}
+        
+        {/* Mirror Spotlights handled by component internally */}
         <Spotlight 
-          className="-top-40 left-0 md:left-60 md:-top-20" 
-          fill={resolvedTheme === 'dark' ? 'rgba(0, 158, 96, 0.15)' : 'rgba(0, 158, 96, 0.1)'}
-        />
-        <Spotlight 
-          className="top-[40%] right-0 md:right-20" 
-          fill={resolvedTheme === 'dark' ? 'rgba(247, 127, 0, 0.1)' : 'rgba(247, 127, 0, 0.05)'}
+          gradientFirst={`radial-gradient(68.54% 68.72% at 55.02% 31.46%, ${primaryGlow} 0%, transparent 80%)`}
+          gradientSecond={`radial-gradient(50% 50% at 50% 50%, ${secondaryGlow} 0%, transparent 100%)`}
         />
         
         <Particles
