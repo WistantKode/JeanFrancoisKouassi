@@ -27,9 +27,9 @@ const FeatureCard: FC<FeatureCardProps> = ({ icon: Icon, title, description, ind
       className="group"
     >
       <div className={cn(
-        "relative p-6 rounded-2xl transition-all duration-300",
-        "bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5",
-        "flex flex-col gap-4"
+        "relative p-8 rounded-[2rem] transition-all duration-500",
+        "bg-white/5 dark:bg-white/5 backdrop-blur-xl border border-white/10 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10",
+        "flex flex-col gap-5 group-hover:-translate-y-1"
       )}>
         {/* Icon & Underline Effect */}
         <div className="relative w-fit">

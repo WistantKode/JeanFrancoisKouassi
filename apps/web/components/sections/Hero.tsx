@@ -10,44 +10,49 @@ import { GradientBars } from '@/components/ui/gradient-bars';
 import { LANDING_CONTENT } from '@/config/landing';
 
 export const Hero: FC = () => {
-  const { title, subtitle, stats, cta } = LANDING_CONTENT.hero;
+  const { title, cta } = LANDING_CONTENT.hero;
 
   return (
-    <section className="relative min-h-[92vh] flex flex-col justify-center pt-32 pb-20 overflow-hidden bg-background">
-      {/* Premium Background */}
+    <section className="relative min-h-[92vh] flex flex-col justify-center pt-32 pb-20 overflow-hidden">
+      {/* Premium Background Background */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
+         {/* Noise Filter Background - like app-hero.tsx */}
+         <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.1] pointer-events-none mix-blend-overlay">
+           <svg className="h-full w-full">
+              <filter id="hero-noise">
+                <feTurbulence type="fractalNoise" baseFrequency="0.4" numOctaves="4" stitchTiles="stitch" />
+                <feColorMatrix type="saturate" values="0" />
+              </filter>
+              <rect width="100%" height="100%" filter="url(#hero-noise)" />
+           </svg>
+         </div>
+
          {/* Custom Gradient Bars with CI colors - increased presence */}
-         <div className="opacity-30 dark:opacity-20 scale-110 blur-[2px]">
+         <div className="opacity-40 dark:opacity-30 scale-125 blur-[3px]">
             <GradientBars />
          </div>
          
          {/* Multi-layered overlays for depth */}
-         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background" />
-         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(var(--primary-rgb),0.05),transparent_70%)]" />
+         <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-transparent to-background" />
+         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(var(--primary-rgb),0.15),transparent_60%)]" />
+         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_60%,rgba(var(--secondary-rgb),0.1),transparent_50%)]" />
       </div>
 
       <div className="section-container relative z-10">
         <div className="max-w-4xl mx-auto text-center">
-          {/* Interactive Avatars */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <HeroAvatars />
-          </motion.div>
+          <div className="h-12" />
 
           {/* Title */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.1] tracking-tight mb-8"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-tight tracking-tight mb-12"
           >
-            {title.prefix}{' '}
-            <span className="block mt-2 text-4xl sm:text-5xl md:text-6xl text-foreground font-black italic relative w-fit mx-auto">
+            {title.prefix}<br /> 
+            <span className="inline-block mt-4 text-4xl sm:text-5xl md:text-6xl text-foreground font-black italic relative w-fit mx-auto">
               <span className="relative z-10 bg-gradient-to-r from-orange-500 via-white to-green-600 bg-clip-text text-transparent opacity-90 select-none">
-                 {title.highlight}
+                 L&apos;Espoir de toute une Génération
               </span>
               {/* Full decorative underline */}
               <motion.div 
@@ -66,7 +71,7 @@ export const Hero: FC = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg md:text-xl text-muted-foreground/90 max-w-2xl mx-auto mb-10 leading-relaxed text-balance"
           >
-            {subtitle}
+            Au-delà des promesses, une ambition concrète. Nous bâtissons aujourd&apos;hui la Côte d&apos;Ivoire de demain : audacieuse, souveraine et connectée à son génie.
           </motion.p>
 
           {/* CTA */}
@@ -84,25 +89,26 @@ export const Hero: FC = () => {
             </Button>
           </motion.div>
 
-          {/* Stats Grid */}
+          {/* Revolutionary Supporter Hub */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="grid grid-cols-3 gap-8 md:gap-16 max-w-3xl mx-auto mb-20 border-t border-border/30 pt-8"
+            transition={{ duration: 1, delay: 0.5 }}
+            className="flex flex-col items-center gap-6 mb-20"
           >
-            {stats.map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 + i * 0.08 }}
-                className="text-center"
-              >
-                <div className="text-2xl md:text-4xl font-bold text-foreground">{stat.value}</div>
-                <div className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wide mt-1">{stat.label}</div>
-              </motion.div>
-            ))}
+            <HeroAvatars />
+            <div className="flex flex-col gap-2">
+              <p className="text-sm font-medium tracking-[0.2em] uppercase text-primary/80">
+                L&apos;élan d&apos;une Nation
+              </p>
+              <div className="flex items-center gap-4 text-muted-foreground/60 text-xs font-semibold uppercase tracking-widest">
+                <span>50K+ Citoyens Engagés</span>
+                <span className="w-1 h-1 rounded-full bg-border" />
+                <span>16 Régions Unies</span>
+                <span className="w-1 h-1 rounded-full bg-border" />
+                <span>1 Vision Unique</span>
+              </div>
+            </div>
           </motion.div>
         </div>
 

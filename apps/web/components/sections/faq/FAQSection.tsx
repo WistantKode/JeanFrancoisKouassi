@@ -21,7 +21,7 @@ export const FAQSection: FC = () => {
   };
 
   return (
-    <section className="relative py-24 md:py-32 overflow-hidden bg-background/50">
+    <section className="relative py-24 md:py-32 overflow-hidden">
       <div className="section-container relative z-10 px-6">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">

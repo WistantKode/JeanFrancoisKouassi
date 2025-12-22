@@ -35,12 +35,12 @@ export const Navbar: FC = () => {
   );
   
   // Professional solid background with high blur for premium feel
-  const backgroundColor = 'hsl(var(--background))';
-  const borderColor = 'hsl(var(--border) / 0.5)';
-  const backdropBlur = '16px';
+  const backgroundColor = 'hsl(var(--background) / 0.6)';
+  const borderColor = 'hsl(var(--primary) / 0.2)';
+  const backdropBlur = 'blur(20px)';
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none">
+    <div className="fixed top-6 inset-x-0 z-50 flex justify-center pointer-events-none px-4">
       <motion.header
         style={{ 
           width: '100%',
@@ -58,8 +58,10 @@ export const Navbar: FC = () => {
             boxShadow: elevatingShadow,
           }}
           className={cn(
-            'px-6 py-2.5 rounded-full border transition-all duration-300',
+            'px-6 py-3 rounded-full border transition-all duration-500',
             'flex items-center justify-between',
+            'shadow-[0_0_20px_rgba(var(--primary-rgb),0.1)]',
+            'hover:shadow-[0_0_30px_rgba(var(--primary-rgb),0.2)] hover:border-primary/40'
           )}
         >
           {/* Logo */}
