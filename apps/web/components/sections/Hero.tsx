@@ -7,12 +7,7 @@ import { ArrowRight } from 'lucide-react';
 import { HeroPhoto } from '@/components/shared';
 import { HeroAvatars } from '@/components/sections/hero/HeroAvatars';
 import { GradientBars } from '@/components/ui/gradient-bars';
-import { Playfair_Display } from 'next/font/google';
-import { cn } from '@/lib/utils';
 import { LANDING_CONTENT } from '@/config/landing';
-
-// Special font for "Côte d'Ivoire"
-const playfair = Playfair_Display({ subsets: ['latin'], weight: ['400', '600', '700', '900'] });
 
 export const Hero: FC = () => {
   const { title, subtitle, stats, cta } = LANDING_CONTENT.hero;
@@ -50,10 +45,7 @@ export const Hero: FC = () => {
             className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.1] tracking-tight mb-8"
           >
             {title.prefix}{' '}
-            <span className={cn(
-              "block mt-2 text-4xl sm:text-5xl md:text-6xl text-foreground font-black italic relative w-fit mx-auto",
-              playfair.className
-            )}>
+            <span className="block mt-2 text-4xl sm:text-5xl md:text-6xl text-foreground font-black italic relative w-fit mx-auto">
               <span className="relative z-10 bg-gradient-to-r from-orange-500 via-white to-green-600 bg-clip-text text-transparent opacity-90 select-none">
                  {title.highlight}
               </span>
