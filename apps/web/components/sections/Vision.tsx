@@ -9,41 +9,46 @@ import {
   Sprout, 
   Building2 
 } from 'lucide-react';
-import { VisionHeader, VisionCard } from '@/components/sections/vision';
+import { VisionHeader, VisionFlipCard } from '@/components/sections/vision';
 import { cn } from '@/lib/utils';
-import { type VisionCardProps } from '@/components/sections/vision/VisionCard';
 
 // Vision Data - 6 Key Pillars
-const VISION_ITEMS: readonly VisionCardProps[] = [
+const VISION_ITEMS = [
   {
     icon: HeartPulse,
     title: 'Santé pour Tous',
     description: "Garantir l'accès aux soins de qualité pour chaque Ivoirien, moderniser les hôpitaux et valoriser le personnel médical.",
+    details: ['Couverture Universelle', 'Hôpitaux Modernes', 'Formation Médicale']
   },
   {
     icon: GraduationCap,
-    title: 'Éducation d\'Excellence',
+    title: 'Éducation',
     description: "Réformer le système éducatif pour former les leaders de demain, avec un accent sur le numérique et l'entrepreneuriat.",
+    details: ['Excellence Académique', 'Digitalisation', 'Formation Pro']
   },
   {
     icon: Lightbulb,
-    title: 'Innovation & Tech',
+    title: 'Innovation',
     description: "Faire de la Côte d'Ivoire le hub technologique régional en soutenant les startups et la digitalisation de l'État.",
+    details: ['Hub Tech Abidjan', 'Startups Fund', 'E-Gouvernance']
   },
   {
     icon: Sprout,
-    title: 'Agriculture Moderne',
+    title: 'Agriculture',
     description: "Transformer notre agriculture locale grâce à la technologie pour assurer la sécurité alimentaire et l'exportation.",
+    details: ['Transformation Locale', 'Agri-Tech', 'Soutien Fermiers']
   },
   {
     icon: Building2,
     title: 'Infrastructures',
     description: "Développer des infrastructures durables et interconnectées pour désenclaver les régions et booster l'économie.",
+    details: ['Routes Durables', 'Énergie Verte', 'Transport Urbain']
   },
   {
     icon: Users,
     title: 'Unité Nationale',
     description: "Promouvoir le dialogue, la réconciliation et l'égalité des chances pour bâtir une paix durable et inclusive.",
+    details: ['Dialogue Social', 'Égalité Chances', 'Paix Durable']
   },
 ] as const;
 
@@ -63,13 +68,12 @@ export const Vision: FC = () => {
           badge="Notre Programme"
         />
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {/* Grid with Flip Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center">
           {VISION_ITEMS.map((item, index) => (
-            <VisionCard
+            <VisionFlipCard
               key={item.title}
               {...item}
-              delay={index * 0.1} // Stagger effect
             />
           ))}
         </div>
