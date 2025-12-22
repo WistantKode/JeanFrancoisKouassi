@@ -1,40 +1,17 @@
 'use client';
 
 import { type FC } from 'react';
-import { VisionHeader } from '@/components/sections/vision';
-import { FeatureFlipCard } from '@/components/shared/ui-blocks/feature-flip-card';
-import { LANDING_CONTENT } from '@/config/landing';
+import { VisionFeatureGrid } from './vision/VisionFeatureGrid';
 
 export const Vision: FC = () => {
-  const { title, subtitle, badge, pillars } = LANDING_CONTENT.vision;
-
   return (
     <section id="vision" className="relative py-24 md:py-32 overflow-hidden bg-background">
-      {/* Background Decor */}
+      {/* Decorative background elements */}
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
-      <div className="absolute top-0 right-0 -z-10 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] opacity-50" />
-      <div className="absolute bottom-0 left-0 -z-10 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[100px] opacity-40" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[radial-gradient(circle_at_50%_50%,rgba(var(--primary-rgb),0.03),transparent_70%)]" />
 
-      <div className="section-container">
-        {/* Header */}
-        <VisionHeader
-          title={title}
-          subtitle={subtitle}
-          badge={badge}
-        />
-
-        {/* Grid with Flip Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center">
-          {pillars.map((item) => (
-            <FeatureFlipCard
-              key={item.title}
-              title={item.title}
-              description={item.description}
-              features={item.details}
-              className="h-[350px]"
-            />
-          ))}
-        </div>
+      <div className="section-container relative z-10">
+        <VisionFeatureGrid />
       </div>
     </section>
   );

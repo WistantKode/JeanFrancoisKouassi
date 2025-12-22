@@ -21,13 +21,14 @@ export const Hero: FC = () => {
     <section className="relative min-h-[92vh] flex flex-col justify-center pt-32 pb-20 overflow-hidden bg-background">
       {/* Premium Background */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
-         {/* Custom Gradient Bars with CI colors but desaturated for class */}
-         <div className="opacity-20 dark:opacity-10 scale-110">
+         {/* Custom Gradient Bars with CI colors - increased presence */}
+         <div className="opacity-30 dark:opacity-20 scale-110 blur-[2px]">
             <GradientBars />
          </div>
          
-         {/* Overlay to ensure text readability */}
-         <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-background/80" />
+         {/* Multi-layered overlays for depth */}
+         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background" />
+         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(var(--primary-rgb),0.05),transparent_70%)]" />
       </div>
 
       <div className="section-container relative z-10">
