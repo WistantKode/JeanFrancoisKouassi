@@ -8,10 +8,9 @@ import { HeroPhoto } from '@/components/shared';
 import { HeroAvatars } from '@/components/sections/hero/HeroAvatars';
 import { GradientBars } from '@/components/ui/gradient-bars';
 import { LANDING_CONTENT } from '@/config/landing';
-import { SupporterCounter } from './hero/SupporterCounter';
 
 export const Hero: FC = () => {
-  const { title, subtitle, stats, cta } = LANDING_CONTENT.hero;
+  const { title, cta } = LANDING_CONTENT.hero;
 
   return (
     <section className="relative min-h-[92vh] flex flex-col justify-center pt-32 pb-20 overflow-hidden">
@@ -41,26 +40,19 @@ export const Hero: FC = () => {
 
       <div className="section-container relative z-10">
         <div className="max-w-4xl mx-auto text-center">
-          {/* Interactive Avatars */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <HeroAvatars />
-          </motion.div>
+          <div className="h-12" />
 
           {/* Title */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.1] tracking-tight mb-8"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-tight tracking-tight mb-12"
           >
-            {title.prefix}{' '}
-            <span className="block mt-2 text-4xl sm:text-5xl md:text-6xl text-foreground font-black italic relative w-fit mx-auto">
+            {title.prefix}<br /> 
+            <span className="inline-block mt-4 text-4xl sm:text-5xl md:text-6xl text-foreground font-black italic relative w-fit mx-auto">
               <span className="relative z-10 bg-gradient-to-r from-orange-500 via-white to-green-600 bg-clip-text text-transparent opacity-90 select-none">
-                 L'Espoir de toute une Génération
+                 L&apos;Espoir de toute une Génération
               </span>
               {/* Full decorative underline */}
               <motion.div 
@@ -79,7 +71,7 @@ export const Hero: FC = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg md:text-xl text-muted-foreground/90 max-w-2xl mx-auto mb-10 leading-relaxed text-balance"
           >
-            Au-delà des promesses, une ambition concrète. Nous bâtissons aujourd'hui la Côte d'Ivoire de demain : audacieuse, souveraine et connectée à son génie.
+            Au-delà des promesses, une ambition concrète. Nous bâtissons aujourd&apos;hui la Côte d&apos;Ivoire de demain : audacieuse, souveraine et connectée à son génie.
           </motion.p>
 
           {/* CTA */}
@@ -107,7 +99,7 @@ export const Hero: FC = () => {
             <HeroAvatars />
             <div className="flex flex-col gap-2">
               <p className="text-sm font-medium tracking-[0.2em] uppercase text-primary/80">
-                L'élan d'une Nation
+                L&apos;élan d&apos;une Nation
               </p>
               <div className="flex items-center gap-4 text-muted-foreground/60 text-xs font-semibold uppercase tracking-widest">
                 <span>50K+ Citoyens Engagés</span>

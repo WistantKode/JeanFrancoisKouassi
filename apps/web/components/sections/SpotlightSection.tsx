@@ -3,6 +3,7 @@
 import { type FC } from 'react';
 import { motion } from 'framer-motion';
 import TweetCard from '@/components/mvpblocks/twittercard';
+import Image from 'next/image';
 
 export const SpotlightSection: FC = () => {
   const tweets = [
@@ -59,7 +60,7 @@ export const SpotlightSection: FC = () => {
               viewport={{ once: true }}
               className="text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-tight"
             >
-              Paroles d'une <br /> 
+              Paroles d&apos;une <br /> 
               <span className="text-primary italic font-black">Vision Partagée</span>
             </motion.h2>
             
@@ -82,8 +83,13 @@ export const SpotlightSection: FC = () => {
             >
                <div className="flex -space-x-3 items-center">
                   {[1,2,3,4,5].map(i => (
-                    <div key={i} className="w-10 h-10 rounded-full border-2 border-background overflow-hidden">
-                      <img src={`https://i.pravatar.cc/100?u=tweet${i}`} alt="user" />
+                    <div key={i} className="relative w-10 h-10 rounded-full border-2 border-background overflow-hidden">
+                      <Image 
+                        src={`https://i.pravatar.cc/100?u=tweet${i}`} 
+                        alt="user"
+                        fill
+                        className="object-cover"
+                      />
                     </div>
                   ))}
                   <span className="ml-6 text-sm font-bold text-foreground">

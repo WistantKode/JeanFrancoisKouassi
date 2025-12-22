@@ -1,7 +1,7 @@
 'use client';
 
 import { type FC } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Marquee } from '@/components/ui/marquee';
 import Image from 'next/image';
 
@@ -36,10 +36,12 @@ const GALLERY_ITEMS = [
 const GalleryCard: FC<{ item: typeof GALLERY_ITEMS[0] }> = ({ item }) => {
   return (
     <div className="relative group w-[300px] h-[400px] sm:w-[400px] sm:h-[500px] rounded-[2.5rem] overflow-hidden mx-4 cursor-pointer">
-      <img
+      <Image
         src={item.image}
         alt={item.title}
-        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+        fill
+        className="object-cover transition-transform duration-700 group-hover:scale-110"
+        unoptimized
       />
       
       {/* Overlay - Glassmorphism description that appears on hover */}
@@ -84,7 +86,7 @@ export const GallerySection: FC = () => {
           viewport={{ once: true }}
           className="text-4xl md:text-6xl font-black mb-6 tracking-tight"
         >
-          L'Histoire en <br /> 
+          L&apos;Histoire en <br /> 
           <span className="bg-gradient-to-r from-orange-400 to-green-500 bg-clip-text text-transparent">Mouvement</span>
         </motion.h2>
       </div>
