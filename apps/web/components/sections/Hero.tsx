@@ -1,3 +1,5 @@
+'use client';
+
 import { type FC, useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { Button } from '@/components/ui/button';
