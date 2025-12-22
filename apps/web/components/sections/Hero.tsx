@@ -60,7 +60,7 @@ export const Hero: FC = () => {
             {title.prefix}{' '}
             <span className="block mt-2 text-4xl sm:text-5xl md:text-6xl text-foreground font-black italic relative w-fit mx-auto">
               <span className="relative z-10 bg-gradient-to-r from-orange-500 via-white to-green-600 bg-clip-text text-transparent opacity-90 select-none">
-                 {title.highlight}
+                 L'Espoir de toute une Génération
               </span>
               {/* Full decorative underline */}
               <motion.div 
@@ -79,7 +79,7 @@ export const Hero: FC = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg md:text-xl text-muted-foreground/90 max-w-2xl mx-auto mb-10 leading-relaxed text-balance"
           >
-            {subtitle}
+            Au-delà des promesses, une ambition concrète. Nous bâtissons aujourd'hui la Côte d'Ivoire de demain : audacieuse, souveraine et connectée à son génie.
           </motion.p>
 
           {/* CTA */}
@@ -97,33 +97,26 @@ export const Hero: FC = () => {
             </Button>
           </motion.div>
 
-          {/* Stats Grid */}
+          {/* Revolutionary Supporter Hub */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="grid grid-cols-3 gap-4 md:gap-12 max-w-3xl mx-auto mb-20 border-t border-border/30 pt-8"
+            transition={{ duration: 1, delay: 0.5 }}
+            className="flex flex-col items-center gap-6 mb-20"
           >
-            {[
-              { label: 'Supporters', value: LANDING_CONTENT.hero.social.supporters },
-              ...stats.slice(1)
-            ].map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 + i * 0.08 }}
-                className="text-center group"
-              >
-                <div className="text-2xl md:text-4xl font-bold text-foreground group-hover:text-primary transition-colors">
-                  {typeof stat.value === 'number' ? <SupporterCounter target={stat.value} /> : stat.value}
-                  {stat.label === 'Supporters' && '+'}
-                </div>
-                <div className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase tracking-widest mt-1 opacity-70">
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
+            <HeroAvatars />
+            <div className="flex flex-col gap-2">
+              <p className="text-sm font-medium tracking-[0.2em] uppercase text-primary/80">
+                L'élan d'une Nation
+              </p>
+              <div className="flex items-center gap-4 text-muted-foreground/60 text-xs font-semibold uppercase tracking-widest">
+                <span>50K+ Citoyens Engagés</span>
+                <span className="w-1 h-1 rounded-full bg-border" />
+                <span>16 Régions Unies</span>
+                <span className="w-1 h-1 rounded-full bg-border" />
+                <span>1 Vision Unique</span>
+              </div>
+            </div>
           </motion.div>
         </div>
 
