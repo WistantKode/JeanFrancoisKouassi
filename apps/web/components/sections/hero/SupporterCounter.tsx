@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState, type FC } from 'react';
-import { motion, useSpring, useTransform } from 'framer-motion';
 
 interface SupporterCounterProps {
   target: number;

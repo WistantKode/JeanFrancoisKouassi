@@ -179,26 +179,6 @@ export const Footer: FC = () => {
         <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-secondary/10 rounded-full blur-[100px] pointer-events-none" />
       </div>
 
-      <style jsx>{`
-        .animate-rotate-3d {
-          animation: rotate3d 10s linear infinite;
-        }
-
-        .animate-energy-flow {
-          animation: energy-flow 6s linear infinite;
-          background-size: 200% 100%;
-        }
-
-        @keyframes rotate3d {
-          0% { transform: perspective(1000px) rotateY(0deg); }
-          100% { transform: perspective(1000px) rotateY(360deg); }
-        }
-
-        @keyframes energy-flow {
-          0% { background-position: -200% 0; }
-          100% { background-position: 200% 0; }
-        }
-      `}</style>
     </footer>
   );
 };
