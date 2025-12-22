@@ -1,13 +1,13 @@
-import { Hero } from '@/components/sections/Hero';
+import { Hero, Vision, FAQSection, CTASection, Waitlist } from '@/components/sections';
 
-export default function HomePage() {
+export default function Home() {
   return (
-    <>
+    <main className="flex min-h-screen flex-col items-center justify-between">
       <Hero />
-      {/* Vision Section - Coming Soon */}
-      {/* Programme Section - Coming Soon */}
-      {/* Rejoindre Section - Coming Soon */}
-      {/* Dons Section - Coming Soon */}
-    </>
+      <Vision />
+      <FAQSection />
+      <CTASection />
+      <Waitlist />
+    </main>
   );
 }

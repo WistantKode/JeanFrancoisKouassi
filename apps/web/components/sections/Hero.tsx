@@ -4,87 +4,37 @@ import { type FC } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
-import { UserAvatar, HeroPhoto } from '@/components/shared';
-
-// ============================================
-// TYPES
-// ============================================
-
-interface Supporter {
-  name: string;
-}
-
-interface Stat {
-  value: string;
-  label: string;
-}
-
-// ============================================
-// DATA
-// ============================================
-
-const SUPPORTERS: readonly Supporter[] = [
-  { name: 'Aminata K.' },
-  { name: 'Kouamé B.' },
-  { name: 'Fatou D.' },
-  { name: 'Ibrahim S.' },
-  { name: 'Marie-Anne T.' },
-] as const;
-
-const STATS: readonly Stat[] = [
-  { value: '50K+', label: 'Membres' },
-  { value: '100+', label: 'Événements' },
-  { value: '16', label: 'Régions' },
-] as const;
-
-// ============================================
-// COMPONENT
-// ============================================
+import { HeroPhoto } from '@/components/shared';
+import { HeroAvatars } from '@/components/sections/hero/HeroAvatars';
+import { GradientBars } from '@/components/ui/gradient-bars';
+import { LANDING_CONTENT } from '@/config/landing';
 
 export const Hero: FC = () => {
+  const { title, subtitle, stats, cta } = LANDING_CONTENT.hero;
+
   return (
-    <section className="relative min-h-screen flex flex-col justify-center pt-28 pb-16 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/3 via-transparent to-secondary/3" />
+    <section className="relative min-h-[92vh] flex flex-col justify-center pt-32 pb-20 overflow-hidden bg-background">
+      {/* Premium Background */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+         {/* Custom Gradient Bars with CI colors - increased presence */}
+         <div className="opacity-30 dark:opacity-20 scale-110 blur-[2px]">
+            <GradientBars />
+         </div>
+         
+         {/* Multi-layered overlays for depth */}
+         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background" />
+         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(var(--primary-rgb),0.05),transparent_70%)]" />
       </div>
 
-      <div className="section-container">
-        <div className="max-w-3xl mx-auto text-center">
-          {/* Avatars */}
+      <div className="section-container relative z-10">
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Interactive Avatars */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="flex items-center justify-center gap-3 mb-6"
           >
-            <div className="flex -space-x-2">
-              {SUPPORTERS.map((supporter, i) => (
-                <motion.div
-                  key={supporter.name}
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.05 + i * 0.04 }}
-                  className="ring-2 ring-background rounded-full"
-                >
-                  <UserAvatar name={supporter.name} size="sm" />
-                </motion.div>
-              ))}
-            </div>
-            <span className="text-xs text-muted-foreground">
-              <span className="font-medium text-foreground">+50K</span> membres
-            </span>
-          </motion.div>
-
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-5"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-            <span className="text-xs font-medium text-primary">Campagne 2025</span>
+            <HeroAvatars />
           </motion.div>
 
           {/* Title */}
@@ -92,10 +42,21 @@ export const Hero: FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
-            className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.1] tracking-tight mb-8"
           >
-            L&apos;avenir de la{' '}
-            <span className="gradient-text">Côte d&apos;Ivoire</span>
+            {title.prefix}{' '}
+            <span className="block mt-2 text-4xl sm:text-5xl md:text-6xl text-foreground font-black italic relative w-fit mx-auto">
+              <span className="relative z-10 bg-gradient-to-r from-orange-500 via-white to-green-600 bg-clip-text text-transparent opacity-90 select-none">
+                 {title.highlight}
+              </span>
+              {/* Full decorative underline */}
+              <motion.div 
+                 initial={{ width: 0 }}
+                 animate={{ width: "100%" }}
+                 transition={{ delay: 0.8, duration: 1 }}
+                 className="absolute -bottom-2 left-0 h-1.5 bg-gradient-to-r from-orange-500 via-white to-green-600 rounded-full opacity-80" 
+              />
+            </span>
           </motion.h1>
 
           {/* Subtitle */}
@@ -103,10 +64,9 @@ export const Hero: FC = () => {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-base md:text-lg text-muted-foreground max-w-xl mx-auto mb-8"
+            className="text-lg md:text-xl text-muted-foreground/90 max-w-2xl mx-auto mb-10 leading-relaxed text-balance"
           >
-            Rejoignez le mouvement pour un changement durable. 
-            Ensemble, construisons une nation plus forte.
+            {subtitle}
           </motion.p>
 
           {/* CTA */}
@@ -114,24 +74,24 @@ export const Hero: FC = () => {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.25 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
           >
-            <Button className="bg-primary hover:bg-primary/90 gap-2">
-              Rejoindre <ArrowRight size={16} />
+            <Button size="lg" className="h-14 px-8 rounded-full bg-primary hover:bg-primary/90 hover:scale-105 transition-all duration-300 shadow-lg shadow-primary/25 text-base gap-2">
+              {cta.primary} <ArrowRight size={18} />
             </Button>
-            <Button variant="outline">
-              Découvrir
+            <Button size="lg" variant="outline" className="h-14 px-8 rounded-full border-border/50 hover:bg-muted/50 hover:border-primary/30 transition-all duration-300 text-base">
+              {cta.secondary}
             </Button>
           </motion.div>
 
-          {/* Stats */}
+          {/* Stats Grid */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex items-center justify-center gap-8 md:gap-12 mb-12"
+            className="grid grid-cols-3 gap-8 md:gap-16 max-w-3xl mx-auto mb-20 border-t border-border/30 pt-8"
           >
-            {STATS.map((stat, i) => (
+            {stats.map((stat, i) => (
               <motion.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 10 }}
@@ -139,8 +99,8 @@ export const Hero: FC = () => {
                 transition={{ delay: 0.35 + i * 0.08 }}
                 className="text-center"
               >
-                <div className="text-2xl md:text-3xl font-bold text-primary">{stat.value}</div>
-                <div className="text-xs text-muted-foreground">{stat.label}</div>
+                <div className="text-2xl md:text-4xl font-bold text-foreground">{stat.value}</div>
+                <div className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wide mt-1">{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>
@@ -150,12 +110,25 @@ export const Hero: FC = () => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex justify-center items-end gap-4 md:gap-6"
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="flex justify-center items-end gap-6 relative"
           style={{ perspective: '1000px' }}
         >
-          <HeroPhoto src="/doctor1.png" alt="Jean-François Kouassi" priority />
-          <HeroPhoto src="/doctor2.png" alt="JFK en action" className="hidden sm:block" />
+          {/* Decorative Glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[120%] bg-gradient-to-t from-primary/10 to-transparent rounded-full blur-[80px] -z-10" />
+          
+          <HeroPhoto 
+            src="/doctor1.png" 
+            alt="Jean-François Kouassi" 
+            priority 
+            className="border-0 shadow-2xl shadow-primary/10"
+          />
+          <HeroPhoto 
+            src="/doctor2.png" 
+            alt="JFK en action" 
+            priority
+            className="hidden sm:block border-0 shadow-2xl shadow-secondary/10 translate-y-8" 
+          />
         </motion.div>
       </div>
     </section>

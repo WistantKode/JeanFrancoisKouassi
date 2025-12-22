@@ -91,12 +91,12 @@ const config: Config = {
   				'sans-serif'
   			],
   			display: [
-  				'var(--font-space-grotesk)',
+  				'var(--font-outfit)',
   				'system-ui',
   				'sans-serif'
   			],
   			body: [
-  				'var(--font-inter)',
+  				'var(--font-outfit)',
   				'system-ui',
   				'sans-serif'
   			]
