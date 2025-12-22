@@ -20,10 +20,11 @@ const FeatureCard: FC<FeatureCardProps> = ({ icon: Icon, title, description, ind
   
   return (
     <motion.div
-      initial={{ opacity: 0, x: isLeft ? -20 : 20 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      initial={{ opacity: 0, x: isLeft ? -30 : 30, y: 20 }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      exit={{ opacity: 0, x: isLeft ? -30 : 30, y: -20 }}
+      viewport={{ once: false, margin: "-10%" }}
+      transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
       className="group"
     >
       <div className={cn(
@@ -79,9 +80,11 @@ export const VisionFeatureGrid: FC = () => {
         {/* Center Column - Header */}
         <div className="text-center px-4 lg:-order-none order-first lg:mb-0 mb-8">
            <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: -20 }}
+            viewport={{ once: false }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-6"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
@@ -89,11 +92,12 @@ export const VisionFeatureGrid: FC = () => {
           </motion.div>
           
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-             className="text-4xl md:text-5xl font-bold mb-6 text-balance tracking-tight"
+            exit={{ opacity: 0, y: -30 }}
+            viewport={{ once: false }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+             className="text-4xl md:text-5xl lg:text-6xl font-black mb-8 text-balance tracking-tight uppercase"
           >
             {title}
           </motion.h2>
@@ -101,9 +105,10 @@ export const VisionFeatureGrid: FC = () => {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-lg text-muted-foreground text-balance leading-relaxed"
+            exit={{ opacity: 0, y: -20 }}
+            viewport={{ once: false }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            className="text-lg md:text-xl text-muted-foreground/60 text-balance leading-relaxed font-medium"
           >
             {subtitle}
           </motion.p>

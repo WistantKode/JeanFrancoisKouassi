@@ -10,10 +10,11 @@ export const CTASection: FC = () => {
   return (
     <div className="section-container px-6 py-20">
       <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
+        initial={{ opacity: 0, scale: 0.95, y: 30 }}
+        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: -30 }}
+        viewport={{ once: false, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="relative w-full overflow-hidden rounded-[3rem] bg-white/5 dark:bg-white/[0.02] backdrop-blur-2xl p-8 sm:p-12 md:p-20 shadow-2xl shadow-primary/5 border border-white/10"
       >
         {/* Background Patterns model cta-2.tsx */}
@@ -29,45 +30,49 @@ export const CTASection: FC = () => {
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            exit={{ opacity: 0, y: -20 }}
+            viewport={{ once: false }}
             transition={{ delay: 0.2 }}
-            className="mb-6 text-4xl font-bold text-foreground dark:text-white md:text-6xl tracking-tight"
+            className="mb-6 text-4xl font-black text-foreground dark:text-white md:text-7xl tracking-tighter uppercase leading-[0.9]"
           >
             Construisons l&apos;Avenir <br /> Ensemble.
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            exit={{ opacity: 0, y: -20 }}
+            viewport={{ once: false }}
             transition={{ delay: 0.3 }}
-            className="mb-10 text-lg text-muted-foreground dark:text-white/90 leading-relaxed text-balance"
+            className="mb-10 text-lg md:text-2xl text-muted-foreground/60 dark:text-white/60 leading-relaxed text-balance uppercase tracking-widest font-bold"
           >
-            Votre engagement est le moteur du changement. Rejoignez des milliers d&apos;Ivoiriens qui croient en une vision d&apos;innovation, de transparence et d&apos;unité.
+            Votre engagement est le moteur du changement. Rejoignez des milliers d&apos;Ivoiriens qui croient en une vision d&apos;innovation et d&apos;unité.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            exit={{ opacity: 0, y: -20 }}
+            viewport={{ once: false }}
             transition={{ delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-4"
+            className="flex flex-col sm:flex-row gap-6"
           >
-            <Button size="lg" className="h-14 px-8 rounded-full bg-white text-primary hover:bg-white/90 shadow-xl gap-2 font-bold transition-transform hover:scale-105">
-              Devenir Bénévole <ArrowRight size={18} />
+            <Button size="lg" className="relative group/btn h-16 px-10 rounded-full bg-white text-primary hover:bg-white/90 shadow-2xl shadow-white/10 gap-3 font-black transition-all hover:scale-105 overflow-hidden uppercase tracking-widest">
+              <span className="relative z-10 flex items-center gap-2">Devenir Bénévole <ArrowRight size={20} /></span>
+              <div className="absolute inset-0 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-[0.8s] ease-in-out bg-gradient-to-r from-transparent via-primary/10 to-transparent skew-x-12" />
             </Button>
-            <Button size="lg" className="h-14 px-8 rounded-full bg-black hover:bg-black/80 text-white gap-2 border-white/10 transition-transform hover:scale-105">
-              Rejoindre le Discord <MessageSquare size={18} />
+            <Button size="lg" variant="outline" className="h-16 px-10 rounded-full bg-black/40 hover:bg-black/60 text-white gap-3 border-white/10 transition-all hover:scale-105 uppercase tracking-widest font-bold">
+              Communauté Discord <MessageSquare size={18} />
             </Button>
           </motion.div>
         </div>
 
         {/* Floating Icon Decor */}
         <motion.div 
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-10 right-10 p-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white md:flex hidden"
+            animate={{ y: [0, -15, 0], rotate: [0, 5, 0] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-10 right-10 p-6 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-white md:flex hidden shadow-2xl shadow-white/5"
         >
-            <Heart className="fill-white" size={32} />
+            <Heart className="fill-white" size={40} />
         </motion.div>
       </motion.div>
     </div>
