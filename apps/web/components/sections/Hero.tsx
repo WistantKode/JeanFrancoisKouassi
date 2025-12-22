@@ -8,22 +8,35 @@ import { HeroPhoto } from '@/components/shared';
 import { HeroAvatars } from '@/components/sections/hero/HeroAvatars';
 import { GradientBars } from '@/components/ui/gradient-bars';
 import { LANDING_CONTENT } from '@/config/landing';
+import { SupporterCounter } from './hero/SupporterCounter';
 
 export const Hero: FC = () => {
   const { title, subtitle, stats, cta } = LANDING_CONTENT.hero;
 
   return (
     <section className="relative min-h-[92vh] flex flex-col justify-center pt-32 pb-20 overflow-hidden bg-background">
-      {/* Premium Background */}
+      {/* Premium Background Background */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
+         {/* Noise Filter Background - like app-hero.tsx */}
+         <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.1] pointer-events-none mix-blend-overlay">
+           <svg className="h-full w-full">
+              <filter id="hero-noise">
+                <feTurbulence type="fractalNoise" baseFrequency="0.4" numOctaves="4" stitchTiles="stitch" />
+                <feColorMatrix type="saturate" values="0" />
+              </filter>
+              <rect width="100%" height="100%" filter="url(#hero-noise)" />
+           </svg>
+         </div>
+
          {/* Custom Gradient Bars with CI colors - increased presence */}
-         <div className="opacity-30 dark:opacity-20 scale-110 blur-[2px]">
+         <div className="opacity-40 dark:opacity-30 scale-125 blur-[3px]">
             <GradientBars />
          </div>
          
          {/* Multi-layered overlays for depth */}
-         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background" />
-         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(var(--primary-rgb),0.05),transparent_70%)]" />
+         <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-transparent to-background" />
+         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(var(--primary-rgb),0.15),transparent_60%)]" />
+         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_60%,rgba(var(--secondary-rgb),0.1),transparent_50%)]" />
       </div>
 
       <div className="section-container relative z-10">
@@ -89,18 +102,26 @@ export const Hero: FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="grid grid-cols-3 gap-8 md:gap-16 max-w-3xl mx-auto mb-20 border-t border-border/30 pt-8"
+            className="grid grid-cols-3 gap-4 md:gap-12 max-w-3xl mx-auto mb-20 border-t border-border/30 pt-8"
           >
-            {stats.map((stat, i) => (
+            {[
+              { label: 'Supporters', value: LANDING_CONTENT.hero.social.supporters },
+              ...stats.slice(1)
+            ].map((stat, i) => (
               <motion.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.35 + i * 0.08 }}
-                className="text-center"
+                className="text-center group"
               >
-                <div className="text-2xl md:text-4xl font-bold text-foreground">{stat.value}</div>
-                <div className="text-xs md:text-sm font-medium text-muted-foreground uppercase tracking-wide mt-1">{stat.label}</div>
+                <div className="text-2xl md:text-4xl font-bold text-foreground group-hover:text-primary transition-colors">
+                  {typeof stat.value === 'number' ? <SupporterCounter target={stat.value} /> : stat.value}
+                  {stat.label === 'Supporters' && '+'}
+                </div>
+                <div className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase tracking-widest mt-1 opacity-70">
+                  {stat.label}
+                </div>
               </motion.div>
             ))}
           </motion.div>
