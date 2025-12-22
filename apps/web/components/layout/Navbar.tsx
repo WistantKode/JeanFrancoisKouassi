@@ -40,14 +40,13 @@ export const Navbar: FC = () => {
   const backdropBlur = '16px';
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none">
+    <div className="fixed top-0 left-1/2 -translate-x-1/2 z-50 w-full flex justify-center px-4">
       <motion.header
         style={{ 
           width: '100%',
           maxWidth: width,
           y,
         }}
-        className="pointer-events-auto"
       >
         <motion.nav
           style={{
