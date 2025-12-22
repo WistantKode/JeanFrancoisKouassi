@@ -4,6 +4,7 @@ import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { ThemeProvider } from '@/providers/ThemeProvider';
+import { PageBackground } from '@/components/shared';
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -84,7 +85,9 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <Navbar />
-          <main>{children}</main>
+          <PageBackground>
+            <main>{children}</main>
+          </PageBackground>
           <Footer />
         </ThemeProvider>
       </body>
