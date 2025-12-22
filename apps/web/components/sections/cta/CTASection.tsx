@@ -31,7 +31,7 @@ export const CTASection: FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="mb-6 text-4xl font-bold text-white md:text-6xl tracking-tight"
+            className="mb-6 text-4xl font-bold text-foreground dark:text-white md:text-6xl tracking-tight"
           >
             Construisons l&apos;Avenir <br /> Ensemble.
           </motion.h2>
@@ -40,7 +40,7 @@ export const CTASection: FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
-            className="mb-10 text-lg text-white/90 leading-relaxed text-balance"
+            className="mb-10 text-lg text-muted-foreground dark:text-white/90 leading-relaxed text-balance"
           >
             Votre engagement est le moteur du changement. Rejoignez des milliers d&apos;Ivoiriens qui croient en une vision d&apos;innovation, de transparence et d&apos;unité.
           </motion.p>
