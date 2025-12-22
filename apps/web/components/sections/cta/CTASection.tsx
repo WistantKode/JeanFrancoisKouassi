@@ -4,10 +4,8 @@ import { type FC } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, MessageSquare, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { LANDING_CONTENT } from '@/config/landing';
 
 export const CTASection: FC = () => {
-  const { title } = LANDING_CONTENT.waitlist; // Reuse waitlist title or generic one
 
   return (
     <div className="section-container px-6 py-20">
