@@ -1,97 +1,112 @@
 'use client';
 
 import { type FC, useRef } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 const PATH_STEPS = [
   {
     title: "SOUVERAINETÉ",
     year: "2025",
-    desc: "Réappropriation de nos ressources et de notre destin économique.",
-    color: "from-orange-500 to-orange-600"
+    desc: "Réappropriation de nos ressources et de notre destin économique via une gouvernance transparente.",
+    color: "from-orange-500 to-orange-600",
+    side: "right"
   },
   {
     title: "INNOVATION",
     year: "2026",
-    desc: "Digitalisation totale des services publics et hub tech continental.",
-    color: "from-white/20 to-white/10"
+    desc: "Digitalisation totale des services publics et création d'un hub technologique continental unique.",
+    color: "from-white/20 to-white/10",
+    side: "left"
   },
   {
     title: "PROSPÉRITÉ",
     year: "2027",
-    desc: "Une agriculture transformée, moteur d'une industrie puissante.",
-    color: "from-green-500 to-green-600"
+    desc: "Une agriculture transformée et durable, moteur d'une industrie nationale puissante et exportatrice.",
+    color: "from-green-500 to-green-600",
+    side: "right"
   },
   {
     title: "RAYONNEMENT",
     year: "2030",
-    desc: "La Côte d'Ivoire comme phare culturel et éthique de l'Afrique.",
-    color: "from-primary/80 to-primary"
+    desc: "La Côte d'Ivoire s'affirme comme le phare culturel, éthique et diplomatique de toute l'Afrique.",
+    color: "from-primary/80 to-primary",
+    side: "left"
   }
 ];
 
 const PathStep: FC<{ step: typeof PATH_STEPS[0], index: number }> = ({ step, index }) => {
-  const stepRef = useRef<HTMLDivElement>(null);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: false, margin: "-10% 0px -10% 0px" });
   
-  // Vertical reveal as it enters viewport
-  const { scrollYProgress: stepProgress } = useScroll({
-    target: stepRef,
-    offset: ["start end", "end start"]
-  });
-
-  const y = useTransform(stepProgress, [0, 0.4, 0.6, 1], [100, 0, 0, -100]);
-  const opacity = useTransform(stepProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const scale = useTransform(stepProgress, [0, 0.2, 0.8, 1], [0.8, 1, 1, 0.8]);
+  const isRight = step.side === "right";
 
   return (
-    <motion.div 
-      ref={stepRef}
-      style={{ y, opacity, scale }}
-      className="relative flex-shrink-0 w-[85vw] md:w-[60vw] group"
-    >
-      {/* Step Number */}
-      <div className="absolute -top-32 left-0">
-        <span className="text-8xl md:text-[10rem] font-black text-foreground/5 dark:text-white/5 tracking-tighter transition-all duration-700 group-hover:text-primary/10">
-          0{index + 1}
-        </span>
-      </div>
-
-      {/* Main Card */}
-      <div className="relative pt-10">
-        <div className="flex flex-col gap-6 md:gap-8">
-          <div className="flex items-center gap-6">
-            <span className={cn("px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest bg-gradient-to-r text-white shadow-xl shadow-black/10", step.color)}>
-              POINT D&apos;INFLEXION {step.year}
-            </span>
-            <div className="h-px flex-1 bg-border/30" />
-          </div>
-
-          <h3 className="text-5xl md:text-[8rem] font-black tracking-tighter leading-[0.85] group-hover:italic transition-all duration-700">
-            {step.title}
-          </h3>
-
-          <p className="text-lg md:text-2xl text-muted-foreground/80 max-w-2xl leading-relaxed text-balance font-medium">
-            {step.desc}
-          </p>
-
-          <div className="flex gap-4 items-center">
-            <motion.div 
-               whileHover={{ scale: 1.1 }}
-               className="w-12 h-12 rounded-full border border-primary/30 flex items-center justify-center group-hover:bg-primary transition-colors cursor-pointer"
-            >
-              <div className="w-1.5 h-1.5 bg-primary group-hover:bg-white rounded-full" />
-            </motion.div>
-            <span className="text-[9px] uppercase tracking-[0.4em] font-bold text-muted-foreground/40">Explorer la vision</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Connecting Line Enhancement */}
-      {index < PATH_STEPS.length - 1 && (
-        <div className="absolute top-1/2 -right-20 md:-right-40 w-10 md:w-20 h-px bg-gradient-to-r from-primary/20 to-transparent" />
+    <div 
+      ref={ref}
+      className={cn(
+        "relative w-full flex mb-32 md:mb-48",
+        isRight ? "justify-end pr-4 md:pr-0" : "justify-start pl-4 md:pl-0"
       )}
-    </motion.div>
+    >
+      {/* Background Year Watermark */}
+      <motion.div 
+        initial={{ opacity: 0, x: isRight ? 100 : -100 }}
+        animate={isInView ? { opacity: 0.05, x: 0 } : {}}
+        transition={{ duration: 1 }}
+        className={cn(
+          "absolute top-1/2 -translate-y-1/2 text-[15vw] font-black pointer-events-none select-none",
+          isRight ? "right-[10%]" : "left-[10%]"
+        )}
+      >
+        {step.year}
+      </motion.div>
+
+      <motion.div 
+        initial={{ opacity: 0, x: isRight ? 50 : -50, y: 20 }}
+        animate={isInView ? { opacity: 1, x: 0, y: 0 } : {}}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className={cn(
+          "relative z-10 w-full md:w-[45%] flex flex-col gap-6",
+          isRight ? "items-end text-right" : "items-start text-left"
+        )}
+      >
+        {/* Step Marker/Number */}
+        <div className={cn(
+           "flex items-center gap-4 mb-2",
+           isRight ? "flex-row-reverse" : "flex-row"
+        )}>
+          <span className="text-4xl md:text-6xl font-black text-primary/20">0{index + 1}</span>
+          <div className="h-px w-12 md:w-24 bg-primary/30" />
+        </div>
+
+        <div className={cn(
+          "px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.3em] bg-gradient-to-r text-white inline-block shadow-lg",
+          step.color
+        )}>
+          HORIZON {step.year}
+        </div>
+
+        <h3 className="text-4xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.9] text-balance">
+          {step.title}
+        </h3>
+
+        <p className="text-base md:text-xl text-muted-foreground/80 max-w-md leading-relaxed">
+          {step.desc}
+        </p>
+
+        <motion.div 
+          whileHover={{ scale: 1.05 }}
+          className="flex items-center gap-4 cursor-pointer group"
+        >
+          {!isRight && <div className="w-10 h-[2px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />}
+          <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-primary">Explorer la vision</span>
+          {isRight && <div className="w-10 h-[2px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-right" />}
+        </motion.div>
+      </motion.div>
+
+      {/* Connection SVG Path could go here, but a clean zigzag is already modern */}
+    </div>
   );
 };
 
@@ -99,39 +114,50 @@ export const SovereignPath: FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
+    offset: ["start end", "end start"]
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
-  const springX = useSpring(x, { stiffness: 50, damping: 20 });
+  const pathLength = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
 
   return (
-    <div ref={containerRef} className="relative h-[450vh] bg-transparent">
-      <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
-        {/* Background Text Watermark */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden select-none opacity-[0.03] dark:opacity-[0.05]">
-           <h2 className="text-[25vw] font-black tracking-tighter text-foreground whitespace-nowrap">MISSION 2025</h2>
+    <section ref={containerRef} className="relative pt-32 pb-0 overflow-hidden bg-transparent">
+      {/* Central Vertical Connector Line */}
+      <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-border/20 hidden md:block" />
+      
+      {/* Animated Path on Central Line */}
+      <motion.div 
+        style={{ scaleY: pathLength }}
+        className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-orange-500 via-white to-green-600 origin-top hidden md:block"
+      />
+
+      <div className="section-container relative z-10 px-6">
+        {/* Header */}
+        <div className="flex flex-col items-center text-center mb-32">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="mb-6"
+          >
+            <span className="px-5 py-2 rounded-full border border-primary/20 bg-primary/5 text-[10px] font-black tracking-[0.5em] text-primary uppercase">
+              La Trajectoire du Future
+            </span>
+          </motion.div>
+          <h2 className="text-5xl md:text-8xl font-black tracking-tighter">
+            NOTRE <span className="text-secondary italic">CHEMIN</span> <br />
+            VERS LA VICTOIRE
+          </h2>
         </div>
 
-        <motion.div style={{ x: springX }} className="flex gap-32 md:gap-52 px-10 md:px-20">
+        {/* Staggered Steps */}
+        <div className="flex flex-col">
           {PATH_STEPS.map((step, i) => (
             <PathStep key={i} step={step} index={i} />
           ))}
-        </motion.div>
-
-        {/* Scroll Progress Indicator (Bottom Right) */}
-        <div className="absolute bottom-16 right-10 md:right-16 flex items-end gap-6">
-           <div className="flex flex-col items-end">
-              <span className="text-[9px] uppercase tracking-[0.5em] font-bold text-primary/60 mb-3">Progression du Parcours</span>
-              <div className="w-32 md:w-56 h-[2px] bg-border/20 rounded-full overflow-hidden">
-                 <motion.div 
-                    style={{ scaleX: scrollYProgress }} 
-                    className="h-full bg-primary origin-left shadow-[0_0_10px_rgba(var(--primary-rgb),0.5)]"
-                 />
-              </div>
-           </div>
-           <span className="text-3xl md:text-5xl font-black text-foreground/10 italic select-none">JFK2025</span>
         </div>
       </div>
-    </div>
+
+      {/* Spacing Fix: Reduced padding at bottom since Vision follows */}
+      <div className="h-0" />
+    </section>
   );
 };
