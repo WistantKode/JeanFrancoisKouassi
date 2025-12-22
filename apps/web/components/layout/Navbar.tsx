@@ -26,13 +26,18 @@ export const Navbar: FC = () => {
   const { scrollY } = useScroll();
   
   // Smooth transform for width/padding
-  const width = useTransform(scrollY, [0, 100], ['85%', '720px']);
+  const width = useTransform(scrollY, [0, 100], ['92%', '720px']);
   const y = useTransform(scrollY, [0, 100], [20, 10]);
+  const elevatingShadow = useTransform(
+    scrollY,
+    [0, 100],
+    ['0 0 0 0 rgba(0,0,0,0)', '0 10px 30px -10px rgba(0,0,0,0.1)']
+  );
   
-  // Use solid colors for background and border as requested
+  // Professional solid background with high blur for premium feel
   const backgroundColor = 'hsl(var(--background))';
-  const borderColor = 'hsl(var(--border) / 0.8)';
-  const backdropBlur = '12px';
+  const borderColor = 'hsl(var(--border) / 0.5)';
+  const backdropBlur = '16px';
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none">
@@ -47,14 +52,14 @@ export const Navbar: FC = () => {
         <motion.nav
           style={{
             backdropFilter: backdropBlur,
+            WebkitBackdropFilter: backdropBlur, // Safari support
             backgroundColor,
             borderColor,
+            boxShadow: elevatingShadow,
           }}
           className={cn(
-            'px-6 py-3 rounded-full border transition-shadow duration-300',
+            'px-6 py-2.5 rounded-full border transition-all duration-300',
             'flex items-center justify-between',
-            // Default subtle style when at top
-            'border-transparent' 
           )}
         >
           {/* Logo */}

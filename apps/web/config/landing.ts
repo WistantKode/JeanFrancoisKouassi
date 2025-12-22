@@ -121,5 +121,42 @@ export const LANDING_CONTENT = {
         sub: "Meilleur"
       }
     ]
+  },
+  faq: {
+    badge: "FAQ",
+    title: "Questions Fréquentes",
+    subtitle: "Tout ce que vous devez savoir sur notre mouvement et notre vision pour la Côte d'Ivoire.",
+    items: [
+      {
+        id: '1',
+        question: "Qui est Jean-François Kouassi ?",
+        answer: "Jean-François Kouassi est un leader engagé, fort d'une expertise en gestion publique et en innovation technologique, dédié à la transformation positive de la Côte d'Ivoire."
+      },
+      {
+        id: '2',
+        question: "Quelles sont les priorités de son programme ?",
+        answer: "Notre programme repose sur six piliers : la santé pour tous, l'éducation d'excellence, l'innovation tech, la modernisation agricole, les infrastructures durables et l'unité nationale."
+      },
+      {
+        id: '3',
+        question: "Comment puis-je devenir bénévole ?",
+        answer: "C'est simple ! Inscrivez-vous via notre formulaire de contact ou rejoignez la newsletter pour être informé des prochaines actions sur le terrain."
+      },
+      {
+        id: '4',
+        question: "Comment faire un don à la campagne ?",
+        answer: "Les dons peuvent être effectués via notre plateforme sécurisée. Chaque contribution, petite ou grande, aide à porter notre message plus loin."
+      },
+      {
+        id: '5',
+        question: "Quel est l'engagement pour la jeunesse ?",
+        answer: "La jeunesse est au cœur de notre programme avec des initiatives pour l'entrepreneuriat numérique, l'accès au premier emploi et la formation aux métiers du futur."
+      },
+      {
+        id: '6',
+        question: "Où se trouve le quartier général de campagne ?",
+        answer: "Notre QG principal est situé à Abidjan, mais nous avons des représentations dans les 16 régions du pays pour rester proches de chaque citoyen."
+      }
+    ]
   }
 } as const;

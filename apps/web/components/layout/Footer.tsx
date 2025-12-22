@@ -1,10 +1,17 @@
+'use client';
+
+import { useEffect, useState, type FC } from 'react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Twitter,
   Facebook,
   Instagram,
   ArrowDownLeft,
   MapPin,
-  Phone
+  Phone,
+  Mail
 } from 'lucide-react';
 
 const FOOTER_DATA = {
@@ -36,7 +43,6 @@ const FOOTER_DATA = {
     { icon: Twitter, label: 'Twitter', href: '#' },
     { icon: Facebook, label: 'Facebook', href: '#' },
     { icon: Instagram, label: 'Instagram', href: '#' },
-    { icon: Linkedin, label: 'LinkedIn', href: '#' },
   ],
 };
 
@@ -58,7 +64,7 @@ export const Footer: FC = () => {
       <div className="relative w-full px-6">
         {/* Top Section */}
         <div className="section-container container m-auto grid grid-cols-1 gap-12 py-20 md:grid-cols-2 lg:grid-cols-5">
-          {/* Company Info */}
+          {/* Brand Info */}
           <div className="space-y-8 lg:col-span-2">
             <Link href="/" className="inline-flex items-center gap-3 group">
                <span className="text-3xl font-black tracking-tighter">
