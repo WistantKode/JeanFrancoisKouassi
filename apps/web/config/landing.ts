@@ -48,7 +48,36 @@ export const LANDING_CONTENT = {
         designation: 'Étudiant',
         image: 'https://i.pravatar.cc/150?u=a04258114e29026702d',
       },
-    ]
+      {
+        id: 5,
+        name: 'Marie-Noëlle L.',
+        designation: 'Santé',
+        image: 'https://i.pravatar.cc/150?u=a04258114e29026703b',
+      },
+      {
+        id: 6,
+        name: 'Ousmane T.',
+        designation: 'Commerçant',
+        image: 'https://i.pravatar.cc/150?u=a04258114e29026704c',
+      },
+      {
+        id: 7,
+        name: 'Yasmine K.',
+        designation: 'Avocate',
+        image: 'https://i.pravatar.cc/150?u=a04258114e29026705d',
+      },
+      {
+        id: 8,
+        name: 'Jean-Charles E.',
+        designation: 'Ingénieur',
+        image: 'https://i.pravatar.cc/150?u=a04258114e29026706e',
+      },
+    ],
+    social: {
+      supporters: 52430,
+      volunteers: 1240,
+      text: "citoyens déjà engagés pour l'avenir"
+    }
   },
   vision: {
     badge: "Notre Programme",
