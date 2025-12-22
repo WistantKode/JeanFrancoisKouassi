@@ -1,3 +1,5 @@
+```typescript
+import { useEffect, useState, type FC } from 'react';
 import { AvatarTooltip } from '@/components/shared/ui-blocks/avatar-tooltip';
 import { LANDING_CONTENT } from '@/config/landing';
 import { SupporterCounter } from './SupporterCounter';

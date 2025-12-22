@@ -11,7 +11,6 @@ import {
   ArrowDownLeft,
   MapPin,
   Phone,
-  Mail
 } from 'lucide-react';
 
 const FOOTER_DATA = {
