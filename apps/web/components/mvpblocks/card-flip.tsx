@@ -170,9 +170,6 @@ export default function CardFlip({
 
             <div className="space-y-2.5">
               {features.map((feature, index) => {
-                const icons = [Copy, Code2, Rocket, Zap];
-                const IconComponent = icons[index % icons.length];
-
                 return (
                   <div
                     key={feature}
@@ -186,7 +183,7 @@ export default function CardFlip({
                     }}
                   >
                     <div className="bg-primary/10 dark:bg-primary/20 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md">
-                      <IconComponent className="text-primary h-3 w-3" />
+                      {index % 2 === 0 ? <Rocket className="text-primary h-3 w-3" /> : <Zap className="text-primary h-3 w-3" />}
                     </div>
                     <span className="font-medium">{feature}</span>
                   </div>

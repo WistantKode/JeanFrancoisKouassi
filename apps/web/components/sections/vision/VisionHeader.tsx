@@ -1,8 +1,6 @@
 'use client';
 
 import { type FC } from 'react';
-import { motion } from 'framer-motion';
-import { type LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AnimatedSection } from '@/components/shared';
 

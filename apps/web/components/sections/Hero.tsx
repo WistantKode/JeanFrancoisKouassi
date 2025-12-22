@@ -9,23 +9,14 @@ import { HeroAvatars } from '@/components/sections/hero/HeroAvatars';
 import { GradientBars } from '@/components/ui/gradient-bars';
 import { Playfair_Display } from 'next/font/google';
 import { cn } from '@/lib/utils';
+import { LANDING_CONTENT } from '@/config/landing';
 
 // Special font for "Côte d'Ivoire"
 const playfair = Playfair_Display({ subsets: ['latin'], weight: ['400', '600', '700', '900'] });
 
-// Stats Data
-interface Stat {
-  value: string;
-  label: string;
-}
-
-const STATS: readonly Stat[] = [
-  { value: '50K+', label: 'Membres' },
-  { value: '100+', label: 'Événements' },
-  { value: '16', label: 'Régions' },
-] as const;
-
 export const Hero: FC = () => {
+  const { title, subtitle, stats, cta } = LANDING_CONTENT.hero;
+
   return (
     <section className="relative min-h-[92vh] flex flex-col justify-center pt-32 pb-20 overflow-hidden bg-background">
       {/* Premium Background */}
@@ -57,13 +48,13 @@ export const Hero: FC = () => {
             transition={{ duration: 0.5, delay: 0.15 }}
             className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.1] tracking-tight mb-8"
           >
-            L&apos;avenir de la{' '}
+            {title.prefix}{' '}
             <span className={cn(
               "block mt-2 text-4xl sm:text-5xl md:text-6xl text-foreground font-black italic relative w-fit mx-auto",
               playfair.className
             )}>
               <span className="relative z-10 bg-gradient-to-r from-orange-500 via-white to-green-600 bg-clip-text text-transparent opacity-90 select-none">
-                 République de Côte d&apos;Ivoire
+                 {title.highlight}
               </span>
               {/* Full decorative underline */}
               <motion.div 
@@ -82,7 +73,7 @@ export const Hero: FC = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg md:text-xl text-muted-foreground/90 max-w-2xl mx-auto mb-10 leading-relaxed text-balance"
           >
-            Un nouveau chapitre s'écrit maintenant. Innovation, transparence et unité pour une nation qui rayonne.
+            {subtitle}
           </motion.p>
 
           {/* CTA */}
@@ -93,10 +84,10 @@ export const Hero: FC = () => {
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
           >
             <Button size="lg" className="h-14 px-8 rounded-full bg-primary hover:bg-primary/90 hover:scale-105 transition-all duration-300 shadow-lg shadow-primary/25 text-base gap-2">
-              Je rejoins le mouvement <ArrowRight size={18} />
+              {cta.primary} <ArrowRight size={18} />
             </Button>
             <Button size="lg" variant="outline" className="h-14 px-8 rounded-full border-border/50 hover:bg-muted/50 hover:border-primary/30 transition-all duration-300 text-base">
-              Découvrir notre vision
+              {cta.secondary}
             </Button>
           </motion.div>
 
@@ -107,7 +98,7 @@ export const Hero: FC = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="grid grid-cols-3 gap-8 md:gap-16 max-w-3xl mx-auto mb-20 border-t border-border/30 pt-8"
           >
-            {STATS.map((stat, i) => (
+            {stats.map((stat, i) => (
               <motion.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 10 }}

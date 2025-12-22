@@ -25,20 +25,14 @@ export const Navbar: FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { scrollY } = useScroll();
   
-  // Smooth transform for width/padding/backdrop
-  const width = useTransform(scrollY, [0, 100], ['85%', '65%']);
+  // Smooth transform for width/padding
+  const width = useTransform(scrollY, [0, 100], ['85%', '720px']);
   const y = useTransform(scrollY, [0, 100], [20, 10]);
-  const backdropBlur = useTransform(scrollY, [0, 50], ['0px', '20px']);
-  const backgroundColor = useTransform(
-    scrollY, 
-    [0, 50], 
-    ['rgba(var(--background), 0)', 'rgba(var(--background), 0.95)'] // More solid on scroll
-  );
-  const borderColor = useTransform(
-    scrollY,
-    [0, 50],
-    ['rgba(var(--border), 0)', 'rgba(var(--border), 0.6)']
-  );
+  
+  // Use solid colors for background and border as requested
+  const backgroundColor = 'hsl(var(--background))';
+  const borderColor = 'hsl(var(--border) / 0.8)';
+  const backdropBlur = '12px';
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none">

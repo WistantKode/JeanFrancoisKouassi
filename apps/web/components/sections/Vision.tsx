@@ -1,58 +1,13 @@
 'use client';
 
 import { type FC } from 'react';
-import { 
-  HeartPulse, 
-  Lightbulb, 
-  Users, 
-  GraduationCap, 
-  Sprout, 
-  Building2 
-} from 'lucide-react';
-import { VisionHeader, VisionFlipCard } from '@/components/sections/vision';
-import { cn } from '@/lib/utils';
-
-// Vision Data - 6 Key Pillars
-const VISION_ITEMS = [
-  {
-    icon: HeartPulse,
-    title: 'Santé pour Tous',
-    description: "Garantir l'accès aux soins de qualité pour chaque Ivoirien, moderniser les hôpitaux et valoriser le personnel médical.",
-    details: ['Couverture Universelle', 'Hôpitaux Modernes', 'Formation Médicale']
-  },
-  {
-    icon: GraduationCap,
-    title: 'Éducation',
-    description: "Réformer le système éducatif pour former les leaders de demain, avec un accent sur le numérique et l'entrepreneuriat.",
-    details: ['Excellence Académique', 'Digitalisation', 'Formation Pro']
-  },
-  {
-    icon: Lightbulb,
-    title: 'Innovation',
-    description: "Faire de la Côte d'Ivoire le hub technologique régional en soutenant les startups et la digitalisation de l'État.",
-    details: ['Hub Tech Abidjan', 'Startups Fund', 'E-Gouvernance']
-  },
-  {
-    icon: Sprout,
-    title: 'Agriculture',
-    description: "Transformer notre agriculture locale grâce à la technologie pour assurer la sécurité alimentaire et l'exportation.",
-    details: ['Transformation Locale', 'Agri-Tech', 'Soutien Fermiers']
-  },
-  {
-    icon: Building2,
-    title: 'Infrastructures',
-    description: "Développer des infrastructures durables et interconnectées pour désenclaver les régions et booster l'économie.",
-    details: ['Routes Durables', 'Énergie Verte', 'Transport Urbain']
-  },
-  {
-    icon: Users,
-    title: 'Unité Nationale',
-    description: "Promouvoir le dialogue, la réconciliation et l'égalité des chances pour bâtir une paix durable et inclusive.",
-    details: ['Dialogue Social', 'Égalité Chances', 'Paix Durable']
-  },
-] as const;
+import { VisionHeader } from '@/components/sections/vision';
+import { FeatureFlipCard } from '@/components/shared/ui-blocks/feature-flip-card';
+import { LANDING_CONTENT } from '@/config/landing';
 
 export const Vision: FC = () => {
+  const { title, subtitle, badge, pillars } = LANDING_CONTENT.vision;
+
   return (
     <section id="vision" className="relative py-24 md:py-32 overflow-hidden bg-background">
       {/* Background Decor */}
@@ -63,17 +18,20 @@ export const Vision: FC = () => {
       <div className="section-container">
         {/* Header */}
         <VisionHeader
-          title="Une Vision Audacieuse"
-          subtitle="Nous ne proposons pas simplement des réformes, mais une transformation profonde de notre société, basée sur 6 piliers fondamentaux."
-          badge="Notre Programme"
+          title={title}
+          subtitle={subtitle}
+          badge={badge}
         />
 
         {/* Grid with Flip Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center">
-          {VISION_ITEMS.map((item, index) => (
-            <VisionFlipCard
+          {pillars.map((item) => (
+            <FeatureFlipCard
               key={item.title}
-              {...item}
+              title={item.title}
+              description={item.description}
+              features={item.details}
+              className="h-[350px]"
             />
           ))}
         </div>

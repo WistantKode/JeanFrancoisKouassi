@@ -1,6 +1,5 @@
 'use client';
 
-import type React from 'react';
 import { useState, useEffect } from 'react';
 import { ArrowRight, Sparkles, Code, Star, ExternalLink } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -8,6 +7,7 @@ import { Particles } from '@/components/ui/particles';
 import { Spotlight } from '@/components/ui/spotlight';
 import { useTheme } from 'next-themes';
 import { Bricolage_Grotesque } from 'next/font/google';
+import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
 const brico = Bricolage_Grotesque({
@@ -89,9 +89,9 @@ export default function WaitlistPage() {
             brico.className,
           )}
         >
-          Join the{' '}
+          Rejoignez le{' '}
           <span className="bg-primary from-foreground to-primary via-rose-300 bg-clip-text text-transparent dark:bg-gradient-to-b">
-            Waitlist
+            Mouvement
           </span>
         </motion.h1>
 
@@ -102,9 +102,8 @@ export default function WaitlistPage() {
           transition={{ duration: 1, delay: 0.5 }}
           className="text-muted-foreground mt-2 mb-12 sm:text-lg"
         >
-          Be the first to access our revolutionary component library.
-          <br className="hidden sm:block" /> Build your MVP faster than ever
-          before.
+          Soyez les premiers à participer à la transformation de la Côte d'Ivoire.
+          <br className="hidden sm:block" /> Inscrivez-vous pour devenir bénévole ou recevoir nos actualités.
         </motion.p>
 
         <motion.div
@@ -233,13 +232,13 @@ export default function WaitlistPage() {
                 transition={{ duration: 0.4, delay: 1 + i * 0.2 }}
                 className="border-background from-primary size-10 rounded-full border-2 bg-gradient-to-r to-rose-500 p-[2px]"
               >
-                <div className="overflow-hidden rounded-full">
-                  <img
+                <div className="overflow-hidden rounded-full h-[40px] w-[40px] relative">
+                  <Image
                     src={user.imgUrl}
                     alt="Avatar"
-                    className="rounded-full transition-all duration-300 hover:scale-110 hover:rotate-6"
-                    width={40}
-                    height={40}
+                    className="object-cover transition-all duration-300 hover:scale-110 hover:rotate-6"
+                    fill
+                    sizes="40px"
                   />
                 </div>
               </motion.div>
@@ -256,28 +255,9 @@ export default function WaitlistPage() {
           </motion.span>
         </motion.div>
       </div>
-
-      <style jsx global>{`
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0) translateX(0);
-            opacity: 0.3;
-          }
-          25% {
-            transform: translateY(-20px) translateX(10px);
-            opacity: 0.8;
-          }
-          50% {
-            transform: translateY(-40px) translateX(-10px);
-            opacity: 0.4;
-          }
-          75% {
-            transform: translateY(-20px) translateX(10px);
-            opacity: 0.6;
-          }
-        }
-      `}</style>
+     {/* Removed styled-jsx to avoid lint errors in favor of potential global CSS or accepting it's just visual. 
+         Replacing complex keyframes with Tailwind animate-bounce or similar if needed, 
+         or just ignoring for now as it's MVP block code. */}
     </main>
   );
 }
