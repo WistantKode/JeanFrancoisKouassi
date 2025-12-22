@@ -16,7 +16,7 @@ export const CTASection: FC = () => {
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="relative w-full overflow-hidden rounded-[40px] bg-primary p-8 sm:p-12 md:p-20 shadow-2xl shadow-primary/20"
+        className="relative w-full overflow-hidden rounded-[3rem] bg-gradient-to-br from-primary via-primary to-orange-600 p-8 sm:p-12 md:p-20 shadow-2xl shadow-primary/30 border border-white/10"
       >
         {/* Background Patterns model cta-2.tsx */}
         <div className="absolute inset-0 hidden h-full w-full overflow-hidden md:block">
