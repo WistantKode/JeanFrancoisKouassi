@@ -1,5 +1,8 @@
 'use client';
 
+import { type FC, useState } from 'react';
+import { ArrowRight, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
