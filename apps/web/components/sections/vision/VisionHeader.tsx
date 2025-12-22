@@ -26,7 +26,7 @@ export const VisionHeader: FC<VisionHeaderProps> = ({
       </div>
 
       {/* Title */}
-      <h2 className="text-3xl md:text-5xl font-bold mb-6 text-balance">
+      <h2 className="text-4xl md:text-6xl font-black mb-6 tracking-tighter text-balance">
         {title}
       </h2>
 

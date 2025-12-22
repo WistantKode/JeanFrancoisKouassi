@@ -80,6 +80,8 @@
 
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    width: 100%;
   }
 
   * {
@@ -88,6 +90,9 @@
 
   body {
     @apply bg-background text-foreground antialiased;
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
     /* Smooth theme transition */
     transition: background-color 0.3s ease, color 0.3s ease;
   }

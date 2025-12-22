@@ -68,11 +68,9 @@ export const HeroPhoto: FC<HeroPhotoProps> = ({
       className={cn(
         'relative cursor-pointer',
         'w-48 h-64 md:w-56 md:h-72 lg:w-64 lg:h-80',
-        'rounded-2xl overflow-hidden',
-        'bg-muted border border-border',
-        'shadow-xl shadow-black/10',
+        'overflow-hidden',
         'transition-shadow duration-300',
-        'hover:shadow-2xl hover:shadow-primary/10',
+        'hover:shadow-2xl hover:shadow-primary/20',
         className
       )}
     >
@@ -91,8 +89,6 @@ export const HeroPhoto: FC<HeroPhotoProps> = ({
         style={{ transform: 'translateZ(50px)' }}
       />
       
-      {/* Bottom gradient */}
-      <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
     </motion.div>
   );
 };
