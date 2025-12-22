@@ -1,10 +1,5 @@
 'use client';
 
-import { type FC, useState } from 'react';
-import { ArrowRight, Sparkles } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Particles } from '@/components/ui/particles';
-import { Spotlight } from '@/components/ui/spotlight';
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -12,7 +7,6 @@ import { Input } from '@/components/ui/input';
 import { LANDING_CONTENT } from '@/config/landing';
 
 export const WaitlistSection: FC = () => {
-  const { resolvedTheme } = useTheme();
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
