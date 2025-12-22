@@ -86,7 +86,7 @@ export default function RootLayout({
         <ThemeProvider>
           <Navbar />
           <PageBackground>
-            <main>{children}</main>
+            <main className="relative overflow-hidden">{children}</main>
           </PageBackground>
           <Footer />
         </ThemeProvider>

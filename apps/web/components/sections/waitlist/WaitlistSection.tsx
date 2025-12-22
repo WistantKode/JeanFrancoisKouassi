@@ -3,7 +3,6 @@
 import { type FC, useState } from 'react';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTheme } from 'next-themes';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -28,10 +27,7 @@ export const WaitlistSection: FC = () => {
 
   return (
     <section className="relative min-h-[80vh] w-full overflow-hidden py-32 flex flex-col justify-center items-center">
-      <div className="absolute inset-0 z-0 opacity-20">
-        {/* We keep a subtle version or remove entirely. 
-            The user said I forgot to delete parts. I'll remove them. */}
-      </div>
+      <div className="absolute inset-0 z-0 opacity-20 pointer-events-none" />
 
       <div className="section-container relative z-10 flex flex-col items-center">
         {/* Badge */}

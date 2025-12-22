@@ -116,7 +116,7 @@ export const Footer: FC = () => {
               </div>
             </form>
             
-            <h1 className="from-primary/10 via-secondary/10 to-transparent bg-gradient-to-b bg-clip-text text-5xl font-black text-transparent lg:text-8xl select-none">
+            <h1 className="from-primary/5 via-secondary/5 to-transparent bg-gradient-to-b bg-clip-text text-5xl font-black text-transparent lg:text-8xl select-none opacity-10">
               REPUBLIQUE
             </h1>
           </div>

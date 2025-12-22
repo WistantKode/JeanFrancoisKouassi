@@ -64,10 +64,10 @@ export const FAQSection: FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 className={cn(
-                  "p-1 rounded-2xl border transition-all duration-300",
-                  openItems.includes(faq.id)
-                    ? 'bg-primary/5 border-primary/20 shadow-lg shadow-primary/5'
-                    : 'bg-card/50 border-border/50 hover:border-primary/20 hover:bg-primary/5'
+                   "p-1 rounded-2xl border transition-all duration-300",
+                   openItems.includes(faq.id)
+                     ? 'bg-primary/10 border-primary/30 shadow-2xl shadow-primary/5 backdrop-blur-3xl'
+                     : 'bg-white/[0.03] dark:bg-white/[0.01] border-white/10 hover:border-primary/30 hover:bg-primary/5 backdrop-blur-xl'
                 )}
               >
                 <AccordionItem

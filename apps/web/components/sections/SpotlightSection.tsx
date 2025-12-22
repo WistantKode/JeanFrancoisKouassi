@@ -48,10 +48,16 @@ export const SpotlightSection: FC = () => {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-6"
+              className="inline-flex items-center gap-4 mb-6"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              <span className="text-xs font-semibold text-primary uppercase tracking-wider">Spotlight</span>
+              <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                <span className="text-xs font-semibold text-primary uppercase tracking-wider">Spotlight</span>
+              </div>
+              <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 border border-secondary/20">
+                <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
+                <span className="text-xs font-semibold text-secondary uppercase tracking-wider italic">Direct</span>
+              </div>
             </motion.div>
             
             <motion.h2
@@ -110,8 +116,9 @@ export const SpotlightSection: FC = () => {
                    whileInView={{ opacity: 1, y: 0, rotate: i === 0 ? -1 : 0.5 }}
                    viewport={{ once: true }}
                    transition={{ delay: i * 0.2 }}
-                   className="hover:rotate-0 transition-transform duration-500"
+                   className="hover:rotate-0 transition-all duration-500 hover:scale-[1.02] group"
                  >
+                   <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-secondary/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-700 -z-10" />
                    <TweetCard {...tweet} />
                  </motion.div>
                ))}

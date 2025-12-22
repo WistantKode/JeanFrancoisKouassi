@@ -9,34 +9,23 @@ import { HeroAvatars } from '@/components/sections/hero/HeroAvatars';
 import { GradientBars } from '@/components/ui/gradient-bars';
 import { LANDING_CONTENT } from '@/config/landing';
 
+import { Particles } from '@/components/ui/particles';
+
 export const Hero: FC = () => {
   const { title, cta } = LANDING_CONTENT.hero;
 
   return (
     <section className="relative min-h-[92vh] flex flex-col justify-center pt-32 pb-20 overflow-hidden">
-      {/* Premium Background Background */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-         {/* Noise Filter Background - like app-hero.tsx */}
-         <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.1] pointer-events-none mix-blend-overlay">
-           <svg className="h-full w-full">
-              <filter id="hero-noise">
-                <feTurbulence type="fractalNoise" baseFrequency="0.4" numOctaves="4" stitchTiles="stitch" />
-                <feColorMatrix type="saturate" values="0" />
-              </filter>
-              <rect width="100%" height="100%" filter="url(#hero-noise)" />
-           </svg>
-         </div>
+      {/* Immersive Local Particles */}
+      <Particles
+        className="absolute inset-0 z-0 pointer-events-none"
+        quantity={60}
+        staticity={50}
+        color="#009e60"
+        refresh
+      />
 
-         {/* Custom Gradient Bars with CI colors - increased presence */}
-         <div className="opacity-40 dark:opacity-30 scale-125 blur-[3px]">
-            <GradientBars />
-         </div>
-         
-         {/* Multi-layered overlays for depth */}
-         <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-transparent to-background" />
-         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(var(--primary-rgb),0.15),transparent_60%)]" />
-         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_60%,rgba(var(--secondary-rgb),0.1),transparent_50%)]" />
-      </div>
+      {/* No local backgrounds - the global PageBackground handles it */}
 
       <div className="section-container relative z-10">
         <div className="max-w-4xl mx-auto text-center">
@@ -120,8 +109,6 @@ export const Hero: FC = () => {
           className="flex justify-center items-end gap-6 relative"
           style={{ perspective: '1000px' }}
         >
-          {/* Decorative Glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[120%] bg-gradient-to-t from-primary/10 to-transparent rounded-full blur-[80px] -z-10" />
           
           <HeroPhoto 
             src="/doctor1.png" 
@@ -137,6 +124,23 @@ export const Hero: FC = () => {
           />
         </motion.div>
       </div>
+
+      {/* Floating Scroll Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5, duration: 1 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+      >
+        <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground/50 font-bold">Découvrir</span>
+        <motion.div
+           animate={{ y: [0, 8, 0] }}
+           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+           className="w-5 h-8 rounded-full border border-primary/30 flex justify-center p-1"
+        >
+           <div className="w-1.5 h-1.5 bg-primary rounded-full" />
+        </motion.div>
+      </motion.div>
     </section>
   );
 };

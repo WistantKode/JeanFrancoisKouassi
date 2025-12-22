@@ -1,107 +1,153 @@
 'use client';
 
-import { type FC } from 'react';
-import { motion } from 'framer-motion';
-import { Marquee } from '@/components/ui/marquee';
+import { type FC, useRef } from 'react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { cn } from '@/lib/utils';
 import Image from 'next/image';
 
 const GALLERY_ITEMS = [
   {
     image: "https://images.unsplash.com/photo-1540910419892-f39a62a15242?auto=format&fit=crop&q=80&w=800",
-    title: "Meeting à Yamoussoukro",
-    description: "Plus de 10 000 personnes réunies pour porter le message de changement."
+    title: "Yamoussoukro",
+    size: "large",
+    speed: 0.05
   },
   {
     image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=800",
-    title: "Hub Tech Regional",
-    description: "Inauguration du centre d'innovation pour les startups ivoiriennes."
+    title: "Innovation Hub",
+    size: "medium",
+    speed: 0.1
   },
   {
     image: "https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&q=80&w=800",
-    title: "Dialogue Citoyen",
-    description: "Une écoute active au cœur des régions pour comprendre chaque réalité."
+    title: "Dialogue",
+    size: "small",
+    speed: 0.15
   },
   {
     image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=800",
-    title: "Unis pour la Nation",
-    description: "Réunir toutes les forces vives de la nation autour d'un projet commun."
+    title: "Unité",
+    size: "medium",
+    speed: 0.08
   },
   {
     image: "https://images.unsplash.com/photo-1504270997636-07ddfbd48945?auto=format&fit=crop&q=80&w=800",
-    title: "Sommet de l'Avenir",
-    description: "Définir les priorités stratégiques de la Côte d'Ivoire horizon 2030."
+    title: "Avenir",
+    size: "large",
+    speed: 0.12
+  },
+  {
+    image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&q=80&w=800",
+    title: "Jeunesse",
+    size: "small",
+    speed: 0.07
+  },
+  {
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800",
+    title: "Vision 2025",
+    size: "medium",
+    speed: 0.1
   }
 ];
 
-const GalleryCard: FC<{ item: typeof GALLERY_ITEMS[0] }> = ({ item }) => {
+const FloatingImage: FC<{ item: typeof GALLERY_ITEMS[0], index: number }> = ({ item, index }) => {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [0, -200 * item.speed * 10]);
+  const smoothY = useSpring(y, { stiffness: 100, damping: 30 });
+  const rotate = useTransform(scrollYProgress, [0, 1], [index % 2 === 0 ? -2 : 2, index % 2 === 0 ? 2 : -2]);
+
+  const sizeClasses = {
+    small: "w-32 h-48 md:w-48 md:h-64",
+    medium: "w-48 h-64 md:w-64 md:h-[350px]",
+    large: "w-56 h-[350px] md:w-[320px] md:h-[450px]"
+  }[item.size as 'small' | 'medium' | 'large'];
+
   return (
-    <div className="relative group w-[300px] h-[400px] sm:w-[400px] sm:h-[500px] rounded-[2.5rem] overflow-hidden mx-4 cursor-pointer">
+    <motion.div
+      ref={containerRef}
+      style={{ y: smoothY, rotate }}
+      initial={{ opacity: 0, scale: 0.9 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, delay: index * 0.1 }}
+      className={cn(
+        "relative overflow-hidden group cursor-pointer transition-all duration-700",
+        "bg-transparent border-0",
+        sizeClasses
+      )}
+    >
       <Image
         src={item.image}
         alt={item.title}
         fill
-        className="object-cover transition-transform duration-700 group-hover:scale-110"
+        className="object-cover transition-transform duration-1000 group-hover:scale-110"
         unoptimized
       />
+      {/* Premium Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
       
-      {/* Overlay - Glassmorphism description that appears on hover */}
-      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500" />
-      
-      <div className="absolute inset-x-6 bottom-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-        <div className="bg-white/10 dark:bg-black/40 backdrop-blur-xl border border-white/20 rounded-3xl p-6 shadow-2xl">
-          <h4 className="text-xl font-bold text-white mb-2">{item.title}</h4>
-          <p className="text-sm text-white/80 leading-relaxed font-medium">
-            {item.description}
-          </p>
-        </div>
+      <div className="absolute inset-x-0 bottom-0 p-6 transform translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-700">
+        <p className="text-[9px] uppercase tracking-[0.3em] text-white font-black mb-1">{item.title}</p>
+        <div className="h-[2px] w-4 bg-primary group-hover:w-full transition-all duration-1000" />
       </div>
-      
-      {/* Always visible title badge (optional, for quality) */}
-      <div className="absolute top-6 left-6 group-hover:opacity-0 transition-opacity">
-        <div className="px-4 py-1.5 rounded-full bg-black/30 backdrop-blur-md border border-white/10">
-          <span className="text-xs font-bold text-white uppercase tracking-widest">{item.title}</span>
-        </div>
-      </div>
-    </div>
+    </motion.div>
   );
 };
 
 export const GallerySection: FC = () => {
   return (
-    <section className="relative py-24 md:py-32 overflow-hidden bg-transparent">
-      <div className="section-container mb-16 text-center">
+    <section className="relative py-32 md:py-64 overflow-visible bg-transparent">
+      {/* Cinematic Header */}
+      <div className="section-container mb-32 text-left relative z-10 px-6">
         <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 border border-secondary/20 mb-6"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
-              <span className="text-xs font-semibold text-secondary uppercase tracking-wider">Moments Forts</span>
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-primary/5 border border-primary/20 mb-8"
+        >
+          <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+          <span className="text-[10px] font-black text-primary uppercase tracking-[0.4em]">Chroniques de l&apos;Espoir</span>
         </motion.div>
         
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-4xl md:text-6xl font-black mb-6 tracking-tight"
+          className="text-6xl md:text-[10rem] font-black tracking-tighter leading-[0.8] mb-12"
         >
-          L&apos;Histoire en <br /> 
-          <span className="bg-gradient-to-r from-orange-400 to-green-500 bg-clip-text text-transparent">Mouvement</span>
+          LA FORCE <br /> 
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-foreground to-secondary opacity-90 italic">EN MOUVEMENT</span>
         </motion.h2>
+
+        <p className="text-muted-foreground/60 text-sm max-w-xl leading-relaxed tracking-widest uppercase">
+          Un voyage visuel à travers l&apos;élan d&apos;une nation. Pas de simples clichés, mais des fragments de notre futur commun.
+        </p>
       </div>
 
-      <div className="relative w-full overflow-hidden">
-        <Marquee pauseOnHover className="[--duration:40s] py-10">
+      <div className="relative max-w-[1800px] mx-auto min-h-[120vh]">
+        {/* Organic Layout Grid */}
+        <div className="flex flex-wrap justify-center items-start gap-8 md:gap-16 px-4 md:px-20">
           {GALLERY_ITEMS.map((item, i) => (
-            <GalleryCard key={i} item={item} />
+            <div key={i} className={cn(
+              "flex items-center justify-center",
+              i % 3 === 0 ? "mt-0" : i % 3 === 1 ? "mt-24 md:mt-48" : "mt-12 md:mt-24"
+            )}>
+              <FloatingImage item={item} index={i} />
+            </div>
           ))}
-        </Marquee>
-        
-        {/* Gradient Edges */}
-        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+        </div>
+
+        {/* Decorative Watermark */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 pointer-events-none opacity-[0.03]">
+           <h2 className="text-[20vw] font-black uppercase tracking-tighter">GALLERY</h2>
+        </div>
       </div>
+
+      {/* Extreme Radial Glow */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-[50%] bg-gradient-to-t from-primary/10 to-transparent blur-[120px] -z-10" />
     </section>
   );
 };
