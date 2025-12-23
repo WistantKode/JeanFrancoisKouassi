@@ -3,37 +3,8 @@
 import { type FC, useRef } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import {PATH_STEPS} from "@/lib/home/RoadmapSectionData";
 
-const PATH_STEPS = [
-  {
-    title: "SOUVERAINETÉ",
-    year: "2025",
-    desc: "Réappropriation de nos ressources et de notre destin économique via une gouvernance transparente.",
-    color: "from-orange-500 to-orange-600",
-    side: "right"
-  },
-  {
-    title: "INNOVATION",
-    year: "2026",
-    desc: "Digitalisation totale des services publics et création d'un hub technologique continental unique.",
-    color: "from-white/20 to-white/10",
-    side: "left"
-  },
-  {
-    title: "PROSPÉRITÉ",
-    year: "2027",
-    desc: "Une agriculture transformée et durable, moteur d'une industrie nationale puissante et exportatrice.",
-    color: "from-green-500 to-green-600",
-    side: "right"
-  },
-  {
-    title: "RAYONNEMENT",
-    year: "2030",
-    desc: "La Côte d'Ivoire s'affirme comme le phare culturel, éthique et diplomatique de toute l'Afrique.",
-    color: "from-primary/80 to-primary",
-    side: "left"
-  }
-];
 
 const PathStep: FC<{ step: typeof PATH_STEPS[0], index: number }> = ({ step, index }) => {
   const isRight = step.side === "right";
@@ -106,6 +77,8 @@ const PathStep: FC<{ step: typeof PATH_STEPS[0], index: number }> = ({ step, ind
   );
 };
 
+
+
 export const SovereignPath: FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -119,9 +92,9 @@ export const SovereignPath: FC = () => {
     <section ref={containerRef} className="relative pt-32 pb-40 bg-transparent">
       {/* Central Vertical Connector Line - Ultra Subtle */}
       <div className="absolute left-1/2 -translate-x-1/2 top-96 bottom-64 w-px bg-border/10 hidden md:block" />
-      
+
       {/* Animated Path on Central Line */}
-      <motion.div 
+      <motion.div
         style={{ scaleY: pathLength }}
         className="absolute left-1/2 -translate-x-1/2 top-96 bottom-64 w-[2px] bg-gradient-to-b from-orange-500/40 via-primary/40 to-green-600/40 origin-top hidden md:block"
       />
