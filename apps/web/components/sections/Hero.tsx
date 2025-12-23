@@ -50,9 +50,18 @@ export const Hero: FC = () => {
             <span className="font-instrument italic text-2xl md:text-3xl text-primary/80 lowercase tracking-tight mb-2">
               {title.prefix}
             </span>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-outfit tracking-tighter leading-[0.9] flex flex-col items-center">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-outfit tracking-tighter leading-[0.9] flex flex-col items-center">
               <span className="font-black uppercase">{title.highlight.split(" ")[0]}</span>
-              <span className="font-light -mt-2 opacity-90">{title.highlight.split(" ").slice(1).join(" ")}</span>
+              <span className="font-light -mt-1 opacity-90 relative">
+                {title.highlight.split(" ").slice(1).join(" ")}
+                <motion.div 
+                   initial={{ width: 0 }}
+                   whileInView={{ width: "110%" }}
+                   viewport={{ once: false }}
+                   transition={{ delay: 0.6, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                   className="absolute -bottom-1 -left-[5%] h-1 bg-gradient-to-r from-orange-500 via-white/40 to-green-600 rounded-full" 
+                />
+              </span>
             </h1>
           </motion.div>
 
@@ -62,7 +71,7 @@ export const Hero: FC = () => {
             exit={{ opacity: 0, y: -15 }}
             viewport={{ once: false }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-sm md:text-lg text-muted-foreground/50 max-w-xl mx-auto mb-10 leading-relaxed uppercase tracking-[0.3em] font-medium"
+            className="text-[10px] md:text-sm text-muted-foreground/50 max-w-lg mx-auto mb-8 leading-relaxed uppercase tracking-[0.4em] font-medium"
           >
             Le déclic d&apos;une émergence souveraine. Pour une Côte d&apos;Ivoire audacieuse, unie et tournée vers l&apos;excellence.
           </motion.p>
