@@ -38,78 +38,72 @@ export const Hero: FC = () => {
         <div className="max-w-4xl mx-auto text-center">
           <div className="h-12" />
 
-          {/* Title with Bidirectional Reveal */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -30 }}
-            viewport={{ once: false }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-black leading-[0.85] tracking-tighter mb-12"
-          >
-            {title.prefix}<br /> 
-            <span className="inline-block mt-4 text-4xl sm:text-5xl md:text-6xl text-foreground font-black italic relative w-fit mx-auto">
-              <span className="relative z-10 bg-gradient-to-r from-orange-500 via-white/80 to-green-600 bg-clip-text text-transparent opacity-95">
-                 L&apos;Espoir d&apos;une Nation
-              </span>
-              <motion.div 
-                 initial={{ width: 0 }}
-                 whileInView={{ width: "100%" }}
-                 viewport={{ once: false }}
-                 transition={{ delay: 0.8, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                 className="absolute -bottom-2 left-0 h-2 bg-gradient-to-r from-orange-500 via-white/40 to-green-600 rounded-full" 
-              />
-            </span>
-          </motion.h1>
-
-          <motion.p
+          {/* Title with Multi-Font Staggered Reveal */}
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             viewport={{ once: false }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg md:text-2xl text-muted-foreground/60 max-w-2xl mx-auto mb-12 leading-relaxed uppercase tracking-widest font-bold"
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col items-center gap-0 mb-8"
+          >
+            <span className="font-instrument italic text-2xl md:text-3xl text-primary/80 lowercase tracking-tight mb-2">
+              {title.prefix}
+            </span>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-outfit tracking-tighter leading-[0.9] flex flex-col items-center">
+              <span className="font-black uppercase">{title.highlight.split(" ")[0]}</span>
+              <span className="font-light -mt-2 opacity-90">{title.highlight.split(" ").slice(1).join(" ")}</span>
+            </h1>
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            viewport={{ once: false }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="text-sm md:text-lg text-muted-foreground/50 max-w-xl mx-auto mb-10 leading-relaxed uppercase tracking-[0.3em] font-medium"
           >
             Le déclic d&apos;une émergence souveraine. Pour une Côte d&apos;Ivoire audacieuse, unie et tournée vers l&apos;excellence.
           </motion.p>
 
-          {/* CTA with enhanced button */}
+          {/* CTA with refined button */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            exit={{ opacity: 0, y: -15 }}
             viewport={{ once: false }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20"
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
           >
-            <Button size="lg" className="relative group/btn h-16 px-10 rounded-full bg-primary overflow-hidden hover:scale-105 transition-all duration-500 shadow-2xl shadow-primary/30 text-base font-black tracking-widest uppercase">
-              <span className="relative z-10 flex items-center gap-3">{cta.primary} <ArrowRight size={20} className="group-hover/btn:translate-x-1 transition-transform" /></span>
-              <div className="absolute inset-0 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-[0.8s] ease-in-out bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12" />
+            <Button size="lg" className="relative group/btn h-14 px-8 rounded-full bg-primary overflow-hidden hover:scale-105 transition-all duration-500 shadow-xl shadow-primary/20 text-sm font-black tracking-widest uppercase">
+              <span className="relative z-10 flex items-center gap-3">{cta.primary} <ArrowRight size={18} className="group-hover/btn:translate-x-1 transition-transform" /></span>
+              <div className="absolute inset-0 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-[0.8s] ease-in-out bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
             </Button>
-            <Button size="lg" variant="outline" className="h-16 px-10 rounded-full border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 hover:border-primary/40 transition-all duration-500 text-base font-bold tracking-widest uppercase">
+            <Button size="lg" variant="outline" className="h-14 px-8 rounded-full border-white/5 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all duration-500 text-sm font-bold tracking-widest uppercase">
               {cta.secondary}
             </Button>
           </motion.div>
 
-          {/* Revolutionary Supporter Hub */}
+          {/* Supporter Hub */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
+            exit={{ opacity: 0, scale: 0.95 }}
             viewport={{ once: false }}
-            transition={{ duration: 1, delay: 0.4 }}
-            className="flex flex-col items-center gap-8 mb-24"
+            transition={{ duration: 1, delay: 0.3 }}
+            className="flex flex-col items-center gap-6 mb-16 opacity-80"
           >
             <HeroAvatars />
-            <div className="flex flex-col gap-3">
-              <p className="text-xs font-black tracking-[0.4em] uppercase text-primary/60">
+            <div className="flex flex-col gap-2">
+              <p className="text-[9px] font-black tracking-[0.5em] uppercase text-primary/40">
                 Mouvement National 2025
               </p>
-              <div className="flex items-center gap-5 text-muted-foreground/40 text-[10px] font-black uppercase tracking-[0.2em]">
+              <div className="flex items-center gap-4 text-muted-foreground/30 text-[8px] font-black uppercase tracking-[0.2em]">
                 <span>50,000+ Engagés</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-primary/20" />
-                <span>16 Districts Unis</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-primary/20" />
+                <span className="w-1 h-1 rounded-full bg-primary/10" />
+                <span>16 Districts</span>
+                <span className="w-1 h-1 rounded-full bg-primary/10" />
                 <span>Impact Direct</span>
               </div>
             </div>
