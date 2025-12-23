@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 export const Vision: FC = () => {
   return (
-    <section id="vision" className="relative pb-24 md:pb-32 overflow-hidden bg-black">
+    <section id="vision" className="relative pb-24 md:pb-32 overflow-hidden">
       {/* Background Decorative Elements */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-1/4 left-1/2 -ms-[300px] h-[600px] w-[600px] rounded-full bg-primary/5 blur-[120px]" />
