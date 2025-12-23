@@ -1,8 +1,8 @@
 export { Hero } from './hero/Hero';
 export { Vision } from './Vision';
 export { Waitlist } from './Waitlist';
-export { SpotlightSection } from './SpotlightSection';
-export { GallerySection } from './GallerySection';
+export { SpotlightSection } from './spotlight/SpotlightSection';
+export { GallerySection } from './gallery/GallerySection';
 export { SovereignPath } from './roadmap/SovereignPath';
 export * from './vision/index';
 export * from './faq/index';
