@@ -57,13 +57,35 @@ export const FAQSection: FC = () => {
             onValueChange={handleValueChange}
             className="grid grid-cols-1 md:grid-cols-2 gap-4"
           >
-            {items.map((faq) => (
-              <motion.div
-                key={faq.id}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className={cn(
+            {items.map((faq, i) => {
+              const isEven = i % 2 === 0;
+              return (
+                <motion.div
+                  key={faq.id}
+                  initial={{ 
+                    opacity: 0, 
+                    x: isEven ? -50 : 50, 
+                    y: 20,
+                    filter: "blur(10px)" 
+                  }}
+                  whileInView={{ 
+                    opacity: 1, 
+                    x: 0, 
+                    y: 0,
+                    filter: "blur(0px)" 
+                  }}
+                  exit={{ 
+                    opacity: 0, 
+                    x: isEven ? -50 : 50, 
+                    y: -20,
+                    filter: "blur(10px)" 
+                  }}
+                  viewport={{ once: false, margin: "-10% 0px" }}
+                  transition={{ 
+                    duration: 0.8, 
+                    ease: [0.16, 1, 0.3, 1] 
+                  }}
+                  className={cn(
                    "p-1 rounded-2xl border transition-all duration-300",
                    openItems.includes(faq.id)
                      ? 'bg-primary/10 border-primary/30 shadow-2xl shadow-primary/5 backdrop-blur-3xl'
@@ -104,8 +126,9 @@ export const FAQSection: FC = () => {
                   </AccordionContent>
                 </AccordionItem>
               </motion.div>
-            ))}
-          </Accordion>
+            );
+          })}
+        </Accordion>
         </div>
 
         {/* Decorative elements */}

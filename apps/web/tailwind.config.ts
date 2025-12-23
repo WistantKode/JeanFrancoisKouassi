@@ -1,4 +1,6 @@
 import type { Config } from 'tailwindcss';
+import daisyui from 'daisyui';
+import animate from 'tailwindcss-animate';
 
 const config: Config = {
   content: [
@@ -249,9 +251,8 @@ const config: Config = {
   	}
   },
   plugins: [
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    require('daisyui'),
-      require("tailwindcss-animate")
+    daisyui,
+    animate
 ],
 };
 

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Outfit } from 'next/font/google';
+import { Outfit, Instrument_Serif } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
@@ -9,6 +9,13 @@ import { PageBackground } from '@/components/shared';
 const outfit = Outfit({
   subsets: ['latin'],
   variable: '--font-outfit',
+});
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ['latin'],
+  weight: ['400'],
+  style: ['italic'],
+  variable: '--font-instrument',
 });
 
 export const metadata: Metadata = {
@@ -81,7 +88,7 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
       <body
-        className={`${outfit.variable} font-sans antialiased`}
+        className={`${outfit.variable} ${instrumentSerif.variable} font-sans antialiased`}
       >
         <ThemeProvider>
           <Navbar />
