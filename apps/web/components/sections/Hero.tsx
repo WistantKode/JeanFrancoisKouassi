@@ -1,10 +1,10 @@
 'use client';
 
 import { type FC, useRef } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
-import { HeroPhoto } from '@/components/shared';
+import { HeroShowcase } from '@/components/sections/hero/HeroShowcase';
 import { HeroAvatars } from '@/components/sections/hero/HeroAvatars';
 import { LANDING_CONTENT } from '@/config/landing';
 
@@ -14,16 +14,6 @@ export const Hero: FC = () => {
   const { title, cta } = LANDING_CONTENT.hero;
   const containerRef = useRef<HTMLElement>(null);
   
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
-
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, -150]);
-  const smoothY1 = useSpring(y1, { stiffness: 100, damping: 30 });
-  const smoothY2 = useSpring(y2, { stiffness: 100, damping: 30 });
-
   return (
     <section ref={containerRef} className="relative min-h-[92vh] flex flex-col justify-center pt-32 pb-20 overflow-hidden">
       {/* Creative Floating Elements */}
@@ -152,25 +142,7 @@ export const Hero: FC = () => {
           </motion.div>
         </div>
 
-        {/* Parallax Photos */}
-        <div className="flex justify-center items-end gap-12 relative h-[500px] md:h-[600px]">
-          <motion.div style={{ y: smoothY1 }} className="relative z-10">
-            <HeroPhoto 
-              src="/doctor1.png" 
-              alt="Jean-François Kouassi" 
-              priority 
-              className="border-0 shadow-2xl shadow-primary/20 rounded-[3rem]"
-            />
-          </motion.div>
-          <motion.div style={{ y: smoothY2 }} className="hidden md:block">
-            <HeroPhoto 
-              src="/doctor2.png" 
-              alt="JFK en action" 
-              priority
-              className="border-0 shadow-2xl shadow-secondary/20 rounded-[3rem] opacity-70 scale-95" 
-            />
-          </motion.div>
-        </div>
+        <HeroShowcase />
       </div>
 
       {/* Floating Scroll Indicator */}

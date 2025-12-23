@@ -46,17 +46,14 @@ const PathStep: FC<{ step: typeof PATH_STEPS[0], index: number }> = ({ step, ind
         isRight ? "justify-end pr-0 md:pr-24" : "justify-start pl-0 md:pl-24"
       )}
     >
-      {/* Background Year Watermark - Fixed Clipping with safer positioning */}
+      {/* Background Year Watermark - Centered on path */}
       <motion.div 
-        initial={{ opacity: 0, x: isRight ? 40 : -40, filter: "blur(10px)" }}
-        whileInView={{ opacity: 0.12, x: isRight ? -20 : 20, filter: "blur(0px)" }}
-        exit={{ opacity: 0, x: isRight ? 40 : -40, filter: "blur(10px)" }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        initial={{ opacity: 0, scale: 0.8, filter: "blur(10px)" }}
+        whileInView={{ opacity: 0.08, scale: 1, filter: "blur(0px)" }}
+        exit={{ opacity: 0, scale: 0.8, filter: "blur(10px)" }}
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         viewport={{ once: false, margin: "-20% 0px" }}
-        className={cn(
-          "absolute top-1/2 -translate-y-1/2 text-[18vw] font-black pointer-events-none select-none",
-          isRight ? "right-[5%] md:right-[15%]" : "left-[5%] md:left-[15%]"
-        )}
+        className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[20vw] font-black pointer-events-none select-none text-white/5"
       >
         {step.year}
       </motion.div>
