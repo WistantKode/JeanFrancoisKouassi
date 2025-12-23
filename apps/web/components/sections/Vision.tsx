@@ -25,7 +25,10 @@ export const Vision: FC = () => {
         <VisionFeatureGrid />
       </motion.div>
 
-      {/* Decorative vertical line */}
+      {/* Central Vertical Connector Line - Ultra Subtle */}
+      <div className="absolute left-1/2 -translate-x-1/2 top-48 bottom-48 w-px bg-primary/10 hidden md:block" />
+
+      {/* Decorative vertical line (top marker) */}
       <div className="absolute left-1/2 top-0 h-32 w-px bg-gradient-to-b from-transparent via-primary/50 to-transparent" />
     </section>
   );
