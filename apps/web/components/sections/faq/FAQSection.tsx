@@ -57,12 +57,18 @@ export const FAQSection: FC = () => {
             onValueChange={handleValueChange}
             className="grid grid-cols-1 md:grid-cols-2 gap-4"
           >
-            {items.map((faq) => (
+            {items.map((faq, i) => (
               <motion.div
                 key={faq.id}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                initial={{ opacity: 0, scale: 0.9, y: 40, filter: "blur(10px)" }}
+                whileInView={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, scale: 0.9, y: -40, filter: "blur(10px)" }}
+                viewport={{ once: false, margin: "-10% 0px" }}
+                transition={{ 
+                  duration: 0.8, 
+                  delay: (i % 2) * 0.1,
+                  ease: [0.16, 1, 0.3, 1] 
+                }}
                 className={cn(
                    "p-1 rounded-2xl border transition-all duration-300",
                    openItems.includes(faq.id)

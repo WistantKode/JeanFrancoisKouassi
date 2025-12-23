@@ -119,7 +119,7 @@ export const SovereignPath: FC = () => {
   const pathLength = useSpring(scrollYProgress, { stiffness: 50, damping: 20 });
 
   return (
-    <section ref={containerRef} className="relative pt-48 pb-32 bg-transparent">
+    <section ref={containerRef} className="relative pt-48 pb-64 bg-transparent">
       {/* Central Vertical Connector Line - Ultra Subtle */}
       <div className="absolute left-1/2 -translate-x-1/2 top-96 bottom-64 w-px bg-border/10 hidden md:block" />
       
