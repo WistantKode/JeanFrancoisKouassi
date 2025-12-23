@@ -41,9 +41,9 @@ const PathStep: FC<{ step: typeof PATH_STEPS[0], index: number }> = ({ step, ind
   return (
     <div 
       className={cn(
-        "relative w-full flex min-h-[40vh] md:min-h-[50vh] items-center",
-        index === PATH_STEPS.length - 1 ? "mb-0" : "mb-48 md:mb-72", // Increased spacing between steps for "breathability"
-        isRight ? "justify-end pr-4 md:pr-24" : "justify-start pl-4 md:pl-24"
+        "relative w-full flex min-h-[30vh] md:min-h-[40vh] items-center",
+        index === PATH_STEPS.length - 1 ? "mb-0" : "mb-24 md:mb-40",
+        isRight ? "justify-end pr-0 md:pr-24" : "justify-start pl-0 md:pl-24"
       )}
     >
       {/* Background Year Watermark - Fixed Clipping with safer positioning */}
@@ -119,7 +119,7 @@ export const SovereignPath: FC = () => {
   const pathLength = useSpring(scrollYProgress, { stiffness: 50, damping: 20 });
 
   return (
-    <section ref={containerRef} className="relative pt-48 pb-64 bg-transparent">
+    <section ref={containerRef} className="relative pt-32 pb-40 bg-transparent">
       {/* Central Vertical Connector Line - Ultra Subtle */}
       <div className="absolute left-1/2 -translate-x-1/2 top-96 bottom-64 w-px bg-border/10 hidden md:block" />
       
@@ -131,7 +131,7 @@ export const SovereignPath: FC = () => {
 
       <div className="section-container relative z-10 px-6">
         {/* Header - Refined Typography */}
-        <div className="flex flex-col items-center text-center mb-48 md:mb-64">
+        <div className="flex flex-col items-center text-center mb-24 md:mb-32">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}

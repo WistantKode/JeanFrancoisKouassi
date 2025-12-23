@@ -30,7 +30,7 @@ const FeatureBlock: FC<FeatureBlockProps> = ({ icon: Icon, title, description, d
     <div 
       ref={containerRef}
       className={cn(
-        "relative w-full flex min-h-[60vh] items-center py-24 md:py-40",
+        "relative w-full flex min-h-[40vh] items-center py-12 md:py-24",
         isRight ? "justify-end" : "justify-start"
       )}
     >
@@ -93,12 +93,12 @@ const FeatureBlock: FC<FeatureBlockProps> = ({ icon: Icon, title, description, d
 };
 
 export const VisionFeatureGrid: FC = () => {
-  const { title, subtitle, pillars, badge } = LANDING_CONTENT.vision;
+  const { subtitle, pillars, badge } = LANDING_CONTENT.vision;
   
   return (
     <div className="mx-auto w-full max-w-[1400px] px-6">
       {/* Header - Aligned with Hero round 2 */}
-      <div className="flex flex-col items-center text-center mb-32 md:mb-64">
+      <div className="flex flex-col items-center text-center mb-20 md:mb-32">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
