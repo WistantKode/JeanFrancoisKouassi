@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/accordion';
 import { HelpCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { LANDING_CONTENT } from '@/config/landing';
+import { LANDING_CONTENT } from '@/lib/landing';
 
 export const FAQSection: FC = () => {
   const [openItems, setOpenItems] = useState<string[]>([]);

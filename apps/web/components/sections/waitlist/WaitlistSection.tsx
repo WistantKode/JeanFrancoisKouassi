@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { LANDING_CONTENT } from '@/config/landing';
+import { LANDING_CONTENT } from '@/lib/landing';
 
 export const WaitlistSection: FC = () => {
   const [email, setEmail] = useState('');

@@ -1,4 +1,4 @@
-export { Hero } from './Hero';
+export { Hero } from './hero/Hero';
 export { Vision } from './Vision';
 export { Waitlist } from './Waitlist';
 export { SpotlightSection } from './SpotlightSection';

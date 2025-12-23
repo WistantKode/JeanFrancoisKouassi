@@ -3,7 +3,7 @@
 import { type FC, useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { LANDING_CONTENT } from '@/config/landing';
+import { LANDING_CONTENT } from '@/lib/landing';
 import { LucideIcon } from 'lucide-react';
 
 interface FeatureBlockProps {
