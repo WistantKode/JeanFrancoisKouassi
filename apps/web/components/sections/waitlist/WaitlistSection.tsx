@@ -1,11 +1,7 @@
 'use client';
 
-import React, { type FC, useState } from 'react';
-import { ArrowRight, Sparkles } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import React, { type FC } from 'react';
+import { motion } from 'framer-motion';
 import { LANDING_CONTENT } from '@/lib/home/landing';
 import {WaitlistBadge} from "@/components/sections/waitlist/WaitlistBadge";
 import {WaitlistForm} from "@/components/sections/waitlist/WaitlistForm";
