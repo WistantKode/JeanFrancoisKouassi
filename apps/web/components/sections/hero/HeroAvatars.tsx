@@ -2,7 +2,7 @@
 
 import { type FC } from 'react';
 import { AvatarTooltip } from '@/components/shared/ui-blocks/avatar-tooltip';
-import { LANDING_CONTENT } from '@/lib/landing';
+import { LANDING_CONTENT } from '@/lib/home/landing';
 import { SupporterCounter } from './SupporterCounter';
 
 export const HeroAvatars: FC = () => {

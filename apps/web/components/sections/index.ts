@@ -3,7 +3,7 @@ export { Vision } from './Vision';
 export { Waitlist } from './Waitlist';
 export { SpotlightSection } from './SpotlightSection';
 export { GallerySection } from './GallerySection';
-export { SovereignPath } from './SovereignPath';
+export { SovereignPath } from './roadmap/SovereignPath';
 export * from './vision/index';
 export * from './faq/index';
 export * from './cta/index';

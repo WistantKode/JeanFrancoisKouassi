@@ -1,7 +1,7 @@
 import {Button} from "@/components/ui";
 import {ArrowRight} from "lucide-react";
 import {motion} from "framer-motion";
-import {LANDING_CONTENT} from "@/lib/landing";
+import {LANDING_CONTENT} from "@/lib/home/landing";
 
 const { cta} = LANDING_CONTENT.hero;
 

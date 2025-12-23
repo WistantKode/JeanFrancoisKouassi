@@ -2,11 +2,7 @@
 
 import { type FC, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
 import { HeroShowcase } from '@/components/sections/hero/HeroShowcase';
-import { LANDING_CONTENT } from '@/lib/landing';
-
 import { Particles } from '@/components/ui/particles';
 import {SupportersHub} from "@/components/sections/hero/SupportersHub";
 import {HeroCTA} from "@/components/sections/hero/HeroCTA";

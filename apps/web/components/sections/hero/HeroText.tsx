@@ -1,5 +1,5 @@
 import {motion} from "framer-motion";
-import {LANDING_CONTENT} from "@/lib/landing";
+import {LANDING_CONTENT} from "@/lib/home/landing";
 
 
 const {title, subtitle} = LANDING_CONTENT.hero;
