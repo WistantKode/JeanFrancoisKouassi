@@ -5,6 +5,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { ThemeProvider } from '@/providers/ThemeProvider';
 import { PageBackground } from '@/components/shared';
+import React from "react";
 
 const outfit = Outfit({
   subsets: ['latin'],

@@ -1,12 +1,14 @@
 'use client';
 
-import { useState, type FC, useEffect } from 'react';
+import React, { useState, type FC, useEffect } from 'react';
 import Link from 'next/link';
-import { motion, AnimatePresence, useScroll, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useMotionValue, useSpring } from 'framer-motion';
 import { Menu, X, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ThemeSwitcher, LanguageSwitcher } from '@/components/shared';
 import { cn } from '@/lib/utils';
+import {Logo} from "@/components/sections/navbar/Logo";
+import {DesktopLinks} from "@/components/sections/navbar/DesktopLinks";
 
 interface NavLink {
   href: string;
@@ -20,7 +22,7 @@ const NAV_LINKS: readonly NavLink[] = [
   { href: '#dons', label: 'Dons' },
 ] as const;
 
-const MagneticLink: FC<{ link: NavLink }> = ({ link }) => {
+export const MagneticLink: FC<{ link: NavLink }> = ({ link }) => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -83,24 +85,10 @@ export const Navbar: FC = () => {
           scrolled ? "bg-black/40 backdrop-blur-2xl shadow-2xl py-3 border-white/10" : "bg-transparent"
         )}>
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 transition-transform hover:scale-105 active:scale-95 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-orange-500 flex items-center justify-center p-0.5 shadow-lg shadow-primary/20">
-               <div className="w-full h-full bg-black rounded-[9px] flex items-center justify-center">
-                  <span className="text-primary font-black text-lg italic">J</span>
-               </div>
-            </div>
-            <div className="flex flex-col gap-0">
-               <span className="text-sm font-black tracking-widest uppercase leading-none">JFK 2025</span>
-               <span className="text-[8px] font-black tracking-[0.4em] text-primary/60 uppercase">Emergence</span>
-            </div>
-          </Link>
+          <Logo/>
 
           {/* Desktop Links */}
-          <div className="hidden lg:flex items-center gap-2">
-            {NAV_LINKS.map((link) => (
-              <MagneticLink key={link.href} link={link} />
-            ))}
-          </div>
+          <DesktopLinks/>
 
           {/* Right Actions */}
           <div className="hidden md:flex items-center gap-6">
