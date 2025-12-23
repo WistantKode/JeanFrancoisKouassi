@@ -17,7 +17,7 @@ export const CTASection: FC = () => {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="relative w-full overflow-hidden rounded-[3rem] bg-white/5 dark:bg-white/[0.02] backdrop-blur-2xl p-8 sm:p-12 md:p-20 shadow-2xl shadow-primary/5 border border-white/10"
       >
-        {/* Background Patterns model cta-2.tsx */}
+        {/* Background Patterns model CTA-2.tsx */}
         <div className="absolute inset-0 hidden h-full w-full overflow-hidden md:block">
           <div className="absolute top-1/2 right-[-20%] aspect-square h-[600px] w-[600px] -translate-y-1/2">
             <div className="absolute inset-0 rounded-full bg-orange-400/20 animate-pulse"></div>

@@ -6,6 +6,6 @@ export { GallerySection } from './gallery/GallerySection';
 export { SovereignPath } from './roadmap/SovereignPath';
 export * from './vision/index';
 export * from './faq/index';
-export * from './cta/index';
+export * from '@/components/sections/CTA/index';
 export { FAQSection } from './faq/FAQSection';
-export { CTASection } from './cta/CTASection';
+export { CTASection } from '@/components/sections/CTA/CTASection';
