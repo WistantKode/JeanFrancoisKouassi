@@ -14,7 +14,15 @@ interface GalleryItem {
     speed: number;
 }
 
-
+/**
+ * Élément individuel de la grille de galerie.
+ * 
+ * Applique des transformations liées au scroll (parallaxe) :
+ * - Translation verticale (y) basée sur la vitesse définie dans l'item.
+ * - Rotation légère (rotateZ) alternée selon l'index pair/impair.
+ * 
+ * Gère aussi l'effet de survol (zoom image + overlay texte).
+ */
 const GridItem: FC<{ item: GalleryItem; index: number; progress: any }> = ({ item, index, progress }) => {
   const y = useTransform(progress, [0, 1], [0, -250 * item.speed]);
   const rotate = useTransform(progress, [0, 1], [index % 2 === 0 ? -1.5 : 1.5, index % 2 === 0 ? 1.5 : -1.5]);
@@ -61,6 +69,13 @@ const GridItem: FC<{ item: GalleryItem; index: number; progress: any }> = ({ ite
   );
 };
 
+/**
+ * Section Galerie photo immersive.
+ * 
+ * Utilise une grille CSS asymétrique (Bento grid) combinée à des effets de parallaxe
+ * pilotés par `framer-motion`. Chaque image défile à une vitesse différente pour créer
+ * de la profondeur.
+ */
 export const GallerySection: FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({

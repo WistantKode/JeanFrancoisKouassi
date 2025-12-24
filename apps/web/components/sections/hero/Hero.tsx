@@ -9,6 +9,16 @@ import {HeroCTA} from "@/components/sections/hero/HeroCTA";
 import {HeroText} from "@/components/sections/hero/HeroText";
 import {ScrollIndicator} from "@/components/sections/hero/ScrollIndicator";
 
+/**
+  Composant principal de la section Hero (haut de page).
+
+  Orchestre les éléments visuels majeurs :
+  - Arrière-plan animé (Particules + Formes flottantes)
+  - Titre et CTA avec révélation progressive
+  - Showcase interactif (3-card spread)
+
+  Sert de point d'entrée visuel pour capturer l'attention de l'utilisateur dès l'arrivée.
+ */
 export const Hero: FC = () => {
   const containerRef = useRef<HTMLElement>(null);
 
