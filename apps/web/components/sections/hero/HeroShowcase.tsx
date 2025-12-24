@@ -5,6 +5,15 @@ import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import Image from 'next/image';
 import { Play } from 'lucide-react';
 
+/**
+ * Présentoir visuel interactif avec effet de parallaxe avancé.
+ * 
+ * Gère l'animation de trois cartes (gauche, centre, droite) en fonction du scroll :
+ * - La carte centrale reste focus et grandit légèrement.
+ * - Les cartes latérales s'écartent et pivotent pour créer un effet de profondeur (3D spread).
+ * 
+ * Utilise `framer-motion` (useScroll, useTransform) pour lier la géométrie au défilement.
+ */
 export const HeroShowcase: FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   

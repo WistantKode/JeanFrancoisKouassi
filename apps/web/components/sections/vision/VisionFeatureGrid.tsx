@@ -14,6 +14,13 @@ interface FeatureBlockProps {
   index: number;
 }
 
+/**
+ * Bloc individuel représentant un pilier de la vision.
+ * 
+ * Affiche le contenu en alternance (gauche/droite) avec un effet de parallaxe
+ * sur le numéro d'arrière-plan (watermark).
+ * Utilise un flou progressif (blur-in) pour l'entrée.
+ */
 const FeatureBlock: FC<FeatureBlockProps> = ({ icon: Icon, title, description, details, index }) => {
   const isRight = index % 2 !== 0;
   const containerRef = useRef<HTMLDivElement>(null);
@@ -92,6 +99,12 @@ const FeatureBlock: FC<FeatureBlockProps> = ({ icon: Icon, title, description, d
   );
 };
 
+/**
+ * Grille de fonctionnalités "Vision" avec disposition en flux vertical décalé.
+ * 
+ * Remplace l'ancienne Bento Grid par une présentation plus éditoriale et narrative.
+ * Chaque pilier est présenté séquentiellement avec beaucoup d'espace négatif.
+ */
 export const VisionFeatureGrid: FC = () => {
   const { subtitle, pillars, badge } = LANDING_CONTENT.vision;
   

@@ -22,6 +22,12 @@ const NAV_LINKS: readonly NavLink[] = [
   { href: '#dons', label: 'Dons' },
 ] as const;
 
+/**
+ * Lien de navigation avec effet magnétique au survol.
+ * 
+ * Utilise `useMotionValue` et `useSpring` pour déplacer légèrement le lien
+ * vers le curseur de la souris, créant une sensation d'attraction physique.
+ */
 export const MagneticLink: FC<{ link: NavLink }> = ({ link }) => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -62,6 +68,14 @@ export const MagneticLink: FC<{ link: NavLink }> = ({ link }) => {
   );
 };
 
+/**
+ * Barre de navigation principale flottante et réactive.
+ * 
+ * Gère :
+ * - L'état scrollé (changement d'apparence : transparent -> glassmorphism sombre).
+ * - L'adaptation au thème (Light/Dark) pour la lisibilité des textes.
+ * - Le menu mobile (overlay plein écran).
+ */
 export const Navbar: FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -81,9 +95,9 @@ export const Navbar: FC = () => {
       >
         <div className={cn(
           "relative flex items-center justify-between px-8 py-4 transition-all duration-700",
-          "rounded-[2rem] border",
+          "rounded-[2rem]",
           scrolled 
-            ? "is-scrolled bg-black/40 backdrop-blur-2xl shadow-2xl py-3 border-white/10"
+            ? "is-scrolled bg-black/40 backdrop-blur-2xl shadow-2xl py-3 border border-white/10"
             : "bg-transparent border-transparent"
         )}>
           {/* Logo */}
